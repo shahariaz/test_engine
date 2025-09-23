@@ -41,7 +41,7 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 
 	// Get all entity types involved in the query
 	involvedEntities := c.getInvolvedEntityTypes(jsonQuery)
-	
+
 	// Generate queries for each involved entity type
 	var queries []models.EntityQuery
 	for _, entityType := range involvedEntities {
@@ -238,7 +238,7 @@ func (c *Converter) optimizeSubscriptionFilters(conditions []string, group model
 	// Check for Premium + trial combination and suggest optimization
 	var hasPackagePremium, hasStatusTrial bool
 	var trialIndex int
-	
+
 	for i, condition := range conditions {
 		if strings.Contains(condition, `eq(chorki_subscriptions.package, "Premium")`) {
 			hasPackagePremium = true
@@ -248,22 +248,22 @@ func (c *Converter) optimizeSubscriptionFilters(conditions []string, group model
 			trialIndex = i
 		}
 	}
-	
+
 	// If we have Premium package AND trial status with AND operator, suggest optimization
 	if hasPackagePremium && hasStatusTrial && strings.ToUpper(group.CombineWith) == "AND" {
 		// Replace the trial condition with a more inclusive status condition
 		optimizedConditions := make([]string, len(conditions))
 		copy(optimizedConditions, conditions)
-		
+
 		// Replace trial-only status with active OR trial
 		optimizedConditions[trialIndex] = `(eq(chorki_subscriptions.status, "trial") OR eq(chorki_subscriptions.status, "active"))`
-		
+
 		// Log this optimization (in production, you might want to use a logger)
 		// fmt.Printf("OPTIMIZATION: Subscription filter expanded from trial-only to trial OR active for better results\n")
-		
+
 		return optimizedConditions
 	}
-	
+
 	return conditions
 }
 
@@ -406,7 +406,7 @@ func (c *Converter) buildComparisonCondition(mapping *models.FieldMapping, filte
 	if mode, isVersionField := c.versionFields[filter.Field]; isVersionField && mode == "numeric" {
 		return c.buildVersionComparisonCondition(mapping, filter, dqlFunction)
 	}
-	
+
 	value := c.formatValue(filter.Value, mapping.DataType)
 	if value == "" {
 		return ""
@@ -424,7 +424,7 @@ func (c *Converter) buildVersionComparisonCondition(mapping *models.FieldMapping
 		value := c.formatValue(filter.Value, mapping.DataType)
 		return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 	}
-	
+
 	numericVersion, err := utils.ConvertVersionToNumeric(versionStr)
 	if err != nil {
 		// If conversion fails, fallback to string comparison with warning
@@ -432,7 +432,7 @@ func (c *Converter) buildVersionComparisonCondition(mapping *models.FieldMapping
 		value := c.formatValue(filter.Value, mapping.DataType)
 		return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 	}
-	
+
 	// Use numeric comparison - note: we need a numeric version of the field in schema
 	// For now, assume we have a parallel numeric field like app_version_numeric
 	numericField := mapping.DgraphField + "_numeric"
@@ -548,7 +548,7 @@ func (c *Converter) getRelationshipName(fromEntity, toEntity string) string {
 		return "chorki_customers.watch_histories"
 	case fromEntity == "chorki_customers" && toEntity == "chorki_devices":
 		return "chorki_customers.devices"
-	
+
 	// Reverse relationships to customers
 	case fromEntity == "chorki_subscriptions" && toEntity == "chorki_customers":
 		return "~chorki_customers.subscriptions" // reverse edge
@@ -556,13 +556,13 @@ func (c *Converter) getRelationshipName(fromEntity, toEntity string) string {
 		return "~chorki_customers.devices" // reverse edge
 	case fromEntity == "chorki_watch_histories" && toEntity == "chorki_customers":
 		return "~chorki_customers.watch_histories" // reverse edge
-	
+
 	// Content relationships
 	case fromEntity == "chorki_watch_histories" && toEntity == "chorki_contents":
 		return "chorki_watch_histories.content"
 	case fromEntity == "chorki_contents" && toEntity == "chorki_watch_histories":
 		return "~chorki_watch_histories.content" // reverse edge
-	
+
 	// Default fallback - use simple name for relationships
 	default:
 		// For reverse relationships, check if it should be a reverse predicate
@@ -635,7 +635,7 @@ func (c *Converter) buildTextSearchCondition(mapping *models.FieldMapping, filte
 	if value == "" {
 		return ""
 	}
-	
+
 	switch op {
 	case "LIKE", "CONTAINS":
 		return fmt.Sprintf("alloftext(%s, %s)", mapping.DgraphField, value)
@@ -663,7 +663,7 @@ func (c *Converter) buildBetweenCondition(mapping *models.FieldMapping, filter m
 			min := c.formatValue(v[0], mapping.DataType)
 			max := c.formatValue(v[1], mapping.DataType)
 			if min != "" && max != "" {
-				return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))", 
+				return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))",
 					mapping.DgraphField, min, mapping.DgraphField, max)
 			}
 		}
@@ -673,7 +673,7 @@ func (c *Converter) buildBetweenCondition(mapping *models.FieldMapping, filter m
 				min := c.formatValue(minVal, mapping.DataType)
 				max := c.formatValue(maxVal, mapping.DataType)
 				if min != "" && max != "" {
-					return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))", 
+					return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))",
 						mapping.DgraphField, min, mapping.DgraphField, max)
 				}
 			}
@@ -697,10 +697,10 @@ func (c *Converter) buildStringPatternCondition(mapping *models.FieldMapping, fi
 	if value == "" {
 		return ""
 	}
-	
+
 	// Remove quotes for pattern matching
 	cleanValue := strings.Trim(value, `"`)
-	
+
 	switch pattern {
 	case "starts_with":
 		return fmt.Sprintf("regexp(%s, /^%s/)", mapping.DgraphField, cleanValue)

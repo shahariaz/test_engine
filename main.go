@@ -10,7 +10,7 @@ import (
 func main() {
 	router := gin.Default()
 	queryHandler := handlers.NewQueryHandler()
-	
+
 	api := router.Group("/api/v1")
 	{
 		api.GET("/health", queryHandler.HealthCheck)
@@ -20,6 +20,6 @@ func main() {
 		api.POST("/validate", queryHandler.ValidateQuery)
 		api.POST("/analyze", queryHandler.AnalyzeComplexity)
 	}
-	
+
 	log.Fatal(router.Run(":8090"))
 }

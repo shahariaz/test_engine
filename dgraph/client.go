@@ -39,11 +39,11 @@ type QueryResponse struct {
 
 // ExecutionStats represents query execution statistics
 type ExecutionStats struct {
-	QueryTime      time.Duration `json:"query_time"`
-	ResultCount    int           `json:"result_count"`
-	TotalQueries   int           `json:"total_queries"`
-	CacheHit       bool          `json:"cache_hit"`
-	ExecutedAt     time.Time     `json:"executed_at"`
+	QueryTime    time.Duration `json:"query_time"`
+	ResultCount  int           `json:"result_count"`
+	TotalQueries int           `json:"total_queries"`
+	CacheHit     bool          `json:"cache_hit"`
+	ExecutedAt   time.Time     `json:"executed_at"`
 }
 
 // DefaultConfig returns default Dgraph client configuration
@@ -98,7 +98,7 @@ func (c *Client) TestConnection() error {
 
 	// Simple health check query
 	query := `{ health(func: has(dgraph.type)) { count(uid) } }`
-	
+
 	_, err := c.dgraphClient.NewTxn().Query(ctx, query)
 	if err != nil {
 		return fmt.Errorf("health check query failed: %w", err)
@@ -110,7 +110,7 @@ func (c *Client) TestConnection() error {
 // ExecuteDQL executes a DQL query and returns the results
 func (c *Client) ExecuteDQL(ctx context.Context, query string) (*QueryResponse, error) {
 	start := time.Now()
-	
+
 	// Set timeout if not already set in context
 	if _, hasDeadline := ctx.Deadline(); !hasDeadline {
 		var cancel context.CancelFunc
@@ -121,15 +121,15 @@ func (c *Client) ExecuteDQL(ctx context.Context, query string) (*QueryResponse, 
 	// Execute query with retries
 	var response *api.Response
 	var err error
-	
+
 	for attempt := 0; attempt <= c.config.MaxRetries; attempt++ {
 		response, err = c.dgraphClient.NewTxn().Query(ctx, query)
 		if err == nil {
 			break
 		}
-		
+
 		if attempt < c.config.MaxRetries {
-			log.Printf("⚠️ Query attempt %d failed, retrying in %v: %v", 
+			log.Printf("⚠️ Query attempt %d failed, retrying in %v: %v",
 				attempt+1, c.config.RetryDelay, err)
 			time.Sleep(c.config.RetryDelay)
 		}
@@ -169,19 +169,19 @@ func (c *Client) ExecuteDQL(ctx context.Context, query string) (*QueryResponse, 
 // ExecuteMultipleDQL executes multiple DQL queries and returns combined results
 func (c *Client) ExecuteMultipleDQL(ctx context.Context, queries []string) (map[string]*QueryResponse, error) {
 	results := make(map[string]*QueryResponse)
-	
+
 	for i, query := range queries {
 		queryName := fmt.Sprintf("query_%d", i+1)
-		
+
 		result, err := c.ExecuteDQL(ctx, query)
 		if err != nil {
 			// Continue with other queries even if one fails
 			log.Printf("⚠️ Query %s failed: %v", queryName, err)
 		}
-		
+
 		results[queryName] = result
 	}
-	
+
 	return results, nil
 }
 
@@ -225,7 +225,7 @@ func (c *Client) IsConnected() bool {
 	if c.dgraphClient == nil || c.conn == nil {
 		return false
 	}
-	
+
 	// Quick health check with short timeout
 	return c.TestConnection() == nil
 }

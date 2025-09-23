@@ -24,7 +24,7 @@ type QueryHandler struct {
 // NewQueryHandler creates a new query handler
 func NewQueryHandler() *QueryHandler {
 	schema := config.GetSchemaConfig()
-	
+
 	// Initialize Dgraph client
 	dgraphClient, err := dgraph.NewClient(dgraph.DefaultConfig())
 	if err != nil {
@@ -32,7 +32,7 @@ func NewQueryHandler() *QueryHandler {
 		fmt.Printf("⚠️ Warning: Could not connect to Dgraph: %v\n", err)
 		fmt.Println("💡 To use /execute endpoint, start Dgraph with: docker-compose up -d")
 	}
-	
+
 	return &QueryHandler{
 		converter:    converter.NewConverter(),
 		validator:    validation.NewQueryValidator(schema),
@@ -80,7 +80,7 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 	response := gin.H{
 		"dql": dqlString,
 	}
-	
+
 	if len(validationResult.Warnings) > 0 {
 		response["warnings"] = validationResult.Warnings
 	}
@@ -141,11 +141,11 @@ func (h *QueryHandler) validateGroups(groups []models.Group) error {
 func (h *QueryHandler) GetSchema(c *gin.Context) {
 	schema := map[string]interface{}{
 		"available_operators": []string{
-			"=", ">=", "<=", ">", "<", "IN", "NOT_IN", "!=", 
-			"LIKE", "ILIKE", "REGEX", "BETWEEN", "IS_NULL", "IS_NOT_NULL", 
+			"=", ">=", "<=", ">", "<", "IN", "NOT_IN", "!=",
+			"LIKE", "ILIKE", "REGEX", "BETWEEN", "IS_NULL", "IS_NOT_NULL",
 			"STARTS_WITH", "ENDS_WITH", "CONTAINS",
 		},
-		"combine_operators":   []string{"AND", "OR"},
+		"combine_operators": []string{"AND", "OR"},
 		"available_fields": map[string][]string{
 			"customer_fields": {
 				"age", "country", "device", "app_version", "last_login_days",
@@ -166,7 +166,7 @@ func (h *QueryHandler) GetSchema(c *gin.Context) {
 			"chorki_contents", "chorki_devices",
 		},
 		"complexity_limits": h.converter.GetComplexityLimits(),
-		"example_queries": h.getExampleQueries(),
+		"example_queries":   h.getExampleQueries(),
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -341,8 +341,8 @@ func (h *QueryHandler) ExecuteQuery(c *gin.Context) {
 
 	// Return successful response with data and metadata
 	c.JSON(http.StatusOK, gin.H{
-		"success":    true,
-		"data":       response.Data,
+		"success": true,
+		"data":    response.Data,
 		"query_info": gin.H{
 			"dql":        dqlString,
 			"query_time": response.QueryTime,
