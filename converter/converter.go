@@ -24,31 +24,81 @@ func NewConverter() *Converter {
 
 // ConvertToDQL converts a JSON query to DQL format
 func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery, error) {
-	// Determine which entity types are involved in the query
-	entityTypes := c.getInvolvedEntityTypes(jsonQuery)
+	// Determine the primary entity type based on the most common fields
+	primaryEntity := c.getPrimaryEntity(jsonQuery)
 	
+	// Build the main filter for the primary entity
+	filter, err := c.buildFilterForEntity(jsonQuery, primaryEntity)
+	if err != nil {
+		return nil, fmt.Errorf("error building filter for %s: %v", primaryEntity, err)
+	}
+	
+	// Create the main query
 	var queries []models.EntityQuery
-	
-	// Generate DQL query for each relevant entity type
-	for _, entityType := range entityTypes {
-		filter, err := c.buildFilterForEntity(jsonQuery, entityType)
-		if err != nil {
-			return nil, fmt.Errorf("error building filter for %s: %v", entityType, err)
+	if filter != "" {
+		query := models.EntityQuery{
+			Name:     c.getQueryName(primaryEntity),
+			Type:     primaryEntity,
+			Function: fmt.Sprintf("type(%s)", primaryEntity),
+			Filter:   filter,
+			Fields:   c.buildFieldsSelection(primaryEntity),
 		}
-		
-		if filter != "" {
-			query := models.EntityQuery{
-				Name:     c.getQueryName(entityType),
-				Type:     entityType,
-				Function: fmt.Sprintf("type(%s)", entityType),
-				Filter:   filter,
-				Fields:   c.buildFieldsSelection(entityType),
-			}
-			queries = append(queries, query)
-		}
+		queries = append(queries, query)
 	}
 	
 	return &models.DQLQuery{Queries: queries}, nil
+}
+
+// getPrimaryEntity determines the primary entity type based on field frequency
+func (c *Converter) getPrimaryEntity(jsonQuery *models.JSONQuery) string {
+	entityCount := make(map[string]int)
+	
+	// Count field occurrences for each entity type
+	c.countEntityTypesFromGroups(jsonQuery.Groups, entityCount)
+	
+	// Find the entity with the most fields
+	var primaryEntity string
+	maxCount := 0
+	
+	// Prioritize customers as the default primary entity
+	if count, exists := entityCount["chorki_customers"]; exists && count > 0 {
+		primaryEntity = "chorki_customers"
+		maxCount = count
+	}
+	
+	// Check if any other entity has significantly more fields
+	for entityType, count := range entityCount {
+		if count > maxCount {
+			primaryEntity = entityType
+			maxCount = count
+		}
+	}
+	
+	// Default to customers if no clear primary entity
+	if primaryEntity == "" {
+		primaryEntity = "chorki_customers"
+	}
+	
+	return primaryEntity
+}
+
+// countEntityTypesFromGroups recursively counts entity types from groups
+func (c *Converter) countEntityTypesFromGroups(groups []models.Group, entityCount map[string]int) {
+	for _, group := range groups {
+		// Count filters in this group
+		for _, filter := range group.Filters {
+			if mappings, exists := c.schema.FieldMappings[filter.Field]; exists {
+				for _, mapping := range mappings {
+					entityCount[mapping.EntityType]++
+				}
+			}
+		}
+		
+		// Recursively count nested groups
+		if len(group.Groups) > 0 {
+			c.countEntityTypesFromGroups(group.Groups, entityCount)
+		}
+	}
 }
 
 // getInvolvedEntityTypes determines which entity types are referenced in the query

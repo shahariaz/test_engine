@@ -56,12 +56,10 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 	// Generate DQL string
 	dqlString := h.converter.GenerateDQLString(dqlQuery)
 	
-	// Return both structured and string formats
+	// Return only the DQL query string
+	c.Header("Content-Type", "application/json")
 	c.JSON(http.StatusOK, gin.H{
-		"success":     true,
-		"dql_query":   dqlQuery,
-		"dql_string":  dqlString,
-		"input_query": jsonQuery,
+		"dql": dqlString,
 	})
 }
 
