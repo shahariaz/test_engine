@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"fmt"
+	"jsonTodql/config"
 	"jsonTodql/converter"
 	"jsonTodql/models"
+	"jsonTodql/validation"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,12 +14,15 @@ import (
 // QueryHandler handles the JSON to DQL conversion API
 type QueryHandler struct {
 	converter *converter.Converter
+	validator *validation.QueryValidator
 }
 
 // NewQueryHandler creates a new query handler
 func NewQueryHandler() *QueryHandler {
+	schema := config.GetSchemaConfig()
 	return &QueryHandler{
 		converter: converter.NewConverter(),
+		validator: validation.NewQueryValidator(schema),
 	}
 }
 
@@ -34,11 +39,12 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 		return
 	}
 
-	// Validate the query structure
-	if err := h.validateQuery(&jsonQuery); err != nil {
+	// Enhanced validation using the new validator
+	validationResult := h.validator.Validate(&jsonQuery)
+	if !validationResult.IsValid {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Invalid query structure",
-			"details": err.Error(),
+			"error":      "Query validation failed",
+			"validation": validationResult,
 		})
 		return
 	}
@@ -56,11 +62,17 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 	// Generate DQL string
 	dqlString := h.converter.GenerateDQLString(dqlQuery)
 
-	// Return only the DQL query string
-	c.Header("Content-Type", "application/json")
-	c.JSON(http.StatusOK, gin.H{
+	// Return response with validation warnings if any
+	response := gin.H{
 		"dql": dqlString,
-	})
+	}
+	
+	if len(validationResult.Warnings) > 0 {
+		response["warnings"] = validationResult.Warnings
+	}
+
+	c.Header("Content-Type", "application/json")
+	c.JSON(http.StatusOK, response)
 }
 
 // validateQuery performs basic validation on the JSON query
@@ -114,7 +126,11 @@ func (h *QueryHandler) validateGroups(groups []models.Group) error {
 // GetSchema handles GET /schema endpoint - returns available fields and operators
 func (h *QueryHandler) GetSchema(c *gin.Context) {
 	schema := map[string]interface{}{
-		"available_operators": []string{"=", ">=", "<=", ">", "<", "IN", "!="},
+		"available_operators": []string{
+			"=", ">=", "<=", ">", "<", "IN", "NOT_IN", "!=", 
+			"LIKE", "ILIKE", "REGEX", "BETWEEN", "IS_NULL", "IS_NOT_NULL", 
+			"STARTS_WITH", "ENDS_WITH", "CONTAINS",
+		},
 		"combine_operators":   []string{"AND", "OR"},
 		"available_fields": map[string][]string{
 			"customer_fields": {
@@ -135,6 +151,7 @@ func (h *QueryHandler) GetSchema(c *gin.Context) {
 			"chorki_customers", "chorki_subscriptions", "chorki_watch_histories",
 			"chorki_contents", "chorki_devices",
 		},
+		"complexity_limits": h.converter.GetComplexityLimits(),
 		"example_queries": h.getExampleQueries(),
 	}
 
@@ -195,5 +212,61 @@ func (h *QueryHandler) HealthCheck(c *gin.Context) {
 		"status":  "healthy",
 		"service": "json-to-dql-converter",
 		"version": "1.0.0",
+	})
+}
+
+// AnalyzeComplexity handles POST /analyze endpoint
+func (h *QueryHandler) AnalyzeComplexity(c *gin.Context) {
+	var jsonQuery models.JSONQuery
+
+	if err := c.ShouldBindJSON(&jsonQuery); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Invalid JSON format",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	complexityScore := h.converter.AnalyzeComplexity(&jsonQuery)
+
+	c.JSON(http.StatusOK, gin.H{
+		"complexity": complexityScore,
+	})
+}
+
+// GetCacheStats handles GET /cache/stats endpoint
+func (h *QueryHandler) GetCacheStats(c *gin.Context) {
+	stats := h.converter.GetCacheStats()
+	
+	c.JSON(http.StatusOK, gin.H{
+		"cache_stats": stats,
+	})
+}
+
+// ClearCache handles DELETE /cache endpoint
+func (h *QueryHandler) ClearCache(c *gin.Context) {
+	h.converter.ClearCache()
+	
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Cache cleared successfully",
+	})
+}
+
+// ValidateQuery handles POST /validate endpoint
+func (h *QueryHandler) ValidateQuery(c *gin.Context) {
+	var jsonQuery models.JSONQuery
+
+	if err := c.ShouldBindJSON(&jsonQuery); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Invalid JSON format",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	validationResult := h.validator.Validate(&jsonQuery)
+
+	c.JSON(http.StatusOK, gin.H{
+		"validation": validationResult,
 	})
 }

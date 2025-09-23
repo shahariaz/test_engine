@@ -40,6 +40,16 @@ func main() {
 		
 		// Main conversion endpoint
 		api.POST("/convert", queryHandler.ConvertQuery)
+		
+		// Query validation endpoint
+		api.POST("/validate", queryHandler.ValidateQuery)
+		
+		// Complexity analysis endpoint
+		api.POST("/analyze", queryHandler.AnalyzeComplexity)
+		
+		// Cache management endpoints
+		api.GET("/cache/stats", queryHandler.GetCacheStats)
+		api.DELETE("/cache", queryHandler.ClearCache)
 	}
 	
 	// Root endpoint with API information
@@ -49,9 +59,13 @@ func main() {
 			"version":     "1.0.0",
 			"description": "Converts dynamic JSON queries to Dgraph DQL format",
 			"endpoints": map[string]interface{}{
-				"health":  "GET /api/v1/health - Service health check",
-				"schema":  "GET /api/v1/schema - Get available fields and operators",
-				"convert": "POST /api/v1/convert - Convert JSON query to DQL",
+				"health":    "GET /api/v1/health - Service health check",
+				"schema":    "GET /api/v1/schema - Get available fields and operators",
+				"convert":   "POST /api/v1/convert - Convert JSON query to DQL",
+				"validate":  "POST /api/v1/validate - Validate JSON query structure",
+				"analyze":   "POST /api/v1/analyze - Analyze query complexity",
+				"cache_stats": "GET /api/v1/cache/stats - Get cache statistics",
+				"clear_cache": "DELETE /api/v1/cache - Clear all caches",
 			},
 			"example_usage": map[string]interface{}{
 				"url":    "/api/v1/convert",
@@ -80,6 +94,10 @@ func main() {
 	fmt.Println("   GET  /api/v1/health      - Health check")
 	fmt.Println("   GET  /api/v1/schema      - Schema information")
 	fmt.Println("   POST /api/v1/convert     - Convert JSON to DQL")
+	fmt.Println("   POST /api/v1/validate    - Validate JSON query")
+	fmt.Println("   POST /api/v1/analyze     - Analyze query complexity")
+	fmt.Println("   GET  /api/v1/cache/stats - Cache statistics")
+	fmt.Println("   DEL  /api/v1/cache       - Clear caches")
 	fmt.Println()
 	
 	log.Fatal(router.Run(port))

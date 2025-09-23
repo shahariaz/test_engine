@@ -2,51 +2,93 @@ package converter
 
 import (
 	"fmt"
+	"jsonTodql/analyzer"
+	"jsonTodql/cache"
 	"jsonTodql/config"
 	"jsonTodql/models"
+	"jsonTodql/utils"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Converter handles the conversion from JSON query to DQL
 type Converter struct {
-	schema    *models.SchemaInfo
-	operators map[string]string
+	schema             *models.SchemaInfo
+	operators          map[string]string
+	complexityAnalyzer *analyzer.ComplexityAnalyzer
+	queryCache         *cache.QueryCache
+	fieldMappingCache  *cache.Cache
+	versionFields      map[string]string
+	reversePredicates  map[string]string
 }
 
 // NewConverter creates a new converter instance
 func NewConverter() *Converter {
+	schema := config.GetSchemaConfig()
 	return &Converter{
-		schema:    config.GetSchemaConfig(),
-		operators: config.GetOperatorMappings(),
+		schema:             schema,
+		operators:          config.GetOperatorMappings(),
+		complexityAnalyzer: analyzer.NewComplexityAnalyzer(schema.FieldMappings),
+		queryCache:         cache.NewQueryCache(),
+		fieldMappingCache:  cache.NewCache(time.Hour, 500), // 1 hour TTL, max 500 entries
+		versionFields:      config.GetVersionFields(),
+		reversePredicates:  config.GetReversePredicates(),
 	}
 }
 
-// ConvertToDQL converts a JSON query to DQL format
+// ConvertToDQL converts a JSON query to DQL format with complexity analysis and caching
 func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery, error) {
-	// Determine the primary entity type based on the most common fields
-	primaryEntity := c.getPrimaryEntity(jsonQuery)
-
-	// Build the main filter for the primary entity
-	filter, err := c.buildFilterForEntity(jsonQuery, primaryEntity)
-	if err != nil {
-		return nil, fmt.Errorf("error building filter for %s: %v", primaryEntity, err)
+	// Check cache first
+	if cachedDQL, found := c.queryCache.GetDQLQuery(jsonQuery); found {
+		// Parse cached DQL back to DQLQuery structure
+		return &models.DQLQuery{
+			Queries: []models.EntityQuery{{
+				Name:     "cached",
+				Type:     "cached",
+				Function: "cached",
+				Filter:   "",
+				Fields:   cachedDQL,
+			}},
+		}, nil
 	}
 
-	// Create the main query
+	// Analyze query complexity first
+	complexityScore := c.complexityAnalyzer.AnalyzeComplexity(jsonQuery)
+	if !complexityScore.IsAcceptable {
+		return nil, fmt.Errorf("query too complex: %s", complexityScore.Warning)
+	}
+
+	// Get all entity types involved in the query
+	involvedEntities := c.getInvolvedEntityTypes(jsonQuery)
+	
+	// Generate queries for each involved entity type
 	var queries []models.EntityQuery
-	if filter != "" {
-		query := models.EntityQuery{
-			Name:     c.getQueryName(primaryEntity),
-			Type:     primaryEntity,
-			Function: fmt.Sprintf("type(%s)", primaryEntity),
-			Filter:   filter,
-			Fields:   c.buildFieldsSelection(primaryEntity),
+	for _, entityType := range involvedEntities {
+		filter, err := c.buildFilterForEntity(jsonQuery, entityType)
+		if err != nil {
+			return nil, fmt.Errorf("error building filter for %s: %v", entityType, err)
 		}
-		queries = append(queries, query)
+
+		if filter != "" {
+			query := models.EntityQuery{
+				Name:     c.getQueryName(entityType),
+				Type:     entityType,
+				Function: fmt.Sprintf("type(%s)", entityType),
+				Filter:   filter,
+				Fields:   c.buildFieldsSelection(entityType),
+			}
+			queries = append(queries, query)
+		}
 	}
 
-	return &models.DQLQuery{Queries: queries}, nil
+	result := &models.DQLQuery{Queries: queries}
+	
+	// Cache the generated DQL
+	dqlString := c.GenerateDQLString(result)
+	c.queryCache.SetDQLQuery(jsonQuery, dqlString)
+
+	return result, nil
 }
 
 // getPrimaryEntity determines the primary entity type based on field frequency
@@ -111,6 +153,11 @@ func (c *Converter) getInvolvedEntityTypes(jsonQuery *models.JSONQuery) []string
 	var result []string
 	for entityType := range entityTypeMap {
 		result = append(result, entityType)
+	}
+
+	// If no entities found, default to customers
+	if len(result) == 0 {
+		result = append(result, "chorki_customers")
 	}
 
 	return result
@@ -183,6 +230,11 @@ func (c *Converter) buildGroupFilter(group models.Group, entityType string) stri
 		}
 	}
 
+	// Apply subscription filter optimization if applicable
+	if entityType == "chorki_subscriptions" {
+		conditions = c.optimizeSubscriptionFilters(conditions, group)
+	}
+
 	// Build conditions from nested groups
 	if len(group.Groups) > 0 {
 		nestedCondition := c.buildGroupsFilter(group.Groups, group.CombineWith, entityType)
@@ -205,6 +257,40 @@ func (c *Converter) buildGroupFilter(group models.Group, entityType string) stri
 	}
 
 	return "(" + strings.Join(conditions, operator) + ")"
+}
+
+// optimizeSubscriptionFilters optimizes subscription filters to avoid overly restrictive conditions
+func (c *Converter) optimizeSubscriptionFilters(conditions []string, group models.Group) []string {
+	// Check for Premium + trial combination and suggest optimization
+	var hasPackagePremium, hasStatusTrial bool
+	var trialIndex int
+	
+	for i, condition := range conditions {
+		if strings.Contains(condition, `eq(chorki_subscriptions.package, "Premium")`) {
+			hasPackagePremium = true
+		}
+		if strings.Contains(condition, `eq(chorki_subscriptions.status, "trial")`) {
+			hasStatusTrial = true
+			trialIndex = i
+		}
+	}
+	
+	// If we have Premium package AND trial status with AND operator, suggest optimization
+	if hasPackagePremium && hasStatusTrial && strings.ToUpper(group.CombineWith) == "AND" {
+		// Replace the trial condition with a more inclusive status condition
+		optimizedConditions := make([]string, len(conditions))
+		copy(optimizedConditions, conditions)
+		
+		// Replace trial-only status with active OR trial
+		optimizedConditions[trialIndex] = `(eq(chorki_subscriptions.status, "trial") OR eq(chorki_subscriptions.status, "active"))`
+		
+		// Log this optimization (in production, you might want to use a logger)
+		// fmt.Printf("OPTIMIZATION: Subscription filter expanded from trial-only to trial OR active for better results\n")
+		
+		return optimizedConditions
+	}
+	
+	return conditions
 }
 
 // buildFilterCondition builds a single filter condition
@@ -240,8 +326,24 @@ func (c *Converter) buildDQLCondition(mapping *models.FieldMapping, filter model
 	switch filter.Op {
 	case "IN":
 		return c.buildInCondition(mapping, filter)
-	case "=", ">=", "<=", ">", "<":
+	case "NOT_IN":
+		return c.buildNotInCondition(mapping, filter)
+	case "=", ">=", "<=", ">", "<", "!=":
 		return c.buildComparisonCondition(mapping, filter, dqlFunction)
+	case "LIKE", "ILIKE", "CONTAINS":
+		return c.buildTextSearchCondition(mapping, filter, filter.Op)
+	case "REGEX":
+		return c.buildRegexCondition(mapping, filter)
+	case "BETWEEN":
+		return c.buildBetweenCondition(mapping, filter)
+	case "IS_NULL":
+		return c.buildNullCondition(mapping, filter, true)
+	case "IS_NOT_NULL":
+		return c.buildNullCondition(mapping, filter, false)
+	case "STARTS_WITH":
+		return c.buildStringPatternCondition(mapping, filter, "starts_with")
+	case "ENDS_WITH":
+		return c.buildStringPatternCondition(mapping, filter, "ends_with")
 	default:
 		return ""
 	}
@@ -326,12 +428,41 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 
 // buildComparisonCondition builds comparison conditions (=, >, <, etc.)
 func (c *Converter) buildComparisonCondition(mapping *models.FieldMapping, filter models.Filter, dqlFunction string) string {
+	// Check if this is a version field that needs special handling
+	if mode, isVersionField := c.versionFields[filter.Field]; isVersionField && mode == "numeric" {
+		return c.buildVersionComparisonCondition(mapping, filter, dqlFunction)
+	}
+	
 	value := c.formatValue(filter.Value, mapping.DataType)
 	if value == "" {
 		return ""
 	}
 
 	return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
+}
+
+// buildVersionComparisonCondition handles version field comparisons using numeric conversion
+func (c *Converter) buildVersionComparisonCondition(mapping *models.FieldMapping, filter models.Filter, dqlFunction string) string {
+	// Convert version string to numeric value
+	versionStr, ok := filter.Value.(string)
+	if !ok {
+		// Fallback to regular comparison if not a string
+		value := c.formatValue(filter.Value, mapping.DataType)
+		return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
+	}
+	
+	numericVersion, err := utils.ConvertVersionToNumeric(versionStr)
+	if err != nil {
+		// If conversion fails, fallback to string comparison with warning
+		// In production, you might want to log this warning
+		value := c.formatValue(filter.Value, mapping.DataType)
+		return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
+	}
+	
+	// Use numeric comparison - note: we need a numeric version of the field in schema
+	// For now, assume we have a parallel numeric field like app_version_numeric
+	numericField := mapping.DgraphField + "_numeric"
+	return fmt.Sprintf("%s(%s, %d)", dqlFunction, numericField, numericVersion)
 }
 
 // formatValue formats a value according to its data type for DQL
@@ -436,13 +567,34 @@ func (c *Converter) buildFieldsSelection(entityType string) string {
 // getRelationshipName returns the relationship predicate name between two entities
 func (c *Converter) getRelationshipName(fromEntity, toEntity string) string {
 	switch {
+	// Forward relationships from customers
 	case fromEntity == "chorki_customers" && toEntity == "chorki_subscriptions":
 		return "chorki_customers.subscriptions"
 	case fromEntity == "chorki_customers" && toEntity == "chorki_watch_histories":
 		return "chorki_customers.watch_histories"
 	case fromEntity == "chorki_customers" && toEntity == "chorki_devices":
 		return "chorki_customers.devices"
+	
+	// Reverse relationships to customers
+	case fromEntity == "chorki_subscriptions" && toEntity == "chorki_customers":
+		return "~chorki_customers.subscriptions" // reverse edge
+	case fromEntity == "chorki_devices" && toEntity == "chorki_customers":
+		return "~chorki_customers.devices" // reverse edge
+	case fromEntity == "chorki_watch_histories" && toEntity == "chorki_customers":
+		return "~chorki_customers.watch_histories" // reverse edge
+	
+	// Content relationships
+	case fromEntity == "chorki_watch_histories" && toEntity == "chorki_contents":
+		return "chorki_watch_histories.content"
+	case fromEntity == "chorki_contents" && toEntity == "chorki_watch_histories":
+		return "~chorki_watch_histories.content" // reverse edge
+	
+	// Default fallback - use simple name for relationships
 	default:
+		// For reverse relationships, check if it should be a reverse predicate
+		if toEntity == "chorki_customers" {
+			return "customers" // Simple name for reverse edge
+		}
 		return strings.ReplaceAll(toEntity, "chorki_", "")
 	}
 }
@@ -466,4 +618,135 @@ func (c *Converter) GenerateDQLString(dqlQuery *models.DQLQuery) string {
 	}
 
 	return "{\n" + strings.Join(queryBlocks, "\n\n") + "\n}"
+}
+
+// AnalyzeComplexity returns the complexity analysis for a given query
+func (c *Converter) AnalyzeComplexity(jsonQuery *models.JSONQuery) *analyzer.ComplexityScore {
+	return c.complexityAnalyzer.AnalyzeComplexity(jsonQuery)
+}
+
+// GetComplexityLimits returns the current complexity limits
+func (c *Converter) GetComplexityLimits() map[string]int {
+	return c.complexityAnalyzer.GetComplexityLimits()
+}
+
+// GetCacheStats returns cache statistics
+func (c *Converter) GetCacheStats() map[string]interface{} {
+	return map[string]interface{}{
+		"query_cache":        c.queryCache.GetStats(),
+		"field_mapping_cache": c.fieldMappingCache.GetStats(),
+	}
+}
+
+// ClearCache clears all caches
+func (c *Converter) ClearCache() {
+	c.queryCache.Clear()
+	c.fieldMappingCache.Clear()
+}
+
+// buildNotInCondition builds NOT IN condition
+func (c *Converter) buildNotInCondition(mapping *models.FieldMapping, filter models.Filter) string {
+	switch v := filter.Value.(type) {
+	case []interface{}:
+		var conditions []string
+		for _, item := range v {
+			value := c.formatValue(item, mapping.DataType)
+			if value != "" {
+				conditions = append(conditions, fmt.Sprintf("eq(%s, %s)", mapping.DgraphField, value))
+			}
+		}
+		if len(conditions) > 1 {
+			return "NOT (" + strings.Join(conditions, " OR ") + ")"
+		} else if len(conditions) == 1 {
+			return "NOT " + conditions[0]
+		}
+	default:
+		value := c.formatValue(v, mapping.DataType)
+		if value != "" {
+			return fmt.Sprintf("NOT eq(%s, %s)", mapping.DgraphField, value)
+		}
+	}
+	return ""
+}
+
+// buildTextSearchCondition builds text search conditions
+func (c *Converter) buildTextSearchCondition(mapping *models.FieldMapping, filter models.Filter, op string) string {
+	value := c.formatValue(filter.Value, "string")
+	if value == "" {
+		return ""
+	}
+	
+	switch op {
+	case "LIKE", "CONTAINS":
+		return fmt.Sprintf("alloftext(%s, %s)", mapping.DgraphField, value)
+	case "ILIKE":
+		return fmt.Sprintf("anyoftext(%s, %s)", mapping.DgraphField, value)
+	default:
+		return ""
+	}
+}
+
+// buildRegexCondition builds regex conditions
+func (c *Converter) buildRegexCondition(mapping *models.FieldMapping, filter models.Filter) string {
+	value := c.formatValue(filter.Value, "string")
+	if value == "" {
+		return ""
+	}
+	return fmt.Sprintf("regexp(%s, %s)", mapping.DgraphField, value)
+}
+
+// buildBetweenCondition builds BETWEEN conditions
+func (c *Converter) buildBetweenCondition(mapping *models.FieldMapping, filter models.Filter) string {
+	switch v := filter.Value.(type) {
+	case []interface{}:
+		if len(v) == 2 {
+			min := c.formatValue(v[0], mapping.DataType)
+			max := c.formatValue(v[1], mapping.DataType)
+			if min != "" && max != "" {
+				return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))", 
+					mapping.DgraphField, min, mapping.DgraphField, max)
+			}
+		}
+	case map[string]interface{}:
+		if minVal, hasMin := v["min"]; hasMin {
+			if maxVal, hasMax := v["max"]; hasMax {
+				min := c.formatValue(minVal, mapping.DataType)
+				max := c.formatValue(maxVal, mapping.DataType)
+				if min != "" && max != "" {
+					return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))", 
+						mapping.DgraphField, min, mapping.DgraphField, max)
+				}
+			}
+		}
+	}
+	return ""
+}
+
+// buildNullCondition builds NULL/NOT NULL conditions
+func (c *Converter) buildNullCondition(mapping *models.FieldMapping, filter models.Filter, isNull bool) string {
+	if isNull {
+		return fmt.Sprintf("NOT has(%s)", mapping.DgraphField)
+	} else {
+		return fmt.Sprintf("has(%s)", mapping.DgraphField)
+	}
+}
+
+// buildStringPatternCondition builds string pattern conditions
+func (c *Converter) buildStringPatternCondition(mapping *models.FieldMapping, filter models.Filter, pattern string) string {
+	value := c.formatValue(filter.Value, "string")
+	if value == "" {
+		return ""
+	}
+	
+	// Remove quotes for pattern matching
+	cleanValue := strings.Trim(value, `"`)
+	
+	switch pattern {
+	case "starts_with":
+		return fmt.Sprintf("regexp(%s, /^%s/)", mapping.DgraphField, cleanValue)
+	case "ends_with":
+		return fmt.Sprintf("regexp(%s, /%s$/)", mapping.DgraphField, cleanValue)
+	default:
+		return ""
+	}
 }

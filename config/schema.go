@@ -167,12 +167,63 @@ func getDefaultFields() map[string][]string {
 // GetOperatorMappings returns the mapping between JSON operators and DQL functions
 func GetOperatorMappings() map[string]string {
 	return map[string]string{
-		"=":  "eq",
-		">=": "ge", 
-		"<=": "le",
-		">":  "gt",
-		"<":  "lt",
-		"IN": "eq", // Will be handled specially for arrays
-		"!=": "not",
+		"=":         "eq",
+		">=":        "ge", 
+		"<=":        "le",
+		">":         "gt",
+		"<":         "lt",
+		"IN":        "eq", // Will be handled specially for arrays
+		"NOT_IN":    "not", // Will be handled specially for arrays
+		"!=":        "not",
+		"LIKE":      "alloftext", // For text search
+		"ILIKE":     "anyoftext", // Case insensitive text search
+		"REGEX":     "regexp",
+		"BETWEEN":   "between", // Will be handled specially
+		"IS_NULL":   "eq",      // Will be handled specially
+		"IS_NOT_NULL": "has",   // Will be handled specially
+		"STARTS_WITH": "alloftext", // Will be handled specially
+		"ENDS_WITH":   "alloftext", // Will be handled specially
+		"CONTAINS":    "alloftext", // Will be handled specially
+	}
+}
+
+// GetVersionFields returns fields that should be treated as version fields  
+func GetVersionFields() map[string]string {
+	return map[string]string{
+		"app_version": "numeric",
+		"os_version":  "numeric", 
+		"version":     "numeric",
+	}
+}
+
+// GetReversePredicates returns the reverse predicate mappings
+func GetReversePredicates() map[string]string {
+	return map[string]string{
+		"customers": "~chorki_customers.subscriptions", // For subscriptions -> customers
+		"customers_from_devices": "~chorki_customers.devices", // For devices -> customers  
+		"customers_from_watch_histories": "~chorki_customers.watch_histories", // For watch_histories -> customers
+	}
+}
+
+// GetFilterOptimizations returns suggested filter optimizations for common patterns
+func GetFilterOptimizations() map[string][]string {
+	return map[string][]string{
+		"subscription_status_premium": {
+			"eq(chorki_subscriptions.package, \"Premium\")",
+			"(eq(chorki_subscriptions.status, \"active\") OR eq(chorki_subscriptions.status, \"trial\"))",
+		},
+		"subscription_status_basic": {
+			"eq(chorki_subscriptions.package, \"Basic\")",
+			"eq(chorki_subscriptions.status, \"active\")",
+		},
+	}
+}
+
+// GetPaginationConfig returns default pagination settings
+func GetPaginationConfig() map[string]int {
+	return map[string]int{
+		"default_limit": 100,
+		"max_limit": 1000,
+		"default_offset": 0,
 	}
 }

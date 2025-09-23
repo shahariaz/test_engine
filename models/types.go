@@ -36,10 +36,10 @@ type EntityQuery struct {
 
 // FieldMapping represents the mapping between JSON fields and Dgraph predicates
 type FieldMapping struct {
-	JSONField     string `json:"json_field"`
-	DgraphField   string `json:"dgraph_field"`
-	EntityType    string `json:"entity_type"`
-	DataType      string `json:"data_type"`
+	JSONField      string `json:"json_field"`
+	DgraphField    string `json:"dgraph_field"`
+	EntityType     string `json:"entity_type"`
+	DataType       string `json:"data_type"`
 	IsRelationship bool   `json:"is_relationship"`
 }
 
@@ -51,8 +51,8 @@ type OperatorMapping struct {
 
 // SchemaInfo contains information about entity types and their relationships
 type SchemaInfo struct {
-	EntityTypes    []string                    `json:"entity_types"`
-	FieldMappings  map[string][]FieldMapping   `json:"field_mappings"`
-	Relationships  map[string][]string         `json:"relationships"`
-	DefaultFields  map[string][]string         `json:"default_fields"`
+	EntityTypes   []string                  `json:"entity_types"`
+	FieldMappings map[string][]FieldMapping `json:"field_mappings"`
+	Relationships map[string][]string       `json:"relationships"`
+	DefaultFields map[string][]string       `json:"default_fields"`
 }
