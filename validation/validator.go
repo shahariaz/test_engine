@@ -17,15 +17,15 @@ type ValidationError struct {
 
 // ValidationResult contains the validation results
 type ValidationResult struct {
-	IsValid bool              `json:"is_valid"`
-	Errors  []ValidationError `json:"errors"`
+	IsValid  bool              `json:"is_valid"`
+	Errors   []ValidationError `json:"errors"`
 	Warnings []ValidationError `json:"warnings,omitempty"`
 }
 
 // QueryValidator validates JSON queries
 type QueryValidator struct {
-	schema           *models.SchemaInfo
-	supportedOps     map[string]bool
+	schema             *models.SchemaInfo
+	supportedOps       map[string]bool
 	dataTypeValidators map[string]func(interface{}) bool
 }
 
@@ -42,7 +42,7 @@ func NewQueryValidator(schema *models.SchemaInfo) *QueryValidator {
 		},
 		dataTypeValidators: make(map[string]func(interface{}) bool),
 	}
-	
+
 	validator.initDataTypeValidators()
 	return validator
 }
@@ -50,26 +50,26 @@ func NewQueryValidator(schema *models.SchemaInfo) *QueryValidator {
 // Validate performs comprehensive validation on a JSON query
 func (v *QueryValidator) Validate(query *models.JSONQuery) *ValidationResult {
 	result := &ValidationResult{
-		IsValid: true,
-		Errors:  []ValidationError{},
+		IsValid:  true,
+		Errors:   []ValidationError{},
 		Warnings: []ValidationError{},
 	}
 
 	// Basic structure validation
 	v.validateStructure(query, result)
-	
+
 	// Field existence validation
 	v.validateFields(query.Groups, result)
-	
+
 	// Data type compatibility validation
 	v.validateDataTypes(query.Groups, result)
-	
+
 	// Operator validation
 	v.validateOperators(query.Groups, result)
-	
+
 	// Logical consistency validation
 	v.validateLogicalConsistency(query, result)
-	
+
 	// Complex object validation
 	v.validateComplexObjects(query.Groups, result)
 
@@ -102,7 +102,7 @@ func (v *QueryValidator) validateStructure(query *models.JSONQuery, result *Vali
 func (v *QueryValidator) validateGroups(groups []models.Group, result *ValidationResult, path string) {
 	for i, group := range groups {
 		groupPath := fmt.Sprintf("%s[%d]", path, i)
-		
+
 		if group.CombineWith != "AND" && group.CombineWith != "OR" {
 			result.Errors = append(result.Errors, ValidationError{
 				Field:   fmt.Sprintf("%s.combine_with", groupPath),
@@ -240,7 +240,7 @@ func (v *QueryValidator) validateOperators(groups []models.Group, result *Valida
 func (v *QueryValidator) validateLogicalConsistency(query *models.JSONQuery, result *ValidationResult) {
 	// Check for contradictory conditions on the same field
 	fieldConditions := v.extractFieldConditions(query.Groups)
-	
+
 	for field, conditions := range fieldConditions {
 		if v.hasContradictoryConditions(conditions) {
 			result.Warnings = append(result.Warnings, ValidationError{
@@ -275,7 +275,7 @@ func (v *QueryValidator) initDataTypeValidators() {
 		_, ok := value.(string)
 		return ok
 	}
-	
+
 	v.dataTypeValidators["int"] = func(value interface{}) bool {
 		switch value.(type) {
 		case int, int64, float64:
@@ -286,7 +286,7 @@ func (v *QueryValidator) initDataTypeValidators() {
 		}
 		return false
 	}
-	
+
 	v.dataTypeValidators["float"] = func(value interface{}) bool {
 		switch value.(type) {
 		case float64, int, int64:
@@ -297,12 +297,12 @@ func (v *QueryValidator) initDataTypeValidators() {
 		}
 		return false
 	}
-	
+
 	v.dataTypeValidators["bool"] = func(value interface{}) bool {
 		_, ok := value.(bool)
 		return ok
 	}
-	
+
 	v.dataTypeValidators["datetime"] = func(value interface{}) bool {
 		if str, ok := value.(string); ok {
 			_, err := time.Parse(time.RFC3339, str)
@@ -357,7 +357,7 @@ func (v *QueryValidator) isValueCompatibleWithDataType(value interface{}, dataTy
 			return validator(value)
 		}
 	}
-	
+
 	return true // Default to true if no specific validator
 }
 
@@ -393,19 +393,19 @@ func (v *QueryValidator) validateOperatorRequirements(filter models.Filter) erro
 
 func (v *QueryValidator) extractFieldConditions(groups []models.Group) map[string][]models.Filter {
 	conditions := make(map[string][]models.Filter)
-	
+
 	for _, group := range groups {
 		for _, filter := range group.Filters {
 			conditions[filter.Field] = append(conditions[filter.Field], filter)
 		}
-		
+
 		// Recursively extract from nested groups
 		nestedConditions := v.extractFieldConditions(group.Groups)
 		for field, filters := range nestedConditions {
 			conditions[field] = append(conditions[field], filters...)
 		}
 	}
-	
+
 	return conditions
 }
 
@@ -417,7 +417,7 @@ func (v *QueryValidator) hasContradictoryConditions(filters []models.Filter) boo
 			if i >= j {
 				continue
 			}
-			
+
 			// Check for obvious contradictions like field = 1 AND field = 2
 			if filter1.Op == "=" && filter2.Op == "=" && filter1.Value != filter2.Value {
 				return true

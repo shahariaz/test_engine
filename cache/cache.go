@@ -18,11 +18,11 @@ type CacheEntry struct {
 
 // Cache provides thread-safe in-memory caching
 type Cache struct {
-	mu       sync.RWMutex
-	entries  map[string]*CacheEntry
-	ttl      time.Duration
-	maxSize  int
-	hitCount int64
+	mu        sync.RWMutex
+	entries   map[string]*CacheEntry
+	ttl       time.Duration
+	maxSize   int
+	hitCount  int64
 	missCount int64
 }
 
@@ -42,10 +42,10 @@ func NewCache(ttl time.Duration, maxSize int) *Cache {
 		ttl:     ttl,
 		maxSize: maxSize,
 	}
-	
+
 	// Start cleanup goroutine
 	go cache.cleanupExpired()
-	
+
 	return cache
 }
 
@@ -53,12 +53,12 @@ func NewCache(ttl time.Duration, maxSize int) *Cache {
 func (c *Cache) Set(key string, value interface{}) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	
+
 	// Check if we need to evict entries
 	if len(c.entries) >= c.maxSize {
 		c.evictLRU()
 	}
-	
+
 	c.entries[key] = &CacheEntry{
 		Value:     value,
 		ExpiresAt: time.Now().Add(c.ttl),
@@ -72,14 +72,14 @@ func (c *Cache) Get(key string) (interface{}, bool) {
 	c.mu.RLock()
 	entry, exists := c.entries[key]
 	c.mu.RUnlock()
-	
+
 	if !exists {
 		c.mu.Lock()
 		c.missCount++
 		c.mu.Unlock()
 		return nil, false
 	}
-	
+
 	// Check if expired
 	if time.Now().After(entry.ExpiresAt) {
 		c.mu.Lock()
@@ -88,13 +88,13 @@ func (c *Cache) Get(key string) (interface{}, bool) {
 		c.mu.Unlock()
 		return nil, false
 	}
-	
+
 	// Update hit count
 	c.mu.Lock()
 	entry.HitCount++
 	c.hitCount++
 	c.mu.Unlock()
-	
+
 	return entry.Value, true
 }
 
@@ -103,7 +103,7 @@ func (c *Cache) GetOrSet(key string, provider func() interface{}) interface{} {
 	if value, found := c.Get(key); found {
 		return value
 	}
-	
+
 	value := provider()
 	c.Set(key, value)
 	return value
@@ -129,13 +129,13 @@ func (c *Cache) Clear() {
 func (c *Cache) GetStats() CacheStats {
 	c.mu.RLock()
 	defer c.mu.RUnlock()
-	
+
 	total := c.hitCount + c.missCount
 	hitRatio := 0.0
 	if total > 0 {
 		hitRatio = float64(c.hitCount) / float64(total)
 	}
-	
+
 	return CacheStats{
 		Entries:   len(c.entries),
 		HitCount:  c.hitCount,
@@ -156,14 +156,14 @@ func (c *Cache) GenerateKey(prefix string, obj interface{}) string {
 func (c *Cache) evictLRU() {
 	var oldestKey string
 	var oldestTime time.Time = time.Now()
-	
+
 	for key, entry := range c.entries {
 		if entry.CreatedAt.Before(oldestTime) {
 			oldestTime = entry.CreatedAt
 			oldestKey = key
 		}
 	}
-	
+
 	if oldestKey != "" {
 		delete(c.entries, oldestKey)
 	}
@@ -173,7 +173,7 @@ func (c *Cache) evictLRU() {
 func (c *Cache) cleanupExpired() {
 	ticker := time.NewTicker(time.Minute * 5) // Cleanup every 5 minutes
 	defer ticker.Stop()
-	
+
 	for range ticker.C {
 		c.mu.Lock()
 		now := time.Now()

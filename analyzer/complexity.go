@@ -7,32 +7,32 @@ import (
 
 // ComplexityScore represents the complexity analysis result
 type ComplexityScore struct {
-	TotalScore     int                    `json:"total_score"`
-	FilterCount    int                    `json:"filter_count"`
-	MaxNesting     int                    `json:"max_nesting"`
-	EntityCount    int                    `json:"entity_count"`
-	ComplexObjects int                    `json:"complex_objects"`
-	IsAcceptable   bool                   `json:"is_acceptable"`
-	Warning        string                 `json:"warning,omitempty"`
-	Breakdown      map[string]int         `json:"breakdown"`
+	TotalScore     int            `json:"total_score"`
+	FilterCount    int            `json:"filter_count"`
+	MaxNesting     int            `json:"max_nesting"`
+	EntityCount    int            `json:"entity_count"`
+	ComplexObjects int            `json:"complex_objects"`
+	IsAcceptable   bool           `json:"is_acceptable"`
+	Warning        string         `json:"warning,omitempty"`
+	Breakdown      map[string]int `json:"breakdown"`
 }
 
 // ComplexityAnalyzer analyzes query complexity
 type ComplexityAnalyzer struct {
-	MaxScore       int
-	MaxFilters     int
-	MaxNesting     int
-	MaxEntities    int
-	FieldMappings  map[string][]models.FieldMapping
+	MaxScore      int
+	MaxFilters    int
+	MaxNesting    int
+	MaxEntities   int
+	FieldMappings map[string][]models.FieldMapping
 }
 
 // NewComplexityAnalyzer creates a new complexity analyzer with default limits
 func NewComplexityAnalyzer(fieldMappings map[string][]models.FieldMapping) *ComplexityAnalyzer {
 	return &ComplexityAnalyzer{
-		MaxScore:      100,  // Maximum allowed complexity score
-		MaxFilters:    50,   // Maximum number of filters
-		MaxNesting:    5,    // Maximum nesting depth
-		MaxEntities:   10,   // Maximum number of different entities
+		MaxScore:      100, // Maximum allowed complexity score
+		MaxFilters:    50,  // Maximum number of filters
+		MaxNesting:    5,   // Maximum nesting depth
+		MaxEntities:   10,  // Maximum number of different entities
 		FieldMappings: fieldMappings,
 	}
 }
@@ -52,16 +52,16 @@ func (ca *ComplexityAnalyzer) AnalyzeComplexity(query *models.JSONQuery) *Comple
 	score.ComplexObjects = ca.countComplexObjects(query.Groups)
 
 	// Calculate complexity breakdown
-	score.Breakdown["filters"] = score.FilterCount * 2           // 2 points per filter
-	score.Breakdown["nesting"] = score.MaxNesting * 5            // 5 points per nesting level
-	score.Breakdown["entities"] = score.EntityCount * 3          // 3 points per entity type
+	score.Breakdown["filters"] = score.FilterCount * 2            // 2 points per filter
+	score.Breakdown["nesting"] = score.MaxNesting * 5             // 5 points per nesting level
+	score.Breakdown["entities"] = score.EntityCount * 3           // 3 points per entity type
 	score.Breakdown["complex_objects"] = score.ComplexObjects * 8 // 8 points per complex object
 
 	// Calculate total score
-	score.TotalScore = score.Breakdown["filters"] + 
-					  score.Breakdown["nesting"] + 
-					  score.Breakdown["entities"] + 
-					  score.Breakdown["complex_objects"]
+	score.TotalScore = score.Breakdown["filters"] +
+		score.Breakdown["nesting"] +
+		score.Breakdown["entities"] +
+		score.Breakdown["complex_objects"]
 
 	// Determine if query is acceptable
 	score.IsAcceptable = ca.isAcceptable(score)
@@ -79,12 +79,12 @@ func (ca *ComplexityAnalyzer) countFilters(groups []models.Group, entityMap map[
 	}
 
 	filterCount := 0
-	
+
 	for _, group := range groups {
 		// Count filters in this group
 		for _, filter := range group.Filters {
 			filterCount++
-			
+
 			// Track entity types
 			if mappings, exists := ca.FieldMappings[filter.Field]; exists {
 				for _, mapping := range mappings {
@@ -105,14 +105,14 @@ func (ca *ComplexityAnalyzer) countFilters(groups []models.Group, entityMap map[
 // countComplexObjects counts complex object filters
 func (ca *ComplexityAnalyzer) countComplexObjects(groups []models.Group) int {
 	count := 0
-	
+
 	for _, group := range groups {
 		for _, filter := range group.Filters {
 			// Check for complex objects like watched_content
 			if filter.Field == "watched_content" {
 				count++
 			}
-			
+
 			// Check for other complex value types
 			switch v := filter.Value.(type) {
 			case map[string]interface{}:
@@ -155,19 +155,19 @@ func (ca *ComplexityAnalyzer) isAcceptable(score *ComplexityScore) bool {
 // generateWarning generates a warning message for complex queries
 func (ca *ComplexityAnalyzer) generateWarning(score *ComplexityScore) string {
 	if score.TotalScore > ca.MaxScore {
-		return fmt.Sprintf("Query complexity score (%d) exceeds maximum allowed (%d). Consider simplifying the query.", 
+		return fmt.Sprintf("Query complexity score (%d) exceeds maximum allowed (%d). Consider simplifying the query.",
 			score.TotalScore, ca.MaxScore)
 	}
 	if score.FilterCount > ca.MaxFilters {
-		return fmt.Sprintf("Number of filters (%d) exceeds maximum allowed (%d).", 
+		return fmt.Sprintf("Number of filters (%d) exceeds maximum allowed (%d).",
 			score.FilterCount, ca.MaxFilters)
 	}
 	if score.MaxNesting > ca.MaxNesting {
-		return fmt.Sprintf("Query nesting depth (%d) exceeds maximum allowed (%d).", 
+		return fmt.Sprintf("Query nesting depth (%d) exceeds maximum allowed (%d).",
 			score.MaxNesting, ca.MaxNesting)
 	}
 	if score.EntityCount > ca.MaxEntities {
-		return fmt.Sprintf("Number of entity types (%d) exceeds maximum allowed (%d).", 
+		return fmt.Sprintf("Number of entity types (%d) exceeds maximum allowed (%d).",
 			score.EntityCount, ca.MaxEntities)
 	}
 	return "Query complexity exceeds acceptable limits."

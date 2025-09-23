@@ -49,11 +49,11 @@ func main() {
 	// Convert the query
 	fmt.Println("\n🔄 Converting to DQL...")
 	result := makeAPICall("POST", "http://localhost:8080/api/v1/convert", query)
-	
+
 	if result != nil {
 		if dql, ok := result["dql"].(string); ok {
 			fmt.Printf("\n🎯 Generated DQL:\n%s\n", dql)
-			
+
 			// Analyze what entities are involved
 			fmt.Println("\n📊 Analysis:")
 			if containsString(dql, "customers(func: type(chorki_customers))") {
@@ -64,11 +64,11 @@ func main() {
 			} else {
 				fmt.Println("❌ Missing chorki_subscriptions query")
 			}
-			
+
 			// Count the number of separate queries
 			queryCount := countQueries(dql)
 			fmt.Printf("📈 Total number of entity queries: %d\n", queryCount)
-			
+
 			if queryCount >= 2 {
 				fmt.Println("✅ Multiple entity queries generated correctly!")
 			} else {
@@ -116,17 +116,17 @@ func main() {
 
 func makeAPICall(method, url string, data interface{}) map[string]interface{} {
 	jsonData, _ := json.Marshal(data)
-	
+
 	var req *http.Request
 	var err error
-	
+
 	if data != nil {
 		req, err = http.NewRequest(method, url, bytes.NewBuffer(jsonData))
 		req.Header.Set("Content-Type", "application/json")
 	} else {
 		req, err = http.NewRequest(method, url, nil)
 	}
-	
+
 	if err != nil {
 		fmt.Printf("❌ Error creating request: %v\n", err)
 		return nil
@@ -161,9 +161,9 @@ func makeAPICall(method, url string, data interface{}) map[string]interface{} {
 }
 
 func containsString(text, substr string) bool {
-	return len(text) >= len(substr) && 
-		   (text[:len(substr)] == substr || 
-		    containsString(text[1:], substr))
+	return len(text) >= len(substr) &&
+		(text[:len(substr)] == substr ||
+			containsString(text[1:], substr))
 }
 
 func countQueries(dql string) int {
@@ -175,12 +175,12 @@ func countQueries(dql string) int {
 		"contents(func:",
 		"devices(func:",
 	}
-	
+
 	for _, queryType := range queries {
 		if containsString(dql, queryType) {
 			count++
 		}
 	}
-	
+
 	return count
 }
