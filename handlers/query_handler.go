@@ -24,7 +24,7 @@ func NewQueryHandler() *QueryHandler {
 // ConvertQuery handles POST /convert endpoint
 func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 	var jsonQuery models.JSONQuery
-	
+
 	// Bind JSON request to struct
 	if err := c.ShouldBindJSON(&jsonQuery); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -33,7 +33,7 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	// Validate the query structure
 	if err := h.validateQuery(&jsonQuery); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -42,7 +42,7 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	// Convert to DQL
 	dqlQuery, err := h.converter.ConvertToDQL(&jsonQuery)
 	if err != nil {
@@ -52,10 +52,10 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	// Generate DQL string
 	dqlString := h.converter.GenerateDQLString(dqlQuery)
-	
+
 	// Return only the DQL query string
 	c.Header("Content-Type", "application/json")
 	c.JSON(http.StatusOK, gin.H{
@@ -68,11 +68,11 @@ func (h *QueryHandler) validateQuery(query *models.JSONQuery) error {
 	if query.CombineWith != "AND" && query.CombineWith != "OR" {
 		return gin.Error{Err: fmt.Errorf("combine_with must be 'AND' or 'OR'"), Type: gin.ErrorTypePublic}
 	}
-	
+
 	if len(query.Groups) == 0 {
 		return gin.Error{Err: fmt.Errorf("at least one group is required"), Type: gin.ErrorTypePublic}
 	}
-	
+
 	return h.validateGroups(query.Groups)
 }
 
@@ -82,11 +82,11 @@ func (h *QueryHandler) validateGroups(groups []models.Group) error {
 		if group.CombineWith != "AND" && group.CombineWith != "OR" {
 			return gin.Error{Err: fmt.Errorf("group combine_with must be 'AND' or 'OR'"), Type: gin.ErrorTypePublic}
 		}
-		
+
 		if len(group.Filters) == 0 && len(group.Groups) == 0 {
 			return gin.Error{Err: fmt.Errorf("group must have either filters or nested groups"), Type: gin.ErrorTypePublic}
 		}
-		
+
 		// Validate filters
 		for _, filter := range group.Filters {
 			if filter.Field == "" {
@@ -99,7 +99,7 @@ func (h *QueryHandler) validateGroups(groups []models.Group) error {
 				return gin.Error{Err: fmt.Errorf("filter value cannot be null"), Type: gin.ErrorTypePublic}
 			}
 		}
-		
+
 		// Recursively validate nested groups
 		if len(group.Groups) > 0 {
 			if err := h.validateGroups(group.Groups); err != nil {
@@ -107,7 +107,7 @@ func (h *QueryHandler) validateGroups(groups []models.Group) error {
 			}
 		}
 	}
-	
+
 	return nil
 }
 
@@ -118,7 +118,7 @@ func (h *QueryHandler) GetSchema(c *gin.Context) {
 		"combine_operators":   []string{"AND", "OR"},
 		"available_fields": map[string][]string{
 			"customer_fields": {
-				"age", "country", "device", "app_version", "last_login_days", 
+				"age", "country", "device", "app_version", "last_login_days",
 				"email", "name",
 			},
 			"subscription_fields": {
@@ -132,12 +132,12 @@ func (h *QueryHandler) GetSchema(c *gin.Context) {
 			},
 		},
 		"entity_types": []string{
-			"chorki_customers", "chorki_subscriptions", "chorki_watch_histories", 
+			"chorki_customers", "chorki_subscriptions", "chorki_watch_histories",
 			"chorki_contents", "chorki_devices",
 		},
 		"example_queries": h.getExampleQueries(),
 	}
-	
+
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
 		"schema":  schema,

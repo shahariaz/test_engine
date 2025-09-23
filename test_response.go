@@ -34,7 +34,7 @@ func main() {
 	}
 
 	jsonData, _ := json.Marshal(query)
-	
+
 	resp, err := http.Post("http://localhost:8080/api/v1/convert", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		fmt.Printf("❌ Error: %v\n", err)
@@ -43,10 +43,10 @@ func main() {
 	defer resp.Body.Close()
 
 	body, _ := io.ReadAll(resp.Body)
-	
+
 	fmt.Printf("📊 Status Code: %d\n", resp.StatusCode)
 	fmt.Printf("📝 Response:\n%s\n", string(body))
-	
+
 	// Parse and show just the DQL
 	var result map[string]interface{}
 	if err := json.Unmarshal(body, &result); err == nil {

@@ -26,13 +26,13 @@ func NewConverter() *Converter {
 func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery, error) {
 	// Determine the primary entity type based on the most common fields
 	primaryEntity := c.getPrimaryEntity(jsonQuery)
-	
+
 	// Build the main filter for the primary entity
 	filter, err := c.buildFilterForEntity(jsonQuery, primaryEntity)
 	if err != nil {
 		return nil, fmt.Errorf("error building filter for %s: %v", primaryEntity, err)
 	}
-	
+
 	// Create the main query
 	var queries []models.EntityQuery
 	if filter != "" {
@@ -45,27 +45,27 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 		}
 		queries = append(queries, query)
 	}
-	
+
 	return &models.DQLQuery{Queries: queries}, nil
 }
 
 // getPrimaryEntity determines the primary entity type based on field frequency
 func (c *Converter) getPrimaryEntity(jsonQuery *models.JSONQuery) string {
 	entityCount := make(map[string]int)
-	
+
 	// Count field occurrences for each entity type
 	c.countEntityTypesFromGroups(jsonQuery.Groups, entityCount)
-	
+
 	// Find the entity with the most fields
 	var primaryEntity string
 	maxCount := 0
-	
+
 	// Prioritize customers as the default primary entity
 	if count, exists := entityCount["chorki_customers"]; exists && count > 0 {
 		primaryEntity = "chorki_customers"
 		maxCount = count
 	}
-	
+
 	// Check if any other entity has significantly more fields
 	for entityType, count := range entityCount {
 		if count > maxCount {
@@ -73,12 +73,12 @@ func (c *Converter) getPrimaryEntity(jsonQuery *models.JSONQuery) string {
 			maxCount = count
 		}
 	}
-	
+
 	// Default to customers if no clear primary entity
 	if primaryEntity == "" {
 		primaryEntity = "chorki_customers"
 	}
-	
+
 	return primaryEntity
 }
 
@@ -93,7 +93,7 @@ func (c *Converter) countEntityTypesFromGroups(groups []models.Group, entityCoun
 				}
 			}
 		}
-		
+
 		// Recursively count nested groups
 		if len(group.Groups) > 0 {
 			c.countEntityTypesFromGroups(group.Groups, entityCount)
@@ -104,15 +104,15 @@ func (c *Converter) countEntityTypesFromGroups(groups []models.Group, entityCoun
 // getInvolvedEntityTypes determines which entity types are referenced in the query
 func (c *Converter) getInvolvedEntityTypes(jsonQuery *models.JSONQuery) []string {
 	entityTypeMap := make(map[string]bool)
-	
+
 	// Recursively check all groups and filters
 	c.collectEntityTypesFromGroups(jsonQuery.Groups, entityTypeMap)
-	
+
 	var result []string
 	for entityType := range entityTypeMap {
 		result = append(result, entityType)
 	}
-	
+
 	return result
 }
 
@@ -127,7 +127,7 @@ func (c *Converter) collectEntityTypesFromGroups(groups []models.Group, entityTy
 				}
 			}
 		}
-		
+
 		// Recursively check nested groups
 		if len(group.Groups) > 0 {
 			c.collectEntityTypesFromGroups(group.Groups, entityTypeMap)
@@ -147,34 +147,34 @@ func (c *Converter) buildFilterForEntity(jsonQuery *models.JSONQuery, entityType
 // buildGroupsFilter builds filter string for a list of groups
 func (c *Converter) buildGroupsFilter(groups []models.Group, combineWith, entityType string) string {
 	var conditions []string
-	
+
 	for _, group := range groups {
 		condition := c.buildGroupFilter(group, entityType)
 		if condition != "" {
 			conditions = append(conditions, condition)
 		}
 	}
-	
+
 	if len(conditions) == 0 {
 		return ""
 	}
-	
+
 	if len(conditions) == 1 {
 		return conditions[0]
 	}
-	
+
 	operator := " AND "
 	if strings.ToUpper(combineWith) == "OR" {
 		operator = " OR "
 	}
-	
+
 	return "(" + strings.Join(conditions, operator) + ")"
 }
 
 // buildGroupFilter builds filter string for a single group
 func (c *Converter) buildGroupFilter(group models.Group, entityType string) string {
 	var conditions []string
-	
+
 	// Build conditions from filters
 	for _, filter := range group.Filters {
 		condition := c.buildFilterCondition(filter, entityType)
@@ -182,7 +182,7 @@ func (c *Converter) buildGroupFilter(group models.Group, entityType string) stri
 			conditions = append(conditions, condition)
 		}
 	}
-	
+
 	// Build conditions from nested groups
 	if len(group.Groups) > 0 {
 		nestedCondition := c.buildGroupsFilter(group.Groups, group.CombineWith, entityType)
@@ -190,20 +190,20 @@ func (c *Converter) buildGroupFilter(group models.Group, entityType string) stri
 			conditions = append(conditions, nestedCondition)
 		}
 	}
-	
+
 	if len(conditions) == 0 {
 		return ""
 	}
-	
+
 	if len(conditions) == 1 {
 		return conditions[0]
 	}
-	
+
 	operator := " AND "
 	if strings.ToUpper(group.CombineWith) == "OR" {
 		operator = " OR "
 	}
-	
+
 	return "(" + strings.Join(conditions, operator) + ")"
 }
 
@@ -214,7 +214,7 @@ func (c *Converter) buildFilterCondition(filter models.Filter, entityType string
 	if !exists {
 		return ""
 	}
-	
+
 	var relevantMapping *models.FieldMapping
 	for _, mapping := range mappings {
 		if mapping.EntityType == entityType {
@@ -222,11 +222,11 @@ func (c *Converter) buildFilterCondition(filter models.Filter, entityType string
 			break
 		}
 	}
-	
+
 	if relevantMapping == nil {
 		return ""
 	}
-	
+
 	return c.buildDQLCondition(relevantMapping, filter)
 }
 
@@ -236,7 +236,7 @@ func (c *Converter) buildDQLCondition(mapping *models.FieldMapping, filter model
 	if dqlFunction == "" {
 		return ""
 	}
-	
+
 	switch filter.Op {
 	case "IN":
 		return c.buildInCondition(mapping, filter)
@@ -264,11 +264,11 @@ func (c *Converter) buildInCondition(mapping *models.FieldMapping, filter models
 		} else if len(conditions) == 1 {
 			return conditions[0]
 		}
-		
+
 	case map[string]interface{}:
 		// Handle complex objects like watched_content
 		return c.buildComplexObjectCondition(mapping, v)
-		
+
 	default:
 		// Handle single value as if it's an array with one element
 		value := c.formatValue(v, mapping.DataType)
@@ -276,7 +276,7 @@ func (c *Converter) buildInCondition(mapping *models.FieldMapping, filter models
 			return fmt.Sprintf("eq(%s, %s)", mapping.DgraphField, value)
 		}
 	}
-	
+
 	return ""
 }
 
@@ -288,7 +288,7 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 			if ids, idsExist := obj["ids"]; idsExist {
 				if idArray, ok := ids.([]interface{}); ok {
 					var conditions []string
-					
+
 					// Add content type condition if mapping exists
 					if ctMappings, ctExists := c.schema.FieldMappings["content_type"]; ctExists {
 						for _, ctMapping := range ctMappings {
@@ -299,7 +299,7 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 							}
 						}
 					}
-					
+
 					// Add ID conditions
 					var idConditions []string
 					for _, id := range idArray {
@@ -308,11 +308,11 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 							idConditions = append(idConditions, idValue)
 						}
 					}
-					
+
 					if len(idConditions) > 0 {
 						conditions = append(conditions, fmt.Sprintf("uid_in(%s, %s)", mapping.DgraphField, strings.Join(idConditions, ", ")))
 					}
-					
+
 					if len(conditions) > 0 {
 						return "(" + strings.Join(conditions, " AND ") + ")"
 					}
@@ -320,7 +320,7 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 			}
 		}
 	}
-	
+
 	return ""
 }
 
@@ -330,7 +330,7 @@ func (c *Converter) buildComparisonCondition(mapping *models.FieldMapping, filte
 	if value == "" {
 		return ""
 	}
-	
+
 	return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 }
 
@@ -339,14 +339,14 @@ func (c *Converter) formatValue(value interface{}, dataType string) string {
 	if value == nil {
 		return ""
 	}
-	
+
 	switch dataType {
 	case "string":
 		if str, ok := value.(string); ok {
 			return fmt.Sprintf(`"%s"`, strings.ReplaceAll(str, `"`, `\"`))
 		}
 		return fmt.Sprintf(`"%v"`, value)
-		
+
 	case "int":
 		switch v := value.(type) {
 		case int:
@@ -359,7 +359,7 @@ func (c *Converter) formatValue(value interface{}, dataType string) string {
 			}
 		}
 		return fmt.Sprintf("%v", value)
-		
+
 	case "float":
 		switch v := value.(type) {
 		case float64:
@@ -372,13 +372,13 @@ func (c *Converter) formatValue(value interface{}, dataType string) string {
 			}
 		}
 		return fmt.Sprintf("%v", value)
-		
+
 	case "bool":
 		if b, ok := value.(bool); ok {
 			return strconv.FormatBool(b)
 		}
 		return "false"
-		
+
 	default:
 		return fmt.Sprintf(`"%v"`, value)
 	}
@@ -408,12 +408,12 @@ func (c *Converter) buildFieldsSelection(entityType string) string {
 	if len(fields) == 0 {
 		return "uid\nexpand(_all_)"
 	}
-	
+
 	var fieldLines []string
 	for _, field := range fields {
 		fieldLines = append(fieldLines, "    "+field)
 	}
-	
+
 	// Add related entities if they exist
 	if relationships, exists := c.schema.Relationships[entityType]; exists {
 		for _, relatedEntity := range relationships {
@@ -429,7 +429,7 @@ func (c *Converter) buildFieldsSelection(entityType string) string {
 			}
 		}
 	}
-	
+
 	return strings.Join(fieldLines, "\n")
 }
 
@@ -452,9 +452,9 @@ func (c *Converter) GenerateDQLString(dqlQuery *models.DQLQuery) string {
 	if len(dqlQuery.Queries) == 0 {
 		return "{}"
 	}
-	
+
 	var queryBlocks []string
-	
+
 	for _, query := range dqlQuery.Queries {
 		block := fmt.Sprintf("  %s(func: %s) %s {\n%s\n  }",
 			query.Name,
@@ -464,6 +464,6 @@ func (c *Converter) GenerateDQLString(dqlQuery *models.DQLQuery) string {
 		)
 		queryBlocks = append(queryBlocks, block)
 	}
-	
+
 	return "{\n" + strings.Join(queryBlocks, "\n\n") + "\n}"
 }
