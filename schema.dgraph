@@ -1,0 +1,193 @@
+# Dynamic Dgraph Schema for Chorki Platform
+# This schema supports dynamic filtering and querying
+
+# =============================================================================
+# CUSTOMER TYPE
+# =============================================================================
+type chorki_customers {
+  chorki_customers.id: string @index(exact) .
+  chorki_customers.name: string @index(term, fulltext) .
+  chorki_customers.email: string @index(hash, exact) .
+  chorki_customers.phone: string @index(exact) .
+  chorki_customers.age: int @index(int) .
+  chorki_customers.country: string @index(exact) .
+  chorki_customers.city: string @index(exact) .
+  chorki_customers.device: string @index(exact) .
+  chorki_customers.app_version: string @index(exact) .
+  chorki_customers.registration_date: datetime @index(hour) .
+  chorki_customers.last_login: datetime @index(hour) .
+  chorki_customers.last_login_days: int @index(int) .
+  chorki_customers.is_active: bool @index(bool) .
+  chorki_customers.created_at: datetime @index(hour) .
+  chorki_customers.updated_at: datetime .
+  chorki_customers.metadata: string .
+  
+  # Relationships
+  chorki_customers.subscriptions: [uid] @reverse .
+  chorki_customers.watch_histories: [uid] @reverse .
+  chorki_customers.devices: [uid] @reverse .
+}
+
+# =============================================================================
+# SUBSCRIPTION TYPE
+# =============================================================================
+type chorki_subscriptions {
+  chorki_subscriptions.id: string @index(exact) .
+  chorki_subscriptions.customer_id: string @index(exact) .
+  chorki_subscriptions.package: string @index(exact) .
+  chorki_subscriptions.status: string @index(exact) .
+  chorki_subscriptions.start_date: datetime @index(hour) .
+  chorki_subscriptions.end_date: datetime @index(hour) .
+  chorki_subscriptions.price: float @index(float) .
+  chorki_subscriptions.currency: string @index(exact) .
+  chorki_subscriptions.payment_method: string @index(exact) .
+  chorki_subscriptions.auto_renewal: bool @index(bool) .
+  chorki_subscriptions.trial_period: bool @index(bool) .
+  chorki_subscriptions.created_at: datetime @index(hour) .
+  chorki_subscriptions.updated_at: datetime .
+  
+  # Relationships
+  chorki_subscriptions.customer: uid @reverse .
+}
+
+# =============================================================================
+# WATCH HISTORY TYPE
+# =============================================================================
+type chorki_watch_histories {
+  chorki_watch_histories.id: string @index(exact) .
+  chorki_watch_histories.customer_id: string @index(exact) .
+  chorki_watch_histories.content_id: int @index(int) .
+  chorki_watch_histories.content_title: string @index(term, fulltext) .
+  chorki_watch_histories.type: string @index(exact) .
+  chorki_watch_histories.genre: [string] @index(exact) .
+  chorki_watch_histories.duration_watched: int @index(int) .
+  chorki_watch_histories.total_duration: int @index(int) .
+  chorki_watch_histories.completion_percentage: float @index(float) .
+  chorki_watch_histories.watch_date: datetime @index(hour) .
+  chorki_watch_histories.device_used: string @index(exact) .
+  chorki_watch_histories.quality: string @index(exact) .
+  chorki_watch_histories.created_at: datetime @index(hour) .
+  
+  # Relationships
+  chorki_watch_histories.customer: uid @reverse .
+  chorki_watch_histories.content: uid @reverse .
+}
+
+# =============================================================================
+# CONTENT TYPE
+# =============================================================================
+type chorki_contents {
+  chorki_contents.id: int @index(int) .
+  chorki_contents.title: string @index(term, fulltext) .
+  chorki_contents.type: string @index(exact) .
+  chorki_contents.genre: [string] @index(exact) .
+  chorki_contents.duration: int @index(int) .
+  chorki_contents.release_year: int @index(int) .
+  chorki_contents.rating: float @index(float) .
+  chorki_contents.language: string @index(exact) .
+  chorki_contents.country: string @index(exact) .
+  chorki_contents.director: string @index(term) .
+  chorki_contents.cast: [string] @index(term) .
+  chorki_contents.description: string @index(fulltext) .
+  chorki_contents.thumbnail_url: string .
+  chorki_contents.video_url: string .
+  chorki_contents.is_premium: bool @index(bool) .
+  chorki_contents.is_active: bool @index(bool) .
+  chorki_contents.created_at: datetime @index(hour) .
+  chorki_contents.updated_at: datetime .
+  
+  # Relationships
+  chorki_contents.watch_histories: [uid] @reverse .
+}
+
+# =============================================================================
+# DEVICE TYPE
+# =============================================================================
+type chorki_devices {
+  chorki_devices.id: string @index(exact) .
+  chorki_devices.customer_id: string @index(exact) .
+  chorki_devices.device_type: string @index(exact) .
+  chorki_devices.device_model: string @index(exact) .
+  chorki_devices.os_version: string @index(exact) .
+  chorki_devices.app_version: string @index(exact) .
+  chorki_devices.push_token: string @index(hash) .
+  chorki_devices.is_active: bool @index(bool) .
+  chorki_devices.last_used: datetime @index(hour) .
+  chorki_devices.created_at: datetime @index(hour) .
+  chorki_devices.updated_at: datetime .
+  
+  # Relationships
+  chorki_devices.customer: uid @reverse .
+}
+
+# =============================================================================
+# PAYMENT TYPE
+# =============================================================================
+type chorki_payments {
+  chorki_payments.id: string @index(exact) .
+  chorki_payments.customer_id: string @index(exact) .
+  chorki_payments.subscription_id: string @index(exact) .
+  chorki_payments.amount: float @index(float) .
+  chorki_payments.currency: string @index(exact) .
+  chorki_payments.payment_method: string @index(exact) .
+  chorki_payments.transaction_id: string @index(exact) .
+  chorki_payments.status: string @index(exact) .
+  chorki_payments.gateway: string @index(exact) .
+  chorki_payments.gateway_response: string .
+  chorki_payments.created_at: datetime @index(hour) .
+  chorki_payments.updated_at: datetime .
+  
+  # Relationships
+  chorki_payments.customer: uid @reverse .
+  chorki_payments.subscription: uid @reverse .
+}
+
+# =============================================================================
+# DEVICE AUTHORIZATION TYPE
+# =============================================================================
+type chorki_device_authorizations {
+  chorki_device_authorizations.id: string @index(exact) .
+  chorki_device_authorizations.customer_id: string @index(exact) .
+  chorki_device_authorizations.device_id: string @index(exact) .
+  chorki_device_authorizations.auth_token: string @index(hash) .
+  chorki_device_authorizations.refresh_token: string @index(hash) .
+  chorki_device_authorizations.expires_at: datetime @index(hour) .
+  chorki_device_authorizations.is_active: bool @index(bool) .
+  chorki_device_authorizations.created_at: datetime @index(hour) .
+  chorki_device_authorizations.updated_at: datetime .
+  
+  # Relationships
+  chorki_device_authorizations.customer: uid @reverse .
+  chorki_device_authorizations.device: uid @reverse .
+}
+
+# =============================================================================
+# VIDEO METADATA TYPE
+# =============================================================================
+type chorki_video_metadata {
+  chorki_video_metadata.id: string @index(exact) .
+  chorki_video_metadata.content_id: int @index(int) .
+  chorki_video_metadata.quality: string @index(exact) .
+  chorki_video_metadata.resolution: string @index(exact) .
+  chorki_video_metadata.codec: string @index(exact) .
+  chorki_video_metadata.bitrate: int @index(int) .
+  chorki_video_metadata.file_size: int @index(int) .
+  chorki_video_metadata.duration: int @index(int) .
+  chorki_video_metadata.file_url: string .
+  chorki_video_metadata.is_hls: bool @index(bool) .
+  chorki_video_metadata.is_dash: bool @index(bool) .
+  chorki_video_metadata.created_at: datetime @index(hour) .
+  chorki_video_metadata.updated_at: datetime .
+  
+  # Relationships
+  chorki_video_metadata.content: uid @reverse .
+}
+
+# =============================================================================
+# GLOBAL PREDICATES (for extensibility)
+# =============================================================================
+created_at: datetime @index(hour) .
+updated_at: datetime .
+is_deleted: bool @index(bool) .
+tags: [string] @index(exact) .
+metadata: string .
