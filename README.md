@@ -64,7 +64,9 @@ git clone <repository-url>
 
    # Load schema
 
-   curl -X POST localhost:8080/alter --data-binary '@simple_schema.dgraph'## API Endpoints
+   curl -X POST localhost:8080/admin/schema --data-binary '@dgraph/schema.graphql'
+
+## API Endpoints
 
    
 

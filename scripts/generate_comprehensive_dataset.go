@@ -469,6 +469,6 @@ func main() {
 	}
 	
 	fmt.Println("\n🎯 Ready to load data into Dgraph!")
-	fmt.Println("   1. Update schema: curl -X POST localhost:8080/admin/schema --data-binary '@schema.dgraph'")
+	fmt.Println("   1. Update schema: curl -X POST localhost:8080/admin/schema --data-binary '@dgraph/schema.graphql'")
 	fmt.Println("   2. Load data: curl -X POST localhost:8080/mutate?commitNow=true -H 'Content-Type: application/json' --data-binary '@comprehensive_dataset.json'")
 }

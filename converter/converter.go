@@ -1,3 +1,21 @@
+/*
+Package converter provides the core functionality for converting JSON queries to Dgraph Query Language (DQL).
+
+This package handles the complex transformation of structured JSON query objects into executable DQL strings,
+including support for:
+- Multi-entity queries with relationship traversal
+- Complex nested filtering with AND/OR logic
+- Various operators (comparison, text search, array operations)
+- Query complexity analysis and optimization
+- Schema validation and field mapping
+
+Architecture:
+- Converter: Main orchestrator that coordinates the conversion process
+- Entity Analysis: Determines which Dgraph entity types are involved
+- Filter Building: Constructs DQL filter expressions from JSON conditions
+- Field Selection: Generates appropriate field selections for each entity
+- DQL Generation: Produces the final executable DQL query string
+*/
 package converter
 
 import (
@@ -10,16 +28,33 @@ import (
 	"strings"
 )
 
-// Converter handles the conversion from JSON query to DQL
+// =============================================================================
+// CORE CONVERTER STRUCT AND INITIALIZATION
+// =============================================================================
+
+// Converter orchestrates the conversion from JSON queries to DQL format.
+// It maintains schema mappings, operator definitions, and analysis tools
+// needed for the transformation process.
 type Converter struct {
-	schema             *models.SchemaInfo
-	operators          map[string]string
+	// Schema configuration defining entity types, fields, and relationships
+	schema *models.SchemaInfo
+
+	// Mapping of JSON operators to DQL functions (e.g., "=" -> "eq")
+	operators map[string]string
+
+	// Analyzer for evaluating query complexity and performance implications
 	complexityAnalyzer *analyzer.ComplexityAnalyzer
-	versionFields      map[string]string
-	reversePredicates  map[string]string
+
+	// Special handling configuration for version fields (e.g., app_version)
+	versionFields map[string]string
+
+	// Mapping for reverse predicate relationships in Dgraph
+	reversePredicates map[string]string
 }
 
-// NewConverter creates a new converter instance
+// NewConverter creates a new converter instance with all necessary configurations.
+// It initializes the converter with schema information, operator mappings,
+// and analysis tools required for JSON to DQL conversion.
 func NewConverter() *Converter {
 	schema := config.GetSchemaConfig()
 	return &Converter{
@@ -31,18 +66,30 @@ func NewConverter() *Converter {
 	}
 }
 
-// ConvertToDQL converts a JSON query to DQL format with complexity analysis
+// =============================================================================
+// PUBLIC API METHODS
+// =============================================================================
+
+// ConvertToDQL performs the main conversion from JSON query to DQL format.
+// This is the primary entry point that orchestrates the entire conversion process:
+// 1. Analyzes query complexity to prevent performance issues
+// 2. Identifies all entity types involved in the query
+// 3. Builds appropriate filters for each entity type
+// 4. Constructs the complete DQL query structure
+//
+// Returns a structured DQL query object that can be converted to a string
+// or executed directly against Dgraph.
 func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery, error) {
-	// Analyze query complexity first
+	// Step 1: Complexity Analysis - Prevent overly complex queries that could impact performance
 	complexityScore := c.complexityAnalyzer.AnalyzeComplexity(jsonQuery)
 	if !complexityScore.IsAcceptable {
 		return nil, fmt.Errorf("query too complex: %s", complexityScore.Warning)
 	}
 
-	// Get all entity types involved in the query
+	// Step 2: Entity Discovery - Determine which Dgraph entities this query touches
 	involvedEntities := c.getInvolvedEntityTypes(jsonQuery)
 
-	// Generate queries for each involved entity type
+	// Step 3: Query Construction - Build DQL queries for each involved entity
 	var queries []models.EntityQuery
 	for _, entityType := range involvedEntities {
 		filter, err := c.buildFilterForEntity(jsonQuery, entityType)
@@ -50,6 +97,7 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 			return nil, fmt.Errorf("error building filter for %s: %v", entityType, err)
 		}
 
+		// Only include entities that have applicable filters
 		if filter != "" {
 			query := models.EntityQuery{
 				Name:     c.getQueryName(entityType),
@@ -65,24 +113,75 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 	return &models.DQLQuery{Queries: queries}, nil
 }
 
-// getPrimaryEntity determines the primary entity type based on field frequency
+// =============================================================================
+// ENTITY ANALYSIS AND DISCOVERY
+// =============================================================================
+
+// getInvolvedEntityTypes determines which entity types are referenced in the query.
+// This method analyzes the JSON query structure to identify all Dgraph entity types
+// that need to be included in the DQL query. It recursively traverses all groups
+// and filters to build a comprehensive list of involved entities.
+func (c *Converter) getInvolvedEntityTypes(jsonQuery *models.JSONQuery) []string {
+	entityTypeMap := make(map[string]bool)
+
+	// Recursively analyze all groups and filters to collect entity types
+	c.collectEntityTypesFromGroups(jsonQuery.Groups, entityTypeMap)
+
+	var result []string
+	for entityType := range entityTypeMap {
+		result = append(result, entityType)
+	}
+
+	// Fallback: If no entities found, default to customers as the primary entity
+	if len(result) == 0 {
+		result = append(result, "chorki_customers")
+	}
+
+	return result
+}
+
+// collectEntityTypesFromGroups recursively traverses groups to identify entity types.
+// This helper method performs a depth-first search through the query structure,
+// examining each filter to determine which Dgraph entities are involved.
+func (c *Converter) collectEntityTypesFromGroups(groups []models.Group, entityTypeMap map[string]bool) {
+	for _, group := range groups {
+		// Analyze filters in the current group
+		for _, filter := range group.Filters {
+			if mappings, exists := c.schema.FieldMappings[filter.Field]; exists {
+				// Add all entity types that this field maps to
+				for _, mapping := range mappings {
+					entityTypeMap[mapping.EntityType] = true
+				}
+			}
+		}
+
+		// Recursively process nested groups
+		if len(group.Groups) > 0 {
+			c.collectEntityTypesFromGroups(group.Groups, entityTypeMap)
+		}
+	}
+}
+
+// getPrimaryEntity determines the primary entity type based on field frequency.
+// This method helps optimize query structure by identifying the most referenced
+// entity type, which can be used for query planning and optimization.
 func (c *Converter) getPrimaryEntity(jsonQuery *models.JSONQuery) string {
 	entityCount := make(map[string]int)
 
 	// Count field occurrences for each entity type
 	c.countEntityTypesFromGroups(jsonQuery.Groups, entityCount)
 
-	// Find the entity with the most fields
+	// Find the entity with the most field references
 	var primaryEntity string
 	maxCount := 0
 
-	// Prioritize customers as the default primary entity
+	// Prioritize customers as the default primary entity for business logic
 	if count, exists := entityCount["chorki_customers"]; exists && count > 0 {
 		primaryEntity = "chorki_customers"
 		maxCount = count
 	}
 
-	// Check if any other entity has significantly more fields
+	// Check if any other entity has significantly more field references
 	for entityType, count := range entityCount {
 		if count > maxCount {
 			primaryEntity = entityType
@@ -90,7 +189,7 @@ func (c *Converter) getPrimaryEntity(jsonQuery *models.JSONQuery) string {
 		}
 	}
 
-	// Default to customers if no clear primary entity
+	// Default fallback to customers if no clear primary entity emerges
 	if primaryEntity == "" {
 		primaryEntity = "chorki_customers"
 	}
@@ -98,7 +197,9 @@ func (c *Converter) getPrimaryEntity(jsonQuery *models.JSONQuery) string {
 	return primaryEntity
 }
 
-// countEntityTypesFromGroups recursively counts entity types from groups
+// countEntityTypesFromGroups recursively counts entity type occurrences.
+// This helper method traverses the query structure to count how many times
+// each entity type is referenced, which helps in determining query priorities.
 func (c *Converter) countEntityTypesFromGroups(groups []models.Group, entityCount map[string]int) {
 	for _, group := range groups {
 		// Count filters in this group
@@ -117,46 +218,13 @@ func (c *Converter) countEntityTypesFromGroups(groups []models.Group, entityCoun
 	}
 }
 
-// getInvolvedEntityTypes determines which entity types are referenced in the query
-func (c *Converter) getInvolvedEntityTypes(jsonQuery *models.JSONQuery) []string {
-	entityTypeMap := make(map[string]bool)
+// =============================================================================
+// FILTER CONSTRUCTION
+// =============================================================================
 
-	// Recursively check all groups and filters
-	c.collectEntityTypesFromGroups(jsonQuery.Groups, entityTypeMap)
-
-	var result []string
-	for entityType := range entityTypeMap {
-		result = append(result, entityType)
-	}
-
-	// If no entities found, default to customers
-	if len(result) == 0 {
-		result = append(result, "chorki_customers")
-	}
-
-	return result
-}
-
-// collectEntityTypesFromGroups recursively collects entity types from groups
-func (c *Converter) collectEntityTypesFromGroups(groups []models.Group, entityTypeMap map[string]bool) {
-	for _, group := range groups {
-		// Check filters in this group
-		for _, filter := range group.Filters {
-			if mappings, exists := c.schema.FieldMappings[filter.Field]; exists {
-				for _, mapping := range mappings {
-					entityTypeMap[mapping.EntityType] = true
-				}
-			}
-		}
-
-		// Recursively check nested groups
-		if len(group.Groups) > 0 {
-			c.collectEntityTypesFromGroups(group.Groups, entityTypeMap)
-		}
-	}
-}
-
-// buildFilterForEntity builds the DQL filter string for a specific entity type
+// buildFilterForEntity constructs DQL filter expressions for a specific entity type.
+// This method takes a JSON query and creates the appropriate @filter() clause
+// for the specified entity, ensuring type-safe and optimized filter generation.
 func (c *Converter) buildFilterForEntity(jsonQuery *models.JSONQuery, entityType string) (string, error) {
 	filter := c.buildGroupsFilter(jsonQuery.Groups, jsonQuery.CombineWith, entityType)
 	if filter == "" {
@@ -165,10 +233,13 @@ func (c *Converter) buildFilterForEntity(jsonQuery *models.JSONQuery, entityType
 	return fmt.Sprintf("@filter(%s)", filter), nil
 }
 
-// buildGroupsFilter builds filter string for a list of groups
+// buildGroupsFilter constructs filter strings for multiple groups with logical operators.
+// This method combines multiple group filters using the specified logical operator
+// (AND/OR) and handles parentheses for proper query evaluation precedence.
 func (c *Converter) buildGroupsFilter(groups []models.Group, combineWith, entityType string) string {
 	var conditions []string
 
+	// Process each group and collect valid conditions
 	for _, group := range groups {
 		condition := c.buildGroupFilter(group, entityType)
 		if condition != "" {
@@ -176,27 +247,33 @@ func (c *Converter) buildGroupsFilter(groups []models.Group, combineWith, entity
 		}
 	}
 
+	// Return empty string if no valid conditions found
 	if len(conditions) == 0 {
 		return ""
 	}
 
+	// Single condition doesn't need parentheses or operators
 	if len(conditions) == 1 {
 		return conditions[0]
 	}
 
+	// Determine logical operator (default to AND for safety)
 	operator := " AND "
 	if strings.ToUpper(combineWith) == "OR" {
 		operator = " OR "
 	}
 
+	// Combine conditions with proper parentheses for complex expressions
 	return "(" + strings.Join(conditions, operator) + ")"
 }
 
-// buildGroupFilter builds filter string for a single group
+// buildGroupFilter constructs filter expressions for a single group.
+// This method processes all filters within a group and applies entity-specific
+// optimizations. It also handles nested groups recursively.
 func (c *Converter) buildGroupFilter(group models.Group, entityType string) string {
 	var conditions []string
 
-	// Build conditions from filters
+	// Build conditions from individual filters in this group
 	for _, filter := range group.Filters {
 		condition := c.buildFilterCondition(filter, entityType)
 		if condition != "" {
@@ -204,12 +281,13 @@ func (c *Converter) buildGroupFilter(group models.Group, entityType string) stri
 		}
 	}
 
-	// Apply subscription filter optimization if applicable
+	// Apply entity-specific filter optimizations
 	if entityType == "chorki_subscriptions" {
 		conditions = c.optimizeSubscriptionFilters(conditions, group)
 	}
 
-	// Build conditions from nested groups
+	// Process nested groups recursively
+	// Process nested groups recursively
 	if len(group.Groups) > 0 {
 		nestedCondition := c.buildGroupsFilter(group.Groups, group.CombineWith, entityType)
 		if nestedCondition != "" {
@@ -217,25 +295,31 @@ func (c *Converter) buildGroupFilter(group models.Group, entityType string) stri
 		}
 	}
 
+	// Return empty string if no conditions were generated
 	if len(conditions) == 0 {
 		return ""
 	}
 
+	// Single condition doesn't need additional parentheses or operators
 	if len(conditions) == 1 {
 		return conditions[0]
 	}
 
+	// Determine logical operator for combining conditions within this group
 	operator := " AND "
 	if strings.ToUpper(group.CombineWith) == "OR" {
 		operator = " OR "
 	}
 
+	// Combine all conditions with proper parentheses
 	return "(" + strings.Join(conditions, operator) + ")"
 }
 
-// optimizeSubscriptionFilters optimizes subscription filters to avoid overly restrictive conditions
+// optimizeSubscriptionFilters applies business logic optimizations for subscription queries.
+// This method identifies potentially conflicting filter conditions (e.g., Premium + trial)
+// and suggests optimizations to prevent overly restrictive queries that return no results.
 func (c *Converter) optimizeSubscriptionFilters(conditions []string, group models.Group) []string {
-	// Check for Premium + trial combination and suggest optimization
+	// Analyze conditions for business logic conflicts
 	var hasPackagePremium, hasStatusTrial bool
 	var trialIndex int
 
@@ -249,32 +333,40 @@ func (c *Converter) optimizeSubscriptionFilters(conditions []string, group model
 		}
 	}
 
-	// If we have Premium package AND trial status with AND operator, suggest optimization
+	// Detect Premium + trial combination with AND operator (likely to return no results)
 	if hasPackagePremium && hasStatusTrial && strings.ToUpper(group.CombineWith) == "AND" {
-		// Replace the trial condition with a more inclusive status condition
+		// Create optimized conditions array
 		optimizedConditions := make([]string, len(conditions))
 		copy(optimizedConditions, conditions)
 
-		// Replace trial-only status with active OR trial
+		// Replace restrictive trial-only status with more inclusive active OR trial
 		optimizedConditions[trialIndex] = `(eq(chorki_subscriptions.status, "trial") OR eq(chorki_subscriptions.status, "active"))`
 
-		// Log this optimization (in production, you might want to use a logger)
-		// fmt.Printf("OPTIMIZATION: Subscription filter expanded from trial-only to trial OR active for better results\n")
+		// Note: In production, consider logging this optimization for monitoring
+		// log.Printf("OPTIMIZATION: Subscription filter expanded trial-only to trial OR active for entity %s", entityType)
 
 		return optimizedConditions
 	}
 
+	// No optimization needed, return original conditions
 	return conditions
 }
 
-// buildFilterCondition builds a single filter condition
+// =============================================================================
+// INDIVIDUAL FILTER CONDITION CONSTRUCTION
+// =============================================================================
+
+// buildFilterCondition constructs a single DQL filter condition from a JSON filter.
+// This method maps JSON filter fields to their corresponding Dgraph entity fields
+// and generates the appropriate DQL syntax based on the operator and data type.
 func (c *Converter) buildFilterCondition(filter models.Filter, entityType string) string {
-	// Find field mapping for this entity type
+	// Look up the field mapping for the specified entity type
 	mappings, exists := c.schema.FieldMappings[filter.Field]
 	if !exists {
-		return ""
+		return "" // Field not found in schema
 	}
 
+	// Find the specific mapping for this entity type
 	var relevantMapping *models.FieldMapping
 	for _, mapping := range mappings {
 		if mapping.EntityType == entityType {
@@ -283,20 +375,25 @@ func (c *Converter) buildFilterCondition(filter models.Filter, entityType string
 		}
 	}
 
+	// No mapping found for this entity type
 	if relevantMapping == nil {
 		return ""
 	}
 
+	// Build the actual DQL condition using the mapping
 	return c.buildDQLCondition(relevantMapping, filter)
 }
 
-// buildDQLCondition builds the actual DQL condition string
+// buildDQLCondition generates the final DQL condition string from a field mapping and filter.
+// This method handles all supported operators and ensures proper DQL syntax and data type handling.
 func (c *Converter) buildDQLCondition(mapping *models.FieldMapping, filter models.Filter) string {
+	// Look up the DQL function for this operator
 	dqlFunction := c.operators[filter.Op]
 	if dqlFunction == "" {
-		return ""
+		return "" // Unsupported operator
 	}
 
+	// Handle different operator types with specialized logic
 	switch filter.Op {
 	case "IN":
 		return c.buildInCondition(mapping, filter)
@@ -319,15 +416,21 @@ func (c *Converter) buildDQLCondition(mapping *models.FieldMapping, filter model
 	case "ENDS_WITH":
 		return c.buildStringPatternCondition(mapping, filter, "ends_with")
 	default:
-		return ""
+		return "" // Unsupported operator
 	}
 }
 
-// buildInCondition builds IN condition (handles arrays and complex objects)
+// =============================================================================
+// SPECIALIZED CONDITION BUILDERS
+// =============================================================================
+
+// buildInCondition constructs DQL conditions for IN operations with multiple values.
+// This method handles various data types including arrays, complex objects, and single values.
+// It supports business logic for complex structures like watched_content filtering.
 func (c *Converter) buildInCondition(mapping *models.FieldMapping, filter models.Filter) string {
 	switch v := filter.Value.(type) {
 	case []interface{}:
-		// Handle simple array values
+		// Handle array of simple values (strings, numbers, etc.)
 		var conditions []string
 		for _, item := range v {
 			value := c.formatValue(item, mapping.DataType)
@@ -335,6 +438,8 @@ func (c *Converter) buildInCondition(mapping *models.FieldMapping, filter models
 				conditions = append(conditions, fmt.Sprintf("eq(%s, %s)", mapping.DgraphField, value))
 			}
 		}
+
+		// Combine multiple conditions with OR logic
 		if len(conditions) > 1 {
 			return "(" + strings.Join(conditions, " OR ") + ")"
 		} else if len(conditions) == 1 {
@@ -342,11 +447,11 @@ func (c *Converter) buildInCondition(mapping *models.FieldMapping, filter models
 		}
 
 	case map[string]interface{}:
-		// Handle complex objects like watched_content
+		// Handle complex nested objects (e.g., watched_content with content_type and ids)
 		return c.buildComplexObjectCondition(mapping, v)
 
 	default:
-		// Handle single value as if it's an array with one element
+		// Handle single value by treating it as a single-element array
 		value := c.formatValue(v, mapping.DataType)
 		if value != "" {
 			return fmt.Sprintf("eq(%s, %s)", mapping.DgraphField, value)
@@ -356,16 +461,19 @@ func (c *Converter) buildInCondition(mapping *models.FieldMapping, filter models
 	return ""
 }
 
-// buildComplexObjectCondition handles complex object conditions like watched_content
+// buildComplexObjectCondition handles advanced object-based filtering for business entities.
+// This method supports complex queries like filtering watched content by both content type
+// and specific content IDs, enabling sophisticated user behavior analysis.
 func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, obj map[string]interface{}) string {
+	// Special handling for watched_content queries
 	if mapping.JSONField == "watched_content" {
-		// Extract content_type and ids from the complex object
+		// Extract content_type and content IDs from the filter object
 		if contentType, exists := obj["content_type"]; exists {
 			if ids, idsExist := obj["ids"]; idsExist {
 				if idArray, ok := ids.([]interface{}); ok {
 					var conditions []string
 
-					// Add content type condition if mapping exists
+					// Add content type condition if mapping exists in schema
 					if ctMappings, ctExists := c.schema.FieldMappings["content_type"]; ctExists {
 						for _, ctMapping := range ctMappings {
 							if ctMapping.EntityType == mapping.EntityType {
@@ -376,7 +484,7 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 						}
 					}
 
-					// Add ID conditions
+					// Build conditions for content IDs using uid_in for efficient batch matching
 					var idConditions []string
 					for _, id := range idArray {
 						idValue := c.formatValue(id, "int")
@@ -385,10 +493,12 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 						}
 					}
 
+					// Generate uid_in condition for batch ID matching (more efficient than multiple eq)
 					if len(idConditions) > 0 {
 						conditions = append(conditions, fmt.Sprintf("uid_in(%s, %s)", mapping.DgraphField, strings.Join(idConditions, ", ")))
 					}
 
+					// Combine content type and ID conditions with AND logic
 					if len(conditions) > 0 {
 						return "(" + strings.Join(conditions, " AND ") + ")"
 					}
@@ -397,54 +507,68 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 		}
 	}
 
+	// Return empty string if object structure doesn't match expected patterns
 	return ""
 }
 
-// buildComparisonCondition builds comparison conditions (=, >, <, etc.)
+// buildComparisonCondition constructs DQL conditions for comparison operators.
+// This method handles standard comparison operations (=, >, <, >=, <=, !=) with
+// special handling for version fields and data type-specific formatting.
 func (c *Converter) buildComparisonCondition(mapping *models.FieldMapping, filter models.Filter, dqlFunction string) string {
-	// Check if this is a version field that needs special handling
+	// Check for special version field handling (numeric version comparisons)
 	if mode, isVersionField := c.versionFields[filter.Field]; isVersionField && mode == "numeric" {
 		return c.buildVersionComparisonCondition(mapping, filter, dqlFunction)
 	}
 
+	// Format the value according to the field's data type
 	value := c.formatValue(filter.Value, mapping.DataType)
 	if value == "" {
-		return ""
+		return "" // Invalid or unsupported value
 	}
 
-	// Handle != operator specially
+	// Handle inequality operator with NOT + eq for better DQL performance
 	if filter.Op == "!=" {
 		return fmt.Sprintf("NOT eq(%s, %s)", mapping.DgraphField, value)
 	}
 
+	// Standard comparison condition
 	return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 }
 
-// buildVersionComparisonCondition handles version field comparisons using numeric conversion
+// buildVersionComparisonCondition handles specialized version field comparisons.
+// Version fields often need numeric conversion for proper comparison semantics
+// (e.g., comparing "1.2.3" vs "1.10.0" requires numeric interpretation).
 func (c *Converter) buildVersionComparisonCondition(mapping *models.FieldMapping, filter models.Filter, dqlFunction string) string {
-	// Convert version string to numeric value
+	// Convert version string to numeric value for accurate comparison
 	versionStr, ok := filter.Value.(string)
 	if !ok {
-		// Fallback to regular comparison if not a string
+		// Fallback to regular comparison if value is not a string
 		value := c.formatValue(filter.Value, mapping.DataType)
 		return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 	}
 
+	// Attempt numeric conversion of version string (e.g., "1.2.3" -> 10203)
 	numericVersion, err := utils.ConvertVersionToNumeric(versionStr)
 	if err != nil {
-		// If conversion fails, fallback to string comparison with warning
-		// In production, you might want to log this warning
+		// If conversion fails, fallback to string comparison
+		// Note: In production, consider logging this conversion failure
 		value := c.formatValue(filter.Value, mapping.DataType)
 		return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 	}
 
-	// Use numeric comparison - note: we need a numeric version of the field in schema
-	// For now, assume we have a parallel numeric field like app_version_numeric
+	// Use numeric field for comparison (assumes schema has parallel numeric fields)
+	// Example: app_version -> app_version_numeric
 	numericField := mapping.DgraphField + "_numeric"
 	return fmt.Sprintf("%s(%s, %d)", dqlFunction, numericField, numericVersion)
 }
 
-// formatValue formats a value according to its data type for DQL
+// =============================================================================
+// VALUE FORMATTING AND TYPE CONVERSION
+// =============================================================================
+
+// formatValue converts and formats values according to their Dgraph data types.
+// This method ensures proper DQL syntax and handles type coercion, escaping,
+// and validation for all supported data types.
 func (c *Converter) formatValue(value interface{}, dataType string) string {
 	if value == nil {
 		return ""
@@ -452,12 +576,15 @@ func (c *Converter) formatValue(value interface{}, dataType string) string {
 
 	switch dataType {
 	case "string":
+		// Handle string values with proper escaping
 		if str, ok := value.(string); ok {
 			return fmt.Sprintf(`"%s"`, strings.ReplaceAll(str, `"`, `\"`))
 		}
+		// Convert non-string values to strings
 		return fmt.Sprintf(`"%v"`, value)
 
 	case "int":
+		// Handle various numeric types and convert to integer
 		switch v := value.(type) {
 		case int:
 			return strconv.Itoa(v)
@@ -468,9 +595,11 @@ func (c *Converter) formatValue(value interface{}, dataType string) string {
 				return strconv.Itoa(i)
 			}
 		}
+		// Fallback: attempt direct conversion
 		return fmt.Sprintf("%v", value)
 
 	case "float":
+		// Handle floating-point values with precision control
 		switch v := value.(type) {
 		case float64:
 			return strconv.FormatFloat(v, 'f', -1, 64)
@@ -481,20 +610,30 @@ func (c *Converter) formatValue(value interface{}, dataType string) string {
 				return strconv.FormatFloat(f, 'f', -1, 64)
 			}
 		}
+		// Fallback: attempt direct conversion
 		return fmt.Sprintf("%v", value)
 
 	case "bool":
+		// Handle boolean values with safe conversion
 		if b, ok := value.(bool); ok {
 			return strconv.FormatBool(b)
 		}
+		// Default to false for invalid boolean values
 		return "false"
 
 	default:
+		// Default case: treat as string with quotes
 		return fmt.Sprintf(`"%v"`, value)
 	}
 }
 
-// getQueryName generates a query name based on entity type
+// =============================================================================
+// QUERY NAMING AND FIELD SELECTION
+// =============================================================================
+
+// getQueryName generates appropriate query names based on entity types.
+// This method creates human-readable query names that follow DQL conventions
+// and remove internal prefixes for cleaner query structure.
 func (c *Converter) getQueryName(entityType string) string {
 	switch entityType {
 	case "chorki_customers":
@@ -508,11 +647,14 @@ func (c *Converter) getQueryName(entityType string) string {
 	case "chorki_devices":
 		return "devices"
 	default:
+		// Generic case: remove common prefixes
 		return strings.ReplaceAll(entityType, "chorki_", "")
 	}
 }
 
-// buildFieldsSelection builds the fields selection for an entity type
+// buildFieldsSelection constructs the field selection clause for DQL queries.
+// This method determines which fields to include in the query response based on
+// entity type and configured default fields from the schema.
 func (c *Converter) buildFieldsSelection(entityType string) string {
 	fields := c.schema.DefaultFields[entityType]
 	if len(fields) == 0 {
@@ -520,16 +662,20 @@ func (c *Converter) buildFieldsSelection(entityType string) string {
 	}
 
 	var fieldLines []string
+	// Add main entity fields with proper indentation
 	for _, field := range fields {
 		fieldLines = append(fieldLines, "    "+field)
 	}
 
-	// Add related entities if they exist
+	// Add related entity fields through relationship traversal
 	if relationships, exists := c.schema.Relationships[entityType]; exists {
 		for _, relatedEntity := range relationships {
 			relatedFields := c.schema.DefaultFields[relatedEntity]
 			if len(relatedFields) > 0 {
+				// Get the relationship predicate name
 				relationName := c.getRelationshipName(entityType, relatedEntity)
+
+				// Add related entity block with nested fields
 				fieldLines = append(fieldLines, "")
 				fieldLines = append(fieldLines, fmt.Sprintf("    %s {", relationName))
 				for _, relField := range relatedFields {
@@ -543,10 +689,12 @@ func (c *Converter) buildFieldsSelection(entityType string) string {
 	return strings.Join(fieldLines, "\n")
 }
 
-// getRelationshipName returns the relationship predicate name between two entities
+// getRelationshipName determines the correct DQL predicate name for entity relationships.
+// This method handles both forward and reverse relationships using Dgraph's
+// tilde (~) notation for reverse edges and maintains consistent naming conventions.
 func (c *Converter) getRelationshipName(fromEntity, toEntity string) string {
 	switch {
-	// Forward relationships from customers
+	// Forward relationships from customers to related entities
 	case fromEntity == "chorki_customers" && toEntity == "chorki_subscriptions":
 		return "chorki_customers.subscriptions"
 	case fromEntity == "chorki_customers" && toEntity == "chorki_watch_histories":
@@ -554,31 +702,38 @@ func (c *Converter) getRelationshipName(fromEntity, toEntity string) string {
 	case fromEntity == "chorki_customers" && toEntity == "chorki_devices":
 		return "chorki_customers.devices"
 
-	// Reverse relationships to customers
+	// Reverse relationships back to customers (using ~ notation)
 	case fromEntity == "chorki_subscriptions" && toEntity == "chorki_customers":
-		return "~chorki_customers.subscriptions" // reverse edge
+		return "~chorki_customers.subscriptions"
 	case fromEntity == "chorki_devices" && toEntity == "chorki_customers":
-		return "~chorki_customers.devices" // reverse edge
+		return "~chorki_customers.devices"
 	case fromEntity == "chorki_watch_histories" && toEntity == "chorki_customers":
-		return "~chorki_customers.watch_histories" // reverse edge
+		return "~chorki_customers.watch_histories"
 
 	// Content relationships
 	case fromEntity == "chorki_watch_histories" && toEntity == "chorki_contents":
 		return "chorki_watch_histories.content"
 	case fromEntity == "chorki_contents" && toEntity == "chorki_watch_histories":
-		return "~chorki_watch_histories.content" // reverse edge
+		return "~chorki_watch_histories.content"
 
-	// Default fallback - use simple name for relationships
+	// Default fallback - construct relationship name dynamically
 	default:
-		// For reverse relationships, check if it should be a reverse predicate
+		// Check if this should be a reverse relationship
 		if toEntity == "chorki_customers" {
 			return "customers" // Simple name for reverse edge
 		}
+		// Generic relationship name: remove prefix and use simple name
 		return strings.ReplaceAll(toEntity, "chorki_", "")
 	}
 }
 
-// GenerateDQLString generates the final DQL query string
+// =============================================================================
+// FINAL DQL GENERATION AND UTILITY METHODS
+// =============================================================================
+
+// GenerateDQLString converts a structured DQL query object into executable DQL string.
+// This method handles final formatting, ensures proper DQL syntax, and creates
+// a well-formatted query ready for execution against Dgraph.
 func (c *Converter) GenerateDQLString(dqlQuery *models.DQLQuery) string {
 	if len(dqlQuery.Queries) == 0 {
 		return "{}"
@@ -586,6 +741,7 @@ func (c *Converter) GenerateDQLString(dqlQuery *models.DQLQuery) string {
 
 	var queryBlocks []string
 
+	// Format each query block with proper indentation and structure
 	for _, query := range dqlQuery.Queries {
 		block := fmt.Sprintf("  %s(func: %s) %s {\n%s\n  }",
 			query.Name,
@@ -596,23 +752,35 @@ func (c *Converter) GenerateDQLString(dqlQuery *models.DQLQuery) string {
 		queryBlocks = append(queryBlocks, block)
 	}
 
+	// Combine all query blocks into final DQL
 	return "{\n" + strings.Join(queryBlocks, "\n\n") + "\n}"
 }
 
-// AnalyzeComplexity returns the complexity analysis for a given query
+// AnalyzeComplexity returns the complexity analysis for a given query.
+// This method exposes the internal complexity analyzer for external use,
+// allowing callers to understand query performance implications before execution.
 func (c *Converter) AnalyzeComplexity(jsonQuery *models.JSONQuery) *analyzer.ComplexityScore {
 	return c.complexityAnalyzer.AnalyzeComplexity(jsonQuery)
 }
 
-// GetComplexityLimits returns the current complexity limits
+// GetComplexityLimits returns the current complexity limits configuration.
+// Useful for clients to understand the boundaries of acceptable query complexity
+// and implement appropriate validation or optimization strategies.
 func (c *Converter) GetComplexityLimits() map[string]int {
 	return c.complexityAnalyzer.GetComplexityLimits()
 }
 
-// buildNotInCondition builds NOT IN condition
+// =============================================================================
+// SPECIALIZED CONDITION BUILDERS (CONTINUED)
+// =============================================================================
+
+// buildNotInCondition constructs DQL conditions for NOT_IN operations.
+// This method creates negated conditions for excluding specific values,
+// handling both arrays and single values with proper NOT logic.
 func (c *Converter) buildNotInCondition(mapping *models.FieldMapping, filter models.Filter) string {
 	switch v := filter.Value.(type) {
 	case []interface{}:
+		// Handle array of values to exclude
 		var conditions []string
 		for _, item := range v {
 			value := c.formatValue(item, mapping.DataType)
@@ -620,12 +788,14 @@ func (c *Converter) buildNotInCondition(mapping *models.FieldMapping, filter mod
 				conditions = append(conditions, fmt.Sprintf("eq(%s, %s)", mapping.DgraphField, value))
 			}
 		}
+		// Negate multiple conditions with proper grouping
 		if len(conditions) > 1 {
 			return "NOT (" + strings.Join(conditions, " OR ") + ")"
 		} else if len(conditions) == 1 {
 			return "NOT " + conditions[0]
 		}
 	default:
+		// Handle single value to exclude
 		value := c.formatValue(v, mapping.DataType)
 		if value != "" {
 			return fmt.Sprintf("NOT eq(%s, %s)", mapping.DgraphField, value)
@@ -664,15 +834,18 @@ func (c *Converter) buildRegexCondition(mapping *models.FieldMapping, filter mod
 func (c *Converter) buildBetweenCondition(mapping *models.FieldMapping, filter models.Filter) string {
 	switch v := filter.Value.(type) {
 	case []interface{}:
+		// Expect exactly two values: [min, max]
 		if len(v) == 2 {
 			min := c.formatValue(v[0], mapping.DataType)
 			max := c.formatValue(v[1], mapping.DataType)
 			if min != "" && max != "" {
+				// Combine min and max conditions with AND logic
 				return fmt.Sprintf("(ge(%s, %s) AND le(%s, %s))",
 					mapping.DgraphField, min, mapping.DgraphField, max)
 			}
 		}
 	case map[string]interface{}:
+		// Handle object-style range specification: {"min": value, "max": value}
 		if minVal, hasMin := v["min"]; hasMin {
 			if maxVal, hasMax := v["max"]; hasMax {
 				min := c.formatValue(minVal, mapping.DataType)
