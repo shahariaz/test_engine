@@ -7,7 +7,7 @@
 type chorki_customers {
   chorki_customers.id: string @index(exact) .
   chorki_customers.name: string @index(term, fulltext) .
-  chorki_customers.email: string @index(hash, exact) .
+  chorki_customers.email: string @index(hash, exact, fulltext) .
   chorki_customers.phone: string @index(exact) .
   chorki_customers.age: int @index(int) .
   chorki_customers.country: string @index(exact) .

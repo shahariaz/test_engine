@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"jsonTodql/handlers"
 	"log"
 
@@ -10,6 +11,9 @@ import (
 func main() {
 	router := gin.Default()
 	queryHandler := handlers.NewQueryHandler()
+
+	// Add a simple welcome message
+	fmt.Println("🚀 Starting Chorki JSON-to-DQL API Server...")
 
 	api := router.Group("/api/v1")
 	{

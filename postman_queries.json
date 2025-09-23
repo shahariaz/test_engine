@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Basic Customer Query",
+    "description": "Get all customers with basic info",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers { chorki_customers.id chorki_customers.name chorki_customers.email chorki_customers.country chorki_customers.city } }"
+    }
+  },
+  {
+    "name": "Customers by Country",
+    "description": "Get customers from specific country",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers(func: eq(chorki_customers.country, \"USA\")) { chorki_customers.id chorki_customers.name chorki_customers.email chorki_customers.city chorki_customers.device } }"
+    }
+  },
+  {
+    "name": "Active Customers Only",
+    "description": "Get only active customers",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers(func: eq(chorki_customers.is_active, true)) { chorki_customers.id chorki_customers.name chorki_customers.email chorki_customers.country chorki_customers.last_login_days } }"
+    }
+  },
+  {
+    "name": "Customers by Age Range",
+    "description": "Get customers in specific age range",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers(func: ge(chorki_customers.age, 25)) @filter(le(chorki_customers.age, 35)) { chorki_customers.id chorki_customers.name chorki_customers.age chorki_customers.country chorki_customers.device } }"
+    }
+  },
+  {
+    "name": "Premium Subscriptions",
+    "description": "Get all premium subscriptions",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_subscriptions(func: eq(chorki_subscriptions.package, \"Premium\")) { chorki_subscriptions.id chorki_subscriptions.customer_id chorki_subscriptions.status chorki_subscriptions.price chorki_subscriptions.auto_renewal } }"
+    }
+  },
+  {
+    "name": "Content by Genre",
+    "description": "Get content with specific genre",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_contents(func: eq(chorki_contents.genre, \"Action\")) { chorki_contents.id chorki_contents.title chorki_contents.type chorki_contents.genre chorki_contents.rating chorki_contents.duration } }"
+    }
+  },
+  {
+    "name": "High-Rated Movies",
+    "description": "Get movies with high ratings",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_contents(func: ge(chorki_contents.rating, 8.0)) @filter(eq(chorki_contents.type, \"movie\")) { chorki_contents.title chorki_contents.rating chorki_contents.genre chorki_contents.release_year chorki_contents.director } }"
+    }
+  },
+  {
+    "name": "Watch History by Customer",
+    "description": "Get watch history for specific customer",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_watch_histories(func: eq(chorki_watch_histories.customer_id, \"CUST001\")) { chorki_watch_histories.id chorki_watch_histories.content_title chorki_watch_histories.type chorki_watch_histories.completion_percentage chorki_watch_histories.device_used } }"
+    }
+  },
+  {
+    "name": "High Completion Rate",
+    "description": "Get watch histories with high completion rates",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_watch_histories(func: ge(chorki_watch_histories.completion_percentage, 90.0)) { chorki_watch_histories.customer_id chorki_watch_histories.content_title chorki_watch_histories.completion_percentage chorki_watch_histories.quality chorki_watch_histories.device_used } }"
+    }
+  },
+  {
+    "name": "Customer Email Search",
+    "description": "Search customers by email (fulltext)",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers(func: alloftext(chorki_customers.email, \"example.com\")) { chorki_customers.id chorki_customers.name chorki_customers.email chorki_customers.country } }"
+    }
+  },
+  {
+    "name": "Group by Country",
+    "description": "Group customers by country with count",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { var(func: type(chorki_customers)) @groupby(chorki_customers.country) { count(uid) } result(func: uid(country)) { chorki_customers.country total_count: val(count) } }"
+    }
+  },
+  {
+    "name": "Group by Device Type",
+    "description": "Group customers by device with count",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { var(func: type(chorki_customers)) @groupby(chorki_customers.device) { count(uid) } result(func: uid(device)) { chorki_customers.device device_count: val(count) } }"
+    }
+  },
+  {
+    "name": "Subscription Status Summary",
+    "description": "Group subscriptions by status",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { var(func: type(chorki_subscriptions)) @groupby(chorki_subscriptions.status) { count(uid) total_price: sum(chorki_subscriptions.price) } result(func: uid(status)) { chorki_subscriptions.status status_count: val(count) total_revenue: val(total_price) } }"
+    }
+  },
+  {
+    "name": "Content Type Distribution",
+    "description": "Group content by type with average rating",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { var(func: type(chorki_contents)) @groupby(chorki_contents.type) { count(uid) avg_rating: avg(chorki_contents.rating) } result(func: uid(type)) { chorki_contents.type content_count: val(count) average_rating: val(avg_rating) } }"
+    }
+  },
+  {
+    "name": "Multi-level Group Query",
+    "description": "Group customers by country and device",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { var(func: type(chorki_customers)) @groupby(chorki_customers.country, chorki_customers.device) { count(uid) avg_age: avg(chorki_customers.age) } result(func: uid(country, device)) { chorki_customers.country chorki_customers.device user_count: val(count) average_age: val(avg_age) } }"
+    }
+  },
+  {
+    "name": "Complex Analytics Query",
+    "description": "Advanced query combining multiple conditions",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { active_customers as var(func: eq(chorki_customers.is_active, true)) @filter(ge(chorki_customers.age, 25)) premium_subs as var(func: eq(chorki_subscriptions.package, \"Premium\")) @filter(uid_in(chorki_subscriptions.customer_id, uid(active_customers))) result(func: uid(premium_subs)) { chorki_subscriptions.customer_id chorki_subscriptions.package chorki_subscriptions.price chorki_subscriptions.status } }"
+    }
+  },
+  {
+    "name": "Pagination Example",
+    "description": "Get customers with pagination",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers(func: type(chorki_customers), first: 3, offset: 0) { chorki_customers.id chorki_customers.name chorki_customers.email chorki_customers.country } }"
+    }
+  },
+  {
+    "name": "Sorting Example",
+    "description": "Get customers sorted by age",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { chorki_customers(func: type(chorki_customers), orderasc: chorki_customers.age) { chorki_customers.id chorki_customers.name chorki_customers.age chorki_customers.country } }"
+    }
+  },
+  {
+    "name": "Count Query",
+    "description": "Count total number of customers",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { count_customers(func: type(chorki_customers)) { count(uid) } }"
+    }
+  },
+  {
+    "name": "All Types Summary",
+    "description": "Get count of all entity types",
+    "url": "POST http://localhost:8090/api/v1/execute",
+    "body": {
+      "query": "query { customers(func: type(chorki_customers)) { count(uid) } subscriptions(func: type(chorki_subscriptions)) { count(uid) } contents(func: type(chorki_contents)) { count(uid) } watch_histories(func: type(chorki_watch_histories)) { count(uid) } }"
+    }
+  }
+]

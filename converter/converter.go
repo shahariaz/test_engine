@@ -412,6 +412,11 @@ func (c *Converter) buildComparisonCondition(mapping *models.FieldMapping, filte
 		return ""
 	}
 
+	// Handle != operator specially
+	if filter.Op == "!=" {
+		return fmt.Sprintf("NOT eq(%s, %s)", mapping.DgraphField, value)
+	}
+
 	return fmt.Sprintf("%s(%s, %s)", dqlFunction, mapping.DgraphField, value)
 }
 

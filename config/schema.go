@@ -7,7 +7,7 @@ func GetSchemaConfig() *models.SchemaInfo {
 	return &models.SchemaInfo{
 		EntityTypes: []string{
 			"chorki_customers",
-			"chorki_subscriptions", 
+			"chorki_subscriptions",
 			"chorki_watch_histories",
 			"chorki_contents",
 			"chorki_devices",
@@ -45,7 +45,13 @@ func getFieldMappings() map[string][]models.FieldMapping {
 		"name": {
 			{JSONField: "name", DgraphField: "chorki_customers.name", EntityType: "chorki_customers", DataType: "string"},
 		},
-		
+		"is_active": {
+			{JSONField: "is_active", DgraphField: "chorki_customers.is_active", EntityType: "chorki_customers", DataType: "bool"},
+		},
+		"city": {
+			{JSONField: "city", DgraphField: "chorki_customers.city", EntityType: "chorki_customers", DataType: "string"},
+		},
+
 		// Subscription fields
 		"subscription_status": {
 			{JSONField: "subscription_status", DgraphField: "chorki_subscriptions.status", EntityType: "chorki_subscriptions", DataType: "string"},
@@ -59,7 +65,22 @@ func getFieldMappings() map[string][]models.FieldMapping {
 		"status": {
 			{JSONField: "status", DgraphField: "chorki_subscriptions.status", EntityType: "chorki_subscriptions", DataType: "string"},
 		},
-		
+		"price": {
+			{JSONField: "price", DgraphField: "chorki_subscriptions.price", EntityType: "chorki_subscriptions", DataType: "float"},
+		},
+		"currency": {
+			{JSONField: "currency", DgraphField: "chorki_subscriptions.currency", EntityType: "chorki_subscriptions", DataType: "string"},
+		},
+		"payment_method": {
+			{JSONField: "payment_method", DgraphField: "chorki_subscriptions.payment_method", EntityType: "chorki_subscriptions", DataType: "string"},
+		},
+		"auto_renewal": {
+			{JSONField: "auto_renewal", DgraphField: "chorki_subscriptions.auto_renewal", EntityType: "chorki_subscriptions", DataType: "bool"},
+		},
+		"trial_period": {
+			{JSONField: "trial_period", DgraphField: "chorki_subscriptions.trial_period", EntityType: "chorki_subscriptions", DataType: "bool"},
+		},
+
 		// Watch history fields
 		"watched_content": {
 			{JSONField: "watched_content", DgraphField: "chorki_watch_histories.content_id", EntityType: "chorki_watch_histories", DataType: "complex"},
@@ -71,7 +92,7 @@ func getFieldMappings() map[string][]models.FieldMapping {
 			{JSONField: "content_type", DgraphField: "chorki_watch_histories.type", EntityType: "chorki_watch_histories", DataType: "string"},
 			{JSONField: "content_type", DgraphField: "chorki_contents.type", EntityType: "chorki_contents", DataType: "string"},
 		},
-		
+
 		// Content fields
 		"genre": {
 			{JSONField: "genre", DgraphField: "chorki_contents.genre", EntityType: "chorki_contents", DataType: "array"},
@@ -79,7 +100,7 @@ func getFieldMappings() map[string][]models.FieldMapping {
 		"title": {
 			{JSONField: "title", DgraphField: "chorki_contents.title", EntityType: "chorki_contents", DataType: "string"},
 		},
-		
+
 		// Device fields
 		"device_type": {
 			{JSONField: "device_type", DgraphField: "chorki_devices.device_type", EntityType: "chorki_devices", DataType: "string"},
@@ -95,7 +116,7 @@ func getRelationships() map[string][]string {
 	return map[string][]string{
 		"chorki_customers": {
 			"chorki_subscriptions",
-			"chorki_watch_histories", 
+			"chorki_watch_histories",
 			"chorki_devices",
 		},
 		"chorki_subscriptions": {
@@ -129,7 +150,7 @@ func getDefaultFields() map[string][]string {
 		},
 		"chorki_subscriptions": {
 			"uid",
-			"chorki_subscriptions.id", 
+			"chorki_subscriptions.id",
 			"chorki_subscriptions.package",
 			"chorki_subscriptions.status",
 			"chorki_subscriptions.start_date",
@@ -167,31 +188,31 @@ func getDefaultFields() map[string][]string {
 // GetOperatorMappings returns the mapping between JSON operators and DQL functions
 func GetOperatorMappings() map[string]string {
 	return map[string]string{
-		"=":         "eq",
-		">=":        "ge", 
-		"<=":        "le",
-		">":         "gt",
-		"<":         "lt",
-		"IN":        "eq", // Will be handled specially for arrays
-		"NOT_IN":    "not", // Will be handled specially for arrays
-		"!=":        "not",
-		"LIKE":      "alloftext", // For text search
-		"ILIKE":     "anyoftext", // Case insensitive text search
-		"REGEX":     "regexp",
-		"BETWEEN":   "between", // Will be handled specially
-		"IS_NULL":   "eq",      // Will be handled specially
-		"IS_NOT_NULL": "has",   // Will be handled specially
+		"=":           "eq",
+		">=":          "ge",
+		"<=":          "le",
+		">":           "gt",
+		"<":           "lt",
+		"IN":          "eq",  // Will be handled specially for arrays
+		"NOT_IN":      "not", // Will be handled specially for arrays
+		"!=":          "not",
+		"LIKE":        "alloftext", // For text search
+		"ILIKE":       "anyoftext", // Case insensitive text search
+		"REGEX":       "regexp",
+		"BETWEEN":     "between",   // Will be handled specially
+		"IS_NULL":     "eq",        // Will be handled specially
+		"IS_NOT_NULL": "has",       // Will be handled specially
 		"STARTS_WITH": "alloftext", // Will be handled specially
 		"ENDS_WITH":   "alloftext", // Will be handled specially
 		"CONTAINS":    "alloftext", // Will be handled specially
 	}
 }
 
-// GetVersionFields returns fields that should be treated as version fields  
+// GetVersionFields returns fields that should be treated as version fields
 func GetVersionFields() map[string]string {
 	return map[string]string{
 		"app_version": "numeric",
-		"os_version":  "numeric", 
+		"os_version":  "numeric",
 		"version":     "numeric",
 	}
 }
@@ -199,8 +220,8 @@ func GetVersionFields() map[string]string {
 // GetReversePredicates returns the reverse predicate mappings
 func GetReversePredicates() map[string]string {
 	return map[string]string{
-		"customers": "~chorki_customers.subscriptions", // For subscriptions -> customers
-		"customers_from_devices": "~chorki_customers.devices", // For devices -> customers  
+		"customers":                      "~chorki_customers.subscriptions",   // For subscriptions -> customers
+		"customers_from_devices":         "~chorki_customers.devices",         // For devices -> customers
 		"customers_from_watch_histories": "~chorki_customers.watch_histories", // For watch_histories -> customers
 	}
 }
@@ -222,8 +243,8 @@ func GetFilterOptimizations() map[string][]string {
 // GetPaginationConfig returns default pagination settings
 func GetPaginationConfig() map[string]int {
 	return map[string]int{
-		"default_limit": 100,
-		"max_limit": 1000,
+		"default_limit":  100,
+		"max_limit":      1000,
 		"default_offset": 0,
 	}
 }
