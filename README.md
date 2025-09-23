@@ -1,159 +1,314 @@
-# JSON to DQL Converter
+# Chorki JSON to DQL Converter# JSON to DQL Converter
 
-A Go-based tool that converts dynamic JSON queries to Dgraph DQL (Dgraph Query Language) format for the Chorki streaming platform.
 
-## Features
 
-- **Dynamic JSON Query Processing**: Accepts complex nested JSON queries with AND/OR combinations
-- **Multi-Entity Support**: Generates DQL queries for multiple entity types (customers, subscriptions, watch histories, etc.)
-- **Complex Filter Support**: Handles various operators (=, >=, <=, >, <, IN) and complex object filters
-- **RESTful API**: Simple HTTP API for integration with frontend applications
-- **Schema Validation**: Validates incoming queries against predefined schema
+A high-performance Go API that converts complex JSON queries to Dgraph Query Language (DQL) and executes them against Dgraph.A Go-based tool that converts dynamic JSON queries to Dgraph DQL (Dgraph Query Language) format for the Chorki streaming platform.
+
+
+
+## Features## Features
+
+
+
+- **Complex Query Support**: Handles nested groups, multiple operators, and complex filtering logic- **Dynamic JSON Query Processing**: Accepts complex nested JSON queries with AND/OR combinations
+
+- **Multi-Entity Queries**: Supports customers, subscriptions, watch histories, and content data- **Multi-Entity Support**: Generates DQL queries for multiple entity types (customers, subscriptions, watch histories, etc.)
+
+- **Real-time Execution**: Direct integration with Dgraph for immediate query execution- **Complex Filter Support**: Handles various operators (=, >=, <=, >, <, IN) and complex object filters
+
+- **Validation & Analysis**: Built-in query validation and complexity analysis- **RESTful API**: Simple HTTP API for integration with frontend applications
+
+- **Hot Reload**: Development environment with automatic server restart on code changes- **Schema Validation**: Validates incoming queries against predefined schema
+
 - **Extensible Design**: Easy to add new entity types and field mappings
+
+## Quick Start
 
 ## Installation
 
-1. Clone the repository:
-```bash
+### Prerequisites
+
+- Go 1.21+1. Clone the repository:
+
+- Docker & Docker Compose```bash
+
 git clone <repository-url>
-cd jsonTodql
+
+### Setupcd jsonTodql
+
+1. **Clone and setup**:```
+
+   ```bash
+
+   git clone <repository>2. Install dependencies:
+
+   cd test_engine```bash
+
+   ```go mod tidy
+
 ```
 
-2. Install dependencies:
-```bash
-go mod tidy
+2. **Start Dgraph**:
+
+   ```bash3. Run the application:
+
+   docker-compose up -d```bash
+
+   ```go run main.go
+
 ```
 
-3. Run the application:
-```bash
-go run main.go
-```
+3. **Load schema and data**:
 
-The server will start on port 8080.
+   ```bashThe server will start on port 8080.
 
-## API Endpoints
+   # Load schema
 
-### GET /
-Returns API information and usage examples.
+   curl -X POST localhost:8080/alter --data-binary '@simple_schema.dgraph'## API Endpoints
+
+   
+
+   # Load sample data### GET /
+
+   curl -X POST localhost:8080/mutate?commitNow=true -H "Content-Type: application/json" --data-binary '@proper_dataset.json'Returns API information and usage examples.
+
+   ```
 
 ### GET /api/v1/health
-Health check endpoint.
 
-### GET /api/v1/schema
-Returns available fields, operators, and example queries.
+4. **Start the API server**:Health check endpoint.
 
-### POST /api/v1/convert
-Converts JSON query to DQL format.
+   ```bash
+
+   # With hot reload (recommended for development)### GET /api/v1/schema
+
+   airReturns available fields, operators, and example queries.
+
+   
+
+   # Or standard Go run### POST /api/v1/convert
+
+   go run main.goConverts JSON query to DQL format.
+
+   ```
 
 ## Usage Examples
 
-### Simple Query
-```json
-{
+5. **Test the API**:
+
+   ```bash### Simple Query
+
+   curl http://localhost:8090/api/v1/health```json
+
+   ```{
+
   "combine_with": "AND",
-  "groups": [
+
+## API Endpoints  "groups": [
+
     {
-      "combine_with": "OR",
-      "filters": [
-        {"field": "age", "op": ">=", "value": 21},
-        {"field": "country", "op": "IN", "value": ["USA", "UK", "Canada"]}
-      ]
-    }
+
+- `GET /api/v1/health` - Health check      "combine_with": "OR",
+
+- `GET /api/v1/schema` - Get available fields and operators      "filters": [
+
+- `POST /api/v1/execute` - Execute JSON query against Dgraph        {"field": "age", "op": ">=", "value": 21},
+
+- `POST /api/v1/convert` - Convert JSON to DQL (without execution)        {"field": "country", "op": "IN", "value": ["USA", "UK", "Canada"]}
+
+- `POST /api/v1/validate` - Validate JSON query structure      ]
+
+- `POST /api/v1/analyze` - Analyze query complexity    }
+
   ]
-}
+
+## Example Usage}
+
 ```
 
-### Complex Query with Nested Groups
-```json
-{
-  "combine_with": "OR",
-  "groups": [
-    {
-      "combine_with": "AND",
-      "filters": [
-        {"field": "device", "op": "IN", "value": ["iOS", "Android"]},
-        {"field": "app_version", "op": ">=", "value": "5.0.0"}
-      ],
-      "groups": [
-        {
-          "combine_with": "OR",
-          "filters": [
-            {"field": "age", "op": "<", "value": 18},
-            {"field": "country", "op": "=", "value": "Bangladesh"}
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
+### JSON Query Format
 
-### Complex Object Filter
-```json
-{
-  "combine_with": "AND",
-  "groups": [
-    {
-      "combine_with": "OR",
-      "filters": [
-        {
-          "field": "watched_content",
-          "op": "IN",
-          "value": {
+```json### Complex Query with Nested Groups
+
+{```json
+
+  "combine_with": "AND",{
+
+  "groups": [  "combine_with": "OR",
+
+    {  "groups": [
+
+      "combine_with": "OR",    {
+
+      "filters": [      "combine_with": "AND",
+
+        {"field": "age", "op": ">=", "value": 25},      "filters": [
+
+        {"field": "country", "op": "IN", "value": ["USA", "Canada"]}        {"field": "device", "op": "IN", "value": ["iOS", "Android"]},
+
+      ]        {"field": "app_version", "op": ">=", "value": "5.0.0"}
+
+    },      ],
+
+    {      "groups": [
+
+      "combine_with": "AND",        {
+
+      "filters": [          "combine_with": "OR",
+
+        {"field": "is_active", "op": "=", "value": true}          "filters": [
+
+      ]            {"field": "age", "op": "<", "value": 18},
+
+    }            {"field": "country", "op": "=", "value": "Bangladesh"}
+
+  ]          ]
+
+}        }
+
+```      ]
+
+    }
+
+### Test with curl  ]
+
+```bash}
+
+curl -X POST http://localhost:8090/api/v1/execute \```
+
+  -H "Content-Type: application/json" \
+
+  -d '{### Complex Object Filter
+
+    "combine_with": "AND",```json
+
+    "groups": [{
+
+      {  "combine_with": "AND",
+
+        "combine_with": "AND",  "groups": [
+
+        "filters": [    {
+
+          {"field": "country", "op": "=", "value": "USA"}      "combine_with": "OR",
+
+        ]      "filters": [
+
+      }        {
+
+    ]          "field": "watched_content",
+
+  }'          "op": "IN",
+
+```          "value": {
+
             "content_type": "Movie",
-            "ids": [111, 222, 333]
-          }
-        }
-      ]
-    }
-  ]
-}
-```
 
-## Supported Fields
+## Development            "ids": [111, 222, 333]
+
+          }
+
+### Hot Reload Setup        }
+
+The project uses Air for hot reloading during development:      ]
+
+    }
+
+```bash  ]
+
+# Install Air (one-time setup)}
+
+go install github.com/air-verse/air@latest```
+
+
+
+# Start with hot reload## Supported Fields
+
+air
 
 ### Customer Fields
-- `age`: Customer age (int)
-- `country`: Customer country (string)
-- `device`: Device type (string)
-- `app_version`: Application version (string)
+
+# Or use helper scripts- `age`: Customer age (int)
+
+./dev.sh    # Linux/Mac- `country`: Customer country (string)
+
+./dev.ps1   # Windows PowerShell- `device`: Device type (string)
+
+```- `app_version`: Application version (string)
+
 - `last_login_days`: Days since last login (int)
-- `email`: Customer email (string)
-- `name`: Customer name (string)
 
-### Subscription Fields
-- `subscription_status`: Subscription status (string)
-- `subscribed_package`: Package name (string)
-- `package`: Package name (string)
-- `status`: Status (string)
+### Project Structure- `email`: Customer email (string)
 
-### Content Fields
-- `watched_content`: Complex object with content_type and ids
-- `favorite_genres`: Array of genre strings
-- `content_type`: Type of content (string)
-- `genre`: Content genre (array)
+```- `name`: Customer name (string)
+
+├── main.go              # Application entry point
+
+├── handlers/            # HTTP handlers### Subscription Fields
+
+├── converter/           # JSON to DQL conversion logic- `subscription_status`: Subscription status (string)
+
+├── config/              # Schema configuration- `subscribed_package`: Package name (string)
+
+├── models/              # Data models- `package`: Package name (string)
+
+├── validation/          # Query validation- `status`: Status (string)
+
+├── analyzer/            # Complexity analysis
+
+├── dgraph/              # Dgraph client### Content Fields
+
+├── utils/               # Utility functions- `watched_content`: Complex object with content_type and ids
+
+├── scripts/             # Development scripts- `favorite_genres`: Array of genre strings
+
+└── tests/               # Test files- `content_type`: Type of content (string)
+
+```- `genre`: Content genre (array)
+
 - `title`: Content title (string)
 
-### Device Fields
-- `device_type`: Type of device (string)
-- `os_version`: Operating system version (string)
+### Available Operators
 
-## Supported Operators
+- Comparison: `=`, `!=`, `>`, `>=`, `<`, `<=`### Device Fields
+
+- Array: `IN`, `NOT_IN`- `device_type`: Type of device (string)
+
+- Text: `LIKE`, `ILIKE`, `CONTAINS`, `REGEX`- `os_version`: Operating system version (string)
+
+- Pattern: `STARTS_WITH`, `ENDS_WITH`
+
+- Range: `BETWEEN`## Supported Operators
+
+- Null: `IS_NULL`, `IS_NOT_NULL`
 
 - `=`: Equals
-- `>=`: Greater than or equal
-- `<=`: Less than or equal
-- `>`: Greater than
-- `<`: Less than
-- `IN`: In array/list
+
+### Supported Fields- `>=`: Greater than or equal
+
+- **Customer**: age, country, city, device, email, name, is_active, app_version, last_login_days- `<=`: Less than or equal
+
+- **Subscription**: package, status, price, currency, payment_method, auto_renewal, trial_period- `>`: Greater than
+
+- **Content**: title, type, genre, rating, duration, release_year- `<`: Less than
+
+- **Watch History**: content_id, completion_percentage, device_used, quality- `IN`: In array/list
+
 - `!=`: Not equal
+
+## Testing
 
 ## Entity Types
 
+Sample queries are available in `postman_queries.json` for manual testing with Postman or any REST client.
+
 - `chorki_customers`: Customer information
-- `chorki_subscriptions`: Subscription data
+
+## License- `chorki_subscriptions`: Subscription data
+
 - `chorki_watch_histories`: Viewing history
-- `chorki_contents`: Content metadata
+
+MIT License- `chorki_contents`: Content metadata
 - `chorki_devices`: Device information
 
 ## Testing
