@@ -1,0 +1,185 @@
+# Sample Data for Chorki Platform - RDF Format
+# This file contains sample data that matches our schema and test queries
+
+# ============================================================================
+# CUSTOMERS DATA
+# ============================================================================
+
+_:customer1 <dgraph.type> "chorki_customers" .
+_:customer1 <chorki_customers.id> "cust_001" .
+_:customer1 <chorki_customers.name> "John Doe" .
+_:customer1 <chorki_customers.email> "john.doe@example.com" .
+_:customer1 <chorki_customers.age> "25" .
+_:customer1 <chorki_customers.country> "Bangladesh" .
+_:customer1 <chorki_customers.device> "iOS" .
+_:customer1 <chorki_customers.app_version> "5.2.1" .
+_:customer1 <chorki_customers.app_version_numeric> "5002001" .
+_:customer1 <chorki_customers.last_login_days> "2" .
+_:customer1 <chorki_customers.created_at> "2024-01-15T10:30:00Z" .
+
+_:customer2 <dgraph.type> "chorki_customers" .
+_:customer2 <chorki_customers.id> "cust_002" .
+_:customer2 <chorki_customers.name> "Jane Smith" .
+_:customer2 <chorki_customers.email> "jane.smith@example.com" .
+_:customer2 <chorki_customers.age> "17" .
+_:customer2 <chorki_customers.country> "Bangladesh" .
+_:customer2 <chorki_customers.device> "Android" .
+_:customer2 <chorki_customers.app_version> "11.0.0" .
+_:customer2 <chorki_customers.app_version_numeric> "11000000" .
+_:customer2 <chorki_customers.last_login_days> "1" .
+_:customer2 <chorki_customers.created_at> "2024-02-10T14:20:00Z" .
+
+_:customer3 <dgraph.type> "chorki_customers" .
+_:customer3 <chorki_customers.id> "cust_003" .
+_:customer3 <chorki_customers.name> "Ahmed Rahman" .
+_:customer3 <chorki_customers.email> "ahmed.rahman@example.com" .
+_:customer3 <chorki_customers.age> "30" .
+_:customer3 <chorki_customers.country> "India" .
+_:customer3 <chorki_customers.device> "iOS" .
+_:customer3 <chorki_customers.app_version> "4.9.0" .
+_:customer3 <chorki_customers.app_version_numeric> "4009000" .
+_:customer3 <chorki_customers.last_login_days> "5" .
+_:customer3 <chorki_customers.created_at> "2024-01-20T09:15:00Z" .
+
+# ============================================================================
+# SUBSCRIPTIONS DATA
+# ============================================================================
+
+_:subscription1 <dgraph.type> "chorki_subscriptions" .
+_:subscription1 <chorki_subscriptions.id> "sub_001" .
+_:subscription1 <chorki_subscriptions.package> "Premium" .
+_:subscription1 <chorki_subscriptions.status> "trial" .
+_:subscription1 <chorki_subscriptions.start_date> "2024-09-01T00:00:00Z" .
+_:subscription1 <chorki_subscriptions.end_date> "2024-09-30T23:59:59Z" .
+_:subscription1 <chorki_subscriptions.price> "299.99" .
+_:subscription1 <chorki_subscriptions.currency> "BDT" .
+_:subscription1 <chorki_subscriptions.created_at> "2024-09-01T10:00:00Z" .
+
+_:subscription2 <dgraph.type> "chorki_subscriptions" .
+_:subscription2 <chorki_subscriptions.id> "sub_002" .
+_:subscription2 <chorki_subscriptions.package> "Premium" .
+_:subscription2 <chorki_subscriptions.status> "active" .
+_:subscription2 <chorki_subscriptions.start_date> "2024-08-15T00:00:00Z" .
+_:subscription2 <chorki_subscriptions.end_date> "2024-11-15T23:59:59Z" .
+_:subscription2 <chorki_subscriptions.price> "299.99" .
+_:subscription2 <chorki_subscriptions.currency> "BDT" .
+_:subscription2 <chorki_subscriptions.created_at> "2024-08-15T12:30:00Z" .
+
+_:subscription3 <dgraph.type> "chorki_subscriptions" .
+_:subscription3 <chorki_subscriptions.id> "sub_003" .
+_:subscription3 <chorki_subscriptions.package> "Basic" .
+_:subscription3 <chorki_subscriptions.status> "active" .
+_:subscription3 <chorki_subscriptions.start_date> "2024-07-01T00:00:00Z" .
+_:subscription3 <chorki_subscriptions.end_date> "2024-10-01T23:59:59Z" .
+_:subscription3 <chorki_subscriptions.price> "99.99" .
+_:subscription3 <chorki_subscriptions.currency> "BDT" .
+_:subscription3 <chorki_subscriptions.created_at> "2024-07-01T08:45:00Z" .
+
+# ============================================================================
+# DEVICES DATA
+# ============================================================================
+
+_:device1 <dgraph.type> "chorki_devices" .
+_:device1 <chorki_devices.id> "dev_001" .
+_:device1 <chorki_devices.device_type> "iOS" .
+_:device1 <chorki_devices.device_model> "iPhone 13" .
+_:device1 <chorki_devices.app_version> "5.2.1" .
+_:device1 <chorki_devices.app_version_numeric> "5002001" .
+_:device1 <chorki_devices.os_version> "16.5.0" .
+_:device1 <chorki_devices.os_version_numeric> "16005000" .
+_:device1 <chorki_devices.is_active> "true" .
+_:device1 <chorki_devices.last_seen> "2024-09-23T08:30:00Z" .
+_:device1 <chorki_devices.created_at> "2024-01-15T10:30:00Z" .
+
+_:device2 <dgraph.type> "chorki_devices" .
+_:device2 <chorki_devices.id> "dev_002" .
+_:device2 <chorki_devices.device_type> "Android" .
+_:device2 <chorki_devices.device_model> "Samsung Galaxy S21" .
+_:device2 <chorki_devices.app_version> "11.0.0" .
+_:device2 <chorki_devices.app_version_numeric> "11000000" .
+_:device2 <chorki_devices.os_version> "13.0" .
+_:device2 <chorki_devices.os_version_numeric> "13000000" .
+_:device2 <chorki_devices.is_active> "true" .
+_:device2 <chorki_devices.last_seen> "2024-09-23T09:15:00Z" .
+_:device2 <chorki_devices.created_at> "2024-02-10T14:20:00Z" .
+
+# ============================================================================
+# CONTENTS DATA
+# ============================================================================
+
+_:content1 <dgraph.type> "chorki_contents" .
+_:content1 <chorki_contents.id> "content_001" .
+_:content1 <chorki_contents.title> "The Bengali Drama" .
+_:content1 <chorki_contents.type> "movie" .
+_:content1 <chorki_contents.genre> "Drama" .
+_:content1 <chorki_contents.genre> "Romance" .
+_:content1 <chorki_contents.duration> "7200" .
+_:content1 <chorki_contents.rating> "8.5" .
+_:content1 <chorki_contents.release_date> "2024-06-15T00:00:00Z" .
+_:content1 <chorki_contents.language> "Bengali" .
+_:content1 <chorki_contents.description> "A beautiful love story set in rural Bangladesh" .
+_:content1 <chorki_contents.is_premium> "true" .
+_:content1 <chorki_contents.created_at> "2024-06-01T10:00:00Z" .
+
+_:content2 <dgraph.type> "chorki_contents" .
+_:content2 <chorki_contents.id> "content_002" .
+_:content2 <chorki_contents.title> "Tech Talks" .
+_:content2 <chorki_contents.type> "series" .
+_:content2 <chorki_contents.genre> "Documentary" .
+_:content2 <chorki_contents.genre> "Technology" .
+_:content2 <chorki_contents.duration> "1800" .
+_:content2 <chorki_contents.rating> "7.8" .
+_:content2 <chorki_contents.release_date> "2024-05-20T00:00:00Z" .
+_:content2 <chorki_contents.language> "English" .
+_:content2 <chorki_contents.description> "Exploring the latest in technology and innovation" .
+_:content2 <chorki_contents.is_premium> "false" .
+_:content2 <chorki_contents.created_at> "2024-05-15T12:00:00Z" .
+
+# ============================================================================
+# WATCH HISTORIES DATA
+# ============================================================================
+
+_:watch1 <dgraph.type> "chorki_watch_histories" .
+_:watch1 <chorki_watch_histories.id> "watch_001" .
+_:watch1 <chorki_watch_histories.content_id> "content_001" .
+_:watch1 <chorki_watch_histories.content_title> "The Bengali Drama" .
+_:watch1 <chorki_watch_histories.type> "movie" .
+_:watch1 <chorki_watch_histories.genre> "Drama" .
+_:watch1 <chorki_watch_histories.genre> "Romance" .
+_:watch1 <chorki_watch_histories.watch_date> "2024-09-20T20:30:00Z" .
+_:watch1 <chorki_watch_histories.watch_duration> "7200" .
+_:watch1 <chorki_watch_histories.completion_percentage> "100.0" .
+_:watch1 <chorki_watch_histories.created_at> "2024-09-20T20:30:00Z" .
+
+_:watch2 <dgraph.type> "chorki_watch_histories" .
+_:watch2 <chorki_watch_histories.id> "watch_002" .
+_:watch2 <chorki_watch_histories.content_id> "content_002" .
+_:watch2 <chorki_watch_histories.content_title> "Tech Talks" .
+_:watch2 <chorki_watch_histories.type> "series" .
+_:watch2 <chorki_watch_histories.genre> "Documentary" .
+_:watch2 <chorki_watch_histories.genre> "Technology" .
+_:watch2 <chorki_watch_histories.watch_date> "2024-09-22T15:45:00Z" .
+_:watch2 <chorki_watch_histories.watch_duration> "1200" .
+_:watch2 <chorki_watch_histories.completion_percentage> "66.7" .
+_:watch2 <chorki_watch_histories.created_at> "2024-09-22T15:45:00Z" .
+
+# ============================================================================
+# RELATIONSHIPS
+# ============================================================================
+
+# Customer 1 relationships
+_:customer1 <chorki_customers.subscriptions> _:subscription1 .
+_:customer1 <chorki_customers.devices> _:device1 .
+_:customer1 <chorki_customers.watch_histories> _:watch1 .
+
+# Customer 2 relationships  
+_:customer2 <chorki_customers.subscriptions> _:subscription2 .
+_:customer2 <chorki_customers.devices> _:device2 .
+_:customer2 <chorki_customers.watch_histories> _:watch2 .
+
+# Customer 3 relationships
+_:customer3 <chorki_customers.subscriptions> _:subscription3 .
+
+# Watch histories to content relationships
+_:watch1 <chorki_watch_histories.content> _:content1 .
+_:watch2 <chorki_watch_histories.content> _:content2 .

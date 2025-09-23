@@ -1,0 +1,31 @@
+# Dgraph Alpha Configuration
+# This file contains configuration for the Dgraph Alpha node
+
+# Security and Access
+security: "whitelist=0.0.0.0/0"
+
+# GraphQL Configuration
+graphql:
+  introspection: true
+  debug: false
+  extensions: false
+
+# Query Configuration
+query:
+  timeout: "300s"
+  max_pending_queries: 10000
+
+# Cache Configuration
+cache:
+  size_mb: 1024
+
+# Logging
+log:
+  level: "INFO"
+  format: "json"
+
+# Limits
+limit:
+  mutations: 1000000
+  query_edge: 1000000
+  normalize_node: 10000

@@ -1,28 +1,42 @@
 package handlers
 
 import (
+	"context"
 	"fmt"
 	"jsonTodql/config"
 	"jsonTodql/converter"
+	"jsonTodql/dgraph"
 	"jsonTodql/models"
 	"jsonTodql/validation"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 // QueryHandler handles the JSON to DQL conversion API
 type QueryHandler struct {
-	converter *converter.Converter
-	validator *validation.QueryValidator
+	converter    *converter.Converter
+	validator    *validation.QueryValidator
+	dgraphClient *dgraph.Client
 }
 
 // NewQueryHandler creates a new query handler
 func NewQueryHandler() *QueryHandler {
 	schema := config.GetSchemaConfig()
+	
+	// Initialize Dgraph client
+	dgraphClient, err := dgraph.NewClient(dgraph.DefaultConfig())
+	if err != nil {
+		// Log error but don't fail - allow converter to work without Dgraph
+		fmt.Printf("⚠️ Warning: Could not connect to Dgraph: %v\n", err)
+		fmt.Println("💡 To use /execute endpoint, start Dgraph with: docker-compose up -d")
+	}
+	
 	return &QueryHandler{
-		converter: converter.NewConverter(),
-		validator: validation.NewQueryValidator(schema),
+		converter:    converter.NewConverter(),
+		validator:    validation.NewQueryValidator(schema),
+		dgraphClient: dgraphClient,
 	}
 }
 
@@ -234,24 +248,6 @@ func (h *QueryHandler) AnalyzeComplexity(c *gin.Context) {
 	})
 }
 
-// GetCacheStats handles GET /cache/stats endpoint
-func (h *QueryHandler) GetCacheStats(c *gin.Context) {
-	stats := h.converter.GetCacheStats()
-	
-	c.JSON(http.StatusOK, gin.H{
-		"cache_stats": stats,
-	})
-}
-
-// ClearCache handles DELETE /cache endpoint
-func (h *QueryHandler) ClearCache(c *gin.Context) {
-	h.converter.ClearCache()
-	
-	c.JSON(http.StatusOK, gin.H{
-		"message": "Cache cleared successfully",
-	})
-}
-
 // ValidateQuery handles POST /validate endpoint
 func (h *QueryHandler) ValidateQuery(c *gin.Context) {
 	var jsonQuery models.JSONQuery
@@ -267,6 +263,91 @@ func (h *QueryHandler) ValidateQuery(c *gin.Context) {
 	validationResult := h.validator.Validate(&jsonQuery)
 
 	c.JSON(http.StatusOK, gin.H{
+		"validation": validationResult,
+	})
+}
+
+// ExecuteQuery handles POST /execute endpoint - converts JSON to DQL and executes against Dgraph
+func (h *QueryHandler) ExecuteQuery(c *gin.Context) {
+	var jsonQuery models.JSONQuery
+
+	// Bind JSON request to struct
+	if err := c.ShouldBindJSON(&jsonQuery); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Invalid JSON format",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	// Check if Dgraph client is available
+	if h.dgraphClient == nil {
+		c.JSON(http.StatusServiceUnavailable, gin.H{
+			"error":   "Dgraph connection not available",
+			"message": "Please start Dgraph using: docker-compose up -d",
+			"tip":     "Use /convert endpoint to generate DQL without executing",
+		})
+		return
+	}
+
+	// Check Dgraph connection
+	if !h.dgraphClient.IsConnected() {
+		c.JSON(http.StatusServiceUnavailable, gin.H{
+			"error":   "Dgraph connection lost",
+			"message": "Please check Dgraph server status",
+		})
+		return
+	}
+
+	// Enhanced validation
+	validationResult := h.validator.Validate(&jsonQuery)
+	if !validationResult.IsValid {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":      "Query validation failed",
+			"validation": validationResult,
+		})
+		return
+	}
+
+	// Convert JSON to DQL
+	dqlQuery, err := h.converter.ConvertToDQL(&jsonQuery)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "DQL conversion failed",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	// Generate DQL string
+	dqlString := h.converter.GenerateDQLString(dqlQuery)
+
+	// Execute DQL query against Dgraph
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	response, err := h.dgraphClient.ExecuteDQL(ctx, dqlString)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":     "Query execution failed",
+			"details":   err.Error(),
+			"dql_query": dqlString,
+		})
+		return
+	}
+
+	// Get execution statistics
+	stats := h.dgraphClient.GetExecutionStats(response)
+
+	// Return successful response with data and metadata
+	c.JSON(http.StatusOK, gin.H{
+		"success":    true,
+		"data":       response.Data,
+		"query_info": gin.H{
+			"dql":        dqlString,
+			"query_time": response.QueryTime,
+			"stats":      stats,
+		},
 		"validation": validationResult,
 	})
 }

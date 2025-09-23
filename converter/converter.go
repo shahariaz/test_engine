@@ -3,13 +3,11 @@ package converter
 import (
 	"fmt"
 	"jsonTodql/analyzer"
-	"jsonTodql/cache"
 	"jsonTodql/config"
 	"jsonTodql/models"
 	"jsonTodql/utils"
 	"strconv"
 	"strings"
-	"time"
 )
 
 // Converter handles the conversion from JSON query to DQL
@@ -17,8 +15,6 @@ type Converter struct {
 	schema             *models.SchemaInfo
 	operators          map[string]string
 	complexityAnalyzer *analyzer.ComplexityAnalyzer
-	queryCache         *cache.QueryCache
-	fieldMappingCache  *cache.Cache
 	versionFields      map[string]string
 	reversePredicates  map[string]string
 }
@@ -30,29 +26,13 @@ func NewConverter() *Converter {
 		schema:             schema,
 		operators:          config.GetOperatorMappings(),
 		complexityAnalyzer: analyzer.NewComplexityAnalyzer(schema.FieldMappings),
-		queryCache:         cache.NewQueryCache(),
-		fieldMappingCache:  cache.NewCache(time.Hour, 500), // 1 hour TTL, max 500 entries
 		versionFields:      config.GetVersionFields(),
 		reversePredicates:  config.GetReversePredicates(),
 	}
 }
 
-// ConvertToDQL converts a JSON query to DQL format with complexity analysis and caching
+// ConvertToDQL converts a JSON query to DQL format with complexity analysis
 func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery, error) {
-	// Check cache first
-	if cachedDQL, found := c.queryCache.GetDQLQuery(jsonQuery); found {
-		// Parse cached DQL back to DQLQuery structure
-		return &models.DQLQuery{
-			Queries: []models.EntityQuery{{
-				Name:     "cached",
-				Type:     "cached",
-				Function: "cached",
-				Filter:   "",
-				Fields:   cachedDQL,
-			}},
-		}, nil
-	}
-
 	// Analyze query complexity first
 	complexityScore := c.complexityAnalyzer.AnalyzeComplexity(jsonQuery)
 	if !complexityScore.IsAcceptable {
@@ -82,13 +62,7 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 		}
 	}
 
-	result := &models.DQLQuery{Queries: queries}
-	
-	// Cache the generated DQL
-	dqlString := c.GenerateDQLString(result)
-	c.queryCache.SetDQLQuery(jsonQuery, dqlString)
-
-	return result, nil
+	return &models.DQLQuery{Queries: queries}, nil
 }
 
 // getPrimaryEntity determines the primary entity type based on field frequency
@@ -628,20 +602,6 @@ func (c *Converter) AnalyzeComplexity(jsonQuery *models.JSONQuery) *analyzer.Com
 // GetComplexityLimits returns the current complexity limits
 func (c *Converter) GetComplexityLimits() map[string]int {
 	return c.complexityAnalyzer.GetComplexityLimits()
-}
-
-// GetCacheStats returns cache statistics
-func (c *Converter) GetCacheStats() map[string]interface{} {
-	return map[string]interface{}{
-		"query_cache":        c.queryCache.GetStats(),
-		"field_mapping_cache": c.fieldMappingCache.GetStats(),
-	}
-}
-
-// ClearCache clears all caches
-func (c *Converter) ClearCache() {
-	c.queryCache.Clear()
-	c.fieldMappingCache.Clear()
 }
 
 // buildNotInCondition builds NOT IN condition
