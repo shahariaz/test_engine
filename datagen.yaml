@@ -1,0 +1,41 @@
+# Data Generation Configuration
+# This file configures the production-ready data generator for Chorki platform
+
+# Basic generation parameters
+customers: 1000      # Number of customers to generate
+contents: 500        # Number of content items to generate  
+batch_size: 100      # Number of items per batch (affects memory usage)
+
+# Output configuration
+dgraph_url: "localhost:9080"    # Dgraph Alpha URL
+output_dir: "./output"          # Directory for generated files
+format: "dgraph"                # Output format: dgraph, json, csv
+
+# Processing options
+validate: true       # Validate generated data before export
+verbose: false       # Enable detailed logging
+dry_run: false      # Generate without uploading to Dgraph (saves to files only)
+
+# Data distribution settings
+distribution:
+  min_subscriptions_per_customer: 1    # Minimum subscriptions per customer
+  max_subscriptions_per_customer: 3    # Maximum subscriptions per customer
+  min_watch_histories_per_customer: 2  # Minimum watch histories per customer
+  max_watch_histories_per_customer: 15 # Maximum watch histories per customer
+  min_devices_per_customer: 1          # Minimum devices per customer
+  max_devices_per_customer: 4          # Maximum devices per customer
+  active_customer_ratio: 0.85          # Percentage of customers that are active (0.0-1.0)
+  premium_content_ratio: 0.4           # Percentage of content that is premium (0.0-1.0)
+
+# Performance tuning
+# For large datasets (>10k customers):
+# - Increase batch_size to 500-1000
+# - Set verbose to false
+# - Consider using format: "json" for faster processing
+# - Enable dry_run for testing before actual upload
+
+# Memory optimization
+# For memory-constrained environments:
+# - Decrease batch_size to 50
+# - Reduce max_watch_histories_per_customer to 5
+# - Set validate to false for faster processing

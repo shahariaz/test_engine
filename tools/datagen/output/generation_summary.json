@@ -1,0 +1,38 @@
+{
+  "start_time": "2025-09-24T01:45:40.7811558+06:00",
+  "end_time": "2025-09-24T01:45:40.7874725+06:00",
+  "duration": 6316700,
+  "total_customers": 20,
+  "total_contents": 10,
+  "total_subscriptions": 0,
+  "total_devices": 0,
+  "total_watch_history": 0,
+  "total_records": 30,
+  "batches_processed": 3,
+  "errors_encountered": 0,
+  "countries_used": [
+    "India",
+    "Germany",
+    "Bangladesh",
+    "Australia",
+    "Brazil",
+    "Mexico",
+    "France",
+    "Netherlands",
+    "USA",
+    "Denmark",
+    "Spain",
+    "UK"
+  ],
+  "device_types_used": [
+    "Roku",
+    "iOS",
+    "Android",
+    "Web",
+    "Xbox",
+    "AppleTV",
+    "PlayStation",
+    "SmartTV"
+  ],
+  "packages_used": null
+}

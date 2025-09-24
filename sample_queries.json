@@ -1,0 +1,137 @@
+[
+  {
+    "description": "Find users under 30 with Premium subscriptions",
+    "name": "Young Premium Users",
+    "query": {
+      "combine_with": "AND",
+      "groups": [
+        {
+          "combine_with": "AND",
+          "filters": [
+            {
+              "field": "age",
+              "op": "\u003c",
+              "value": 30
+            },
+            {
+              "field": "subscribed_package",
+              "op": "=",
+              "value": "Premium"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Users with iOS or Android devices and high app version",
+    "name": "Multi-Device Users",
+    "query": {
+      "combine_with": "AND",
+      "groups": [
+        {
+          "combine_with": "OR",
+          "filters": [
+            {
+              "field": "device",
+              "op": "=",
+              "value": "iOS"
+            },
+            {
+              "field": "device",
+              "op": "=",
+              "value": "Android"
+            }
+          ]
+        },
+        {
+          "combine_with": "AND",
+          "filters": [
+            {
+              "field": "app_version",
+              "op": "\u003e=",
+              "value": "6.0.0"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Active users who watch movies",
+    "name": "Active Movie Watchers",
+    "query": {
+      "combine_with": "AND",
+      "groups": [
+        {
+          "combine_with": "AND",
+          "filters": [
+            {
+              "field": "content_type",
+              "op": "=",
+              "value": "movie"
+            },
+            {
+              "field": "subscription_status",
+              "op": "=",
+              "value": "active"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "description": "Young users from specific countries with premium subscriptions or trial status",
+    "name": "Complex Nested Query",
+    "query": {
+      "combine_with": "AND",
+      "groups": [
+        {
+          "combine_with": "OR",
+          "filters": [
+            {
+              "field": "country",
+              "op": "IN",
+              "value": [
+                "USA",
+                "Canada",
+                "UK"
+              ]
+            }
+          ]
+        },
+        {
+          "combine_with": "AND",
+          "filters": [
+            {
+              "field": "age",
+              "op": "\u003e=",
+              "value": 18
+            },
+            {
+              "field": "age",
+              "op": "\u003c=",
+              "value": 35
+            }
+          ]
+        },
+        {
+          "combine_with": "OR",
+          "filters": [
+            {
+              "field": "subscribed_package",
+              "op": "=",
+              "value": "Premium"
+            },
+            {
+              "field": "subscription_status",
+              "op": "=",
+              "value": "trial"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,2597 @@
+{
+  "set": [
+    {
+      "chorki_customers.age": 32,
+      "chorki_customers.app_version": "5.2.0",
+      "chorki_customers.country": "Germany",
+      "chorki_customers.created_at": "2025-09-22T05:41:07+06:00",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "5.3.0",
+          "chorki_devices.created_at": "2025-09-22T08:41:10+06:00",
+          "chorki_devices.device_model": "OnePlus 12",
+          "chorki_devices.device_type": "Android",
+          "chorki_devices.id": "DEV00011_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T02:13:42+06:00",
+          "chorki_devices.os_version": "12.0.5",
+          "chorki_devices.updated_at": "2025-09-23T11:42:52+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.0.0",
+          "chorki_devices.created_at": "2025-09-24T00:36:38+06:00",
+          "chorki_devices.device_model": "Opera",
+          "chorki_devices.device_type": "Web",
+          "chorki_devices.id": "DEV00011_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T10:17:36+06:00",
+          "chorki_devices.os_version": "11.3.9",
+          "chorki_devices.updated_at": "2025-09-23T08:11:07+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.4.0",
+          "chorki_devices.created_at": "2025-09-22T19:05:41+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "PlayStation",
+          "chorki_devices.id": "DEV00011_3",
+          "chorki_devices.is_active": false,
+          "chorki_devices.last_seen": "2025-09-23T05:44:35+06:00",
+          "chorki_devices.os_version": "14.7.2",
+          "chorki_devices.updated_at": "2025-09-23T14:40:09+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.1.0",
+          "chorki_devices.created_at": "2025-09-22T15:03:41+06:00",
+          "chorki_devices.device_model": "iPhone 14",
+          "chorki_devices.device_type": "iOS",
+          "chorki_devices.id": "DEV00011_4",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T15:33:18+06:00",
+          "chorki_devices.os_version": "10.1.2",
+          "chorki_devices.updated_at": "2025-09-23T10:18:39+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Masum.Johnson967@example.com",
+      "chorki_customers.id": "CUST00011",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 63,
+      "chorki_customers.name": "Masum Johnson",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-23T09:30:17+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T22:37:26+06:00",
+          "chorki_subscriptions.id": "SUB00011_1",
+          "chorki_subscriptions.package": "Yearly",
+          "chorki_subscriptions.payment_method": "bank_transfer",
+          "chorki_subscriptions.price": 11.558944526049864,
+          "chorki_subscriptions.start_date": "2025-09-23T07:37:41+06:00",
+          "chorki_subscriptions.status": "inactive",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T07:50:44+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-23T15:30:20+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T10:19:00+06:00",
+          "chorki_subscriptions.id": "SUB00011_2",
+          "chorki_subscriptions.package": "Free",
+          "chorki_subscriptions.payment_method": "mobile_payment",
+          "chorki_subscriptions.price": 35.002194170973155,
+          "chorki_subscriptions.start_date": "2025-09-23T10:30:19+06:00",
+          "chorki_subscriptions.status": "cancelled",
+          "chorki_subscriptions.trial_period": true,
+          "chorki_subscriptions.updated_at": "2025-09-23T09:13:29+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T11:23:49+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T16:24:02+06:00",
+          "chorki_subscriptions.id": "SUB00011_3",
+          "chorki_subscriptions.package": "Free",
+          "chorki_subscriptions.payment_method": "crypto",
+          "chorki_subscriptions.price": 30.140671294200903,
+          "chorki_subscriptions.start_date": "2025-09-23T09:17:29+06:00",
+          "chorki_subscriptions.status": "inactive",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T18:02:57+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T23:36:19+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 1.2048192771084338,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 377",
+          "chorki_watch_histories.created_at": "2025-09-24T01:32:37+06:00",
+          "chorki_watch_histories.genre": [
+            "Comedy",
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_1",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T11:25:47+06:00",
+          "chorki_watch_histories.watch_duration": 1,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 44.27860696517413,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 91",
+          "chorki_watch_histories.created_at": "2025-09-23T14:40:27+06:00",
+          "chorki_watch_histories.genre": [
+            "Fantasy",
+            "Drama",
+            "Documentary"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_2",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T02:55:18+06:00",
+          "chorki_watch_histories.watch_duration": 89,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 14.56953642384106,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 328",
+          "chorki_watch_histories.created_at": "2025-09-23T04:32:13+06:00",
+          "chorki_watch_histories.genre": [
+            "Family"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_3",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T21:19:08+06:00",
+          "chorki_watch_histories.watch_duration": 22,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 66.66666666666666,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 310",
+          "chorki_watch_histories.created_at": "2025-09-23T14:01:18+06:00",
+          "chorki_watch_histories.genre": [
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_4",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T02:46:06+06:00",
+          "chorki_watch_histories.watch_duration": 22,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 46.75324675324675,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 316",
+          "chorki_watch_histories.created_at": "2025-09-23T02:41:52+06:00",
+          "chorki_watch_histories.genre": [
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_5",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T15:32:12+06:00",
+          "chorki_watch_histories.watch_duration": 36,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 6,
+          "chorki_watch_histories.content_id": "CONTENT7",
+          "chorki_watch_histories.content_title": "Content Title 186",
+          "chorki_watch_histories.created_at": "2025-09-23T11:04:22+06:00",
+          "chorki_watch_histories.genre": [
+            "Horror",
+            "Romance",
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_6",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-24T01:24:42+06:00",
+          "chorki_watch_histories.watch_duration": 3,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 5.263157894736842,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 247",
+          "chorki_watch_histories.created_at": "2025-09-23T09:03:59+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_7",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-23T02:58:15+06:00",
+          "chorki_watch_histories.watch_duration": 3,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 71.64179104477611,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 110",
+          "chorki_watch_histories.created_at": "2025-09-23T04:31:57+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_8",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T19:16:54+06:00",
+          "chorki_watch_histories.watch_duration": 144,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 92.94117647058823,
+          "chorki_watch_histories.content_id": "CONTENT1",
+          "chorki_watch_histories.content_title": "Content Title 199",
+          "chorki_watch_histories.created_at": "2025-09-23T08:44:13+06:00",
+          "chorki_watch_histories.genre": [
+            "Western",
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_9",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-23T11:19:52+06:00",
+          "chorki_watch_histories.watch_duration": 158,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 34.78260869565217,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 334",
+          "chorki_watch_histories.created_at": "2025-09-24T01:18:40+06:00",
+          "chorki_watch_histories.genre": [
+            "Romance",
+            "Thriller",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_10",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T16:11:49+06:00",
+          "chorki_watch_histories.watch_duration": 32,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 85.29411764705883,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 474",
+          "chorki_watch_histories.created_at": "2025-09-23T02:33:15+06:00",
+          "chorki_watch_histories.genre": [
+            "Western",
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_11",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T15:47:44+06:00",
+          "chorki_watch_histories.watch_duration": 87,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 17.293233082706767,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 82",
+          "chorki_watch_histories.created_at": "2025-09-23T23:16:32+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical",
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_12",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T12:20:08+06:00",
+          "chorki_watch_histories.watch_duration": 23,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 74.8768472906404,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 290",
+          "chorki_watch_histories.created_at": "2025-09-23T13:16:09+06:00",
+          "chorki_watch_histories.genre": [
+            "Sci-Fi",
+            "Adventure"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_13",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T07:57:42+06:00",
+          "chorki_watch_histories.watch_duration": 152,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 60.19417475728155,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 301",
+          "chorki_watch_histories.created_at": "2025-09-23T23:29:29+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Adventure"
+          ],
+          "chorki_watch_histories.id": "WATCH00011_14",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-23T08:19:30+06:00",
+          "chorki_watch_histories.watch_duration": 124,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 31,
+      "chorki_customers.app_version": "5.1.0",
+      "chorki_customers.country": "Germany",
+      "chorki_customers.created_at": "2025-09-22T03:38:42+06:00",
+      "chorki_customers.device": "Roku",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "5.2.0",
+          "chorki_devices.created_at": "2025-09-23T15:32:37+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "FireStick",
+          "chorki_devices.id": "DEV00012_1",
+          "chorki_devices.is_active": false,
+          "chorki_devices.last_seen": "2025-09-23T20:51:49+06:00",
+          "chorki_devices.os_version": "14.0.9",
+          "chorki_devices.updated_at": "2025-09-23T23:53:31+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Nadia.Gonzalez507@example.com",
+      "chorki_customers.id": "CUST00012",
+      "chorki_customers.is_active": false,
+      "chorki_customers.last_login_days": 6,
+      "chorki_customers.name": "Nadia Gonzalez",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-23T07:44:17+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T12:52:24+06:00",
+          "chorki_subscriptions.id": "SUB00012_1",
+          "chorki_subscriptions.package": "Basic",
+          "chorki_subscriptions.payment_method": "apple_pay",
+          "chorki_subscriptions.price": 18.400403108306385,
+          "chorki_subscriptions.start_date": "2025-09-23T00:41:45+06:00",
+          "chorki_subscriptions.status": "inactive",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T15:31:57+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T08:36:51+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-24T01:06:07+06:00",
+          "chorki_subscriptions.id": "SUB00012_2",
+          "chorki_subscriptions.package": "Premium",
+          "chorki_subscriptions.payment_method": "mobile_payment",
+          "chorki_subscriptions.price": 48.591840975822926,
+          "chorki_subscriptions.start_date": "2025-09-22T14:44:24+06:00",
+          "chorki_subscriptions.status": "active",
+          "chorki_subscriptions.trial_period": true,
+          "chorki_subscriptions.updated_at": "2025-09-23T15:11:15+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-23T09:05:37+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T04:11:10+06:00",
+          "chorki_subscriptions.id": "SUB00012_3",
+          "chorki_subscriptions.package": "Family",
+          "chorki_subscriptions.payment_method": "bank_transfer",
+          "chorki_subscriptions.price": 21.325022910576735,
+          "chorki_subscriptions.start_date": "2025-09-22T10:40:55+06:00",
+          "chorki_subscriptions.status": "expired",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T20:59:39+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T02:25:22+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 83.33333333333334,
+          "chorki_watch_histories.content_id": "CONTENT1",
+          "chorki_watch_histories.content_title": "Content Title 61",
+          "chorki_watch_histories.created_at": "2025-09-23T08:54:19+06:00",
+          "chorki_watch_histories.genre": [
+            "Sci-Fi",
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00012_1",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T05:05:05+06:00",
+          "chorki_watch_histories.watch_duration": 70,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 42.69662921348314,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 355",
+          "chorki_watch_histories.created_at": "2025-09-23T19:29:22+06:00",
+          "chorki_watch_histories.genre": [
+            "Animation",
+            "Musical",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00012_2",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T10:15:55+06:00",
+          "chorki_watch_histories.watch_duration": 76,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 13.736263736263737,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 440",
+          "chorki_watch_histories.created_at": "2025-09-23T18:11:13+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical"
+          ],
+          "chorki_watch_histories.id": "WATCH00012_3",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T23:33:23+06:00",
+          "chorki_watch_histories.watch_duration": 25,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 49.122807017543856,
+          "chorki_watch_histories.content_id": "CONTENT7",
+          "chorki_watch_histories.content_title": "Content Title 75",
+          "chorki_watch_histories.created_at": "2025-09-23T12:10:01+06:00",
+          "chorki_watch_histories.genre": [
+            "War",
+            "Fantasy",
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00012_4",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T15:21:28+06:00",
+          "chorki_watch_histories.watch_duration": 28,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 19.801980198019802,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 407",
+          "chorki_watch_histories.created_at": "2025-09-23T02:39:13+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Drama",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00012_5",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T19:47:09+06:00",
+          "chorki_watch_histories.watch_duration": 40,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 67.36111111111111,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 232",
+          "chorki_watch_histories.created_at": "2025-09-24T00:20:10+06:00",
+          "chorki_watch_histories.genre": [
+            "Animation",
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00012_6",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T07:18:39+06:00",
+          "chorki_watch_histories.watch_duration": 97,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 68,
+      "chorki_customers.app_version": "5.2.0",
+      "chorki_customers.country": "Denmark",
+      "chorki_customers.created_at": "2025-09-22T02:29:43+06:00",
+      "chorki_customers.device": "PlayStation",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "5.2.0",
+          "chorki_devices.created_at": "2025-09-23T07:37:53+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "PlayStation",
+          "chorki_devices.id": "DEV00013_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T18:42:17+06:00",
+          "chorki_devices.os_version": "14.7.1",
+          "chorki_devices.updated_at": "2025-09-23T16:56:07+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.3.0",
+          "chorki_devices.created_at": "2025-09-23T08:00:35+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "AppleTV",
+          "chorki_devices.id": "DEV00013_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T09:47:43+06:00",
+          "chorki_devices.os_version": "14.2.3",
+          "chorki_devices.updated_at": "2025-09-23T10:24:04+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.2.0",
+          "chorki_devices.created_at": "2025-09-22T11:31:16+06:00",
+          "chorki_devices.device_model": "Safari",
+          "chorki_devices.device_type": "Web",
+          "chorki_devices.id": "DEV00013_3",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T15:14:51+06:00",
+          "chorki_devices.os_version": "13.1.9",
+          "chorki_devices.updated_at": "2025-09-23T02:57:07+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.4.0",
+          "chorki_devices.created_at": "2025-09-22T14:42:59+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "PlayStation",
+          "chorki_devices.id": "DEV00013_4",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T23:58:38+06:00",
+          "chorki_devices.os_version": "12.4.5",
+          "chorki_devices.updated_at": "2025-09-23T11:13:24+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Anthony.Garcia360@example.com",
+      "chorki_customers.id": "CUST00013",
+      "chorki_customers.is_active": false,
+      "chorki_customers.last_login_days": 54,
+      "chorki_customers.name": "Anthony Garcia",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-23T06:39:39+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T16:33:24+06:00",
+          "chorki_subscriptions.id": "SUB00013_1",
+          "chorki_subscriptions.package": "Free",
+          "chorki_subscriptions.payment_method": "paypal",
+          "chorki_subscriptions.price": 21.89059331172751,
+          "chorki_subscriptions.start_date": "2025-09-24T00:15:12+06:00",
+          "chorki_subscriptions.status": "active",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T13:54:35+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T06:34:16+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 9.714285714285714,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 306",
+          "chorki_watch_histories.created_at": "2025-09-23T04:10:50+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Animation"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_1",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T11:39:34+06:00",
+          "chorki_watch_histories.watch_duration": 17,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 50,
+          "chorki_watch_histories.content_id": "CONTENT1",
+          "chorki_watch_histories.content_title": "Content Title 292",
+          "chorki_watch_histories.created_at": "2025-09-23T15:57:24+06:00",
+          "chorki_watch_histories.genre": [
+            "Western",
+            "Musical"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_2",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T05:55:01+06:00",
+          "chorki_watch_histories.watch_duration": 42,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 38.392857142857146,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 242",
+          "chorki_watch_histories.created_at": "2025-09-23T20:08:00+06:00",
+          "chorki_watch_histories.genre": [
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_3",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T11:28:25+06:00",
+          "chorki_watch_histories.watch_duration": 43,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 4.597701149425287,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 481",
+          "chorki_watch_histories.created_at": "2025-09-23T09:24:28+06:00",
+          "chorki_watch_histories.genre": [
+            "Romance",
+            "Sci-Fi",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_4",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T06:47:03+06:00",
+          "chorki_watch_histories.watch_duration": 4,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 16.541353383458645,
+          "chorki_watch_histories.content_id": "CONTENT7",
+          "chorki_watch_histories.content_title": "Content Title 364",
+          "chorki_watch_histories.created_at": "2025-09-23T14:09:36+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_5",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T08:43:25+06:00",
+          "chorki_watch_histories.watch_duration": 22,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 23.214285714285715,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 467",
+          "chorki_watch_histories.created_at": "2025-09-23T02:38:33+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_6",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T12:59:02+06:00",
+          "chorki_watch_histories.watch_duration": 26,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 89.47368421052632,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 452",
+          "chorki_watch_histories.created_at": "2025-09-23T02:56:56+06:00",
+          "chorki_watch_histories.genre": [
+            "Family",
+            "Comedy"
+          ],
+          "chorki_watch_histories.id": "WATCH00013_7",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T21:30:22+06:00",
+          "chorki_watch_histories.watch_duration": 68,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 34,
+      "chorki_customers.app_version": "6.1.0",
+      "chorki_customers.country": "Spain",
+      "chorki_customers.created_at": "2025-09-23T20:38:31+06:00",
+      "chorki_customers.device": "Web",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "5.1.0",
+          "chorki_devices.created_at": "2025-09-22T15:51:33+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "Roku",
+          "chorki_devices.id": "DEV00014_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T09:45:58+06:00",
+          "chorki_devices.os_version": "11.8.0",
+          "chorki_devices.updated_at": "2025-09-23T23:41:22+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.3.0",
+          "chorki_devices.created_at": "2025-09-22T10:05:26+06:00",
+          "chorki_devices.device_model": "Firefox",
+          "chorki_devices.device_type": "Web",
+          "chorki_devices.id": "DEV00014_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T14:59:37+06:00",
+          "chorki_devices.os_version": "14.8.1",
+          "chorki_devices.updated_at": "2025-09-23T15:40:40+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.4.0",
+          "chorki_devices.created_at": "2025-09-23T11:37:53+06:00",
+          "chorki_devices.device_model": "TCL Smart TV",
+          "chorki_devices.device_type": "SmartTV",
+          "chorki_devices.id": "DEV00014_3",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T07:53:56+06:00",
+          "chorki_devices.os_version": "11.2.1",
+          "chorki_devices.updated_at": "2025-09-23T05:25:46+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.0.0",
+          "chorki_devices.created_at": "2025-09-23T20:39:57+06:00",
+          "chorki_devices.device_model": "Edge",
+          "chorki_devices.device_type": "Web",
+          "chorki_devices.id": "DEV00014_4",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T18:40:24+06:00",
+          "chorki_devices.os_version": "13.5.0",
+          "chorki_devices.updated_at": "2025-09-23T11:33:04+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Michael.Chowdhury66@example.com",
+      "chorki_customers.id": "CUST00014",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 38,
+      "chorki_customers.name": "Michael Chowdhury",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-22T17:53:52+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T11:39:09+06:00",
+          "chorki_subscriptions.id": "SUB00014_1",
+          "chorki_subscriptions.package": "Yearly",
+          "chorki_subscriptions.payment_method": "google_pay",
+          "chorki_subscriptions.price": 35.076071080413044,
+          "chorki_subscriptions.start_date": "2025-09-22T13:01:54+06:00",
+          "chorki_subscriptions.status": "trial",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T21:08:12+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T23:27:02+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T06:35:35+06:00",
+          "chorki_subscriptions.id": "SUB00014_2",
+          "chorki_subscriptions.package": "VIP",
+          "chorki_subscriptions.payment_method": "mobile_payment",
+          "chorki_subscriptions.price": 44.052629061133054,
+          "chorki_subscriptions.start_date": "2025-09-23T13:50:16+06:00",
+          "chorki_subscriptions.status": "pending",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T14:10:34+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T18:44:44+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 48.08743169398907,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 235",
+          "chorki_watch_histories.created_at": "2025-09-23T20:55:05+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_1",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T04:33:49+06:00",
+          "chorki_watch_histories.watch_duration": 88,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 38.80597014925373,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 195",
+          "chorki_watch_histories.created_at": "2025-09-23T11:24:42+06:00",
+          "chorki_watch_histories.genre": [
+            "War",
+            "Animation",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_2",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T22:47:14+06:00",
+          "chorki_watch_histories.watch_duration": 52,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 0,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 192",
+          "chorki_watch_histories.created_at": "2025-09-23T13:01:13+06:00",
+          "chorki_watch_histories.genre": [
+            "Animation",
+            "Crime",
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_3",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T23:26:13+06:00",
+          "chorki_watch_histories.watch_duration": 0,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 20.33898305084746,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 59",
+          "chorki_watch_histories.created_at": "2025-09-23T09:25:17+06:00",
+          "chorki_watch_histories.genre": [
+            "Western",
+            "Horror",
+            "Sci-Fi"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_4",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-23T10:14:54+06:00",
+          "chorki_watch_histories.watch_duration": 12,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 11.931818181818182,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 223",
+          "chorki_watch_histories.created_at": "2025-09-23T13:13:22+06:00",
+          "chorki_watch_histories.genre": [
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_5",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T12:32:58+06:00",
+          "chorki_watch_histories.watch_duration": 21,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 38.961038961038966,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 160",
+          "chorki_watch_histories.created_at": "2025-09-23T04:59:08+06:00",
+          "chorki_watch_histories.genre": [
+            "Sci-Fi"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_6",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T07:38:29+06:00",
+          "chorki_watch_histories.watch_duration": 30,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 20.14388489208633,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 103",
+          "chorki_watch_histories.created_at": "2025-09-23T02:26:17+06:00",
+          "chorki_watch_histories.genre": [
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_7",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T18:21:16+06:00",
+          "chorki_watch_histories.watch_duration": 28,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 76.92307692307693,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 403",
+          "chorki_watch_histories.created_at": "2025-09-23T05:32:33+06:00",
+          "chorki_watch_histories.genre": [
+            "Fantasy",
+            "Musical"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_8",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T23:36:55+06:00",
+          "chorki_watch_histories.watch_duration": 50,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 75.29411764705883,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 284",
+          "chorki_watch_histories.created_at": "2025-09-23T06:58:27+06:00",
+          "chorki_watch_histories.genre": [
+            "Comedy",
+            "Sci-Fi",
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_9",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T15:55:43+06:00",
+          "chorki_watch_histories.watch_duration": 64,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 75.66137566137566,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 257",
+          "chorki_watch_histories.created_at": "2025-09-23T15:33:10+06:00",
+          "chorki_watch_histories.genre": [
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_10",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T01:46:32+06:00",
+          "chorki_watch_histories.watch_duration": 143,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 6.557377049180328,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 139",
+          "chorki_watch_histories.created_at": "2025-09-23T19:24:22+06:00",
+          "chorki_watch_histories.genre": [
+            "Romance",
+            "Musical",
+            "Biography"
+          ],
+          "chorki_watch_histories.id": "WATCH00014_11",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T05:17:22+06:00",
+          "chorki_watch_histories.watch_duration": 4,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 28,
+      "chorki_customers.app_version": "5.0.0",
+      "chorki_customers.country": "Spain",
+      "chorki_customers.created_at": "2025-09-23T16:03:55+06:00",
+      "chorki_customers.device": "PlayStation",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "7.0.0",
+          "chorki_devices.created_at": "2025-09-22T13:37:00+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "FireStick",
+          "chorki_devices.id": "DEV00015_1",
+          "chorki_devices.is_active": false,
+          "chorki_devices.last_seen": "2025-09-23T23:47:16+06:00",
+          "chorki_devices.os_version": "14.2.4",
+          "chorki_devices.updated_at": "2025-09-23T20:53:10+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Shahin.Hernandez39@example.com",
+      "chorki_customers.id": "CUST00015",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 48,
+      "chorki_customers.name": "Shahin Hernandez",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-23T16:55:59+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T07:50:28+06:00",
+          "chorki_subscriptions.id": "SUB00015_1",
+          "chorki_subscriptions.package": "Free",
+          "chorki_subscriptions.payment_method": "credit_card",
+          "chorki_subscriptions.price": 18.07995931811071,
+          "chorki_subscriptions.start_date": "2025-09-23T04:31:31+06:00",
+          "chorki_subscriptions.status": "pending",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T05:28:55+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T20:27:32+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 25.165562913907287,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 127",
+          "chorki_watch_histories.created_at": "2025-09-23T14:51:30+06:00",
+          "chorki_watch_histories.genre": [
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_1",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T14:03:20+06:00",
+          "chorki_watch_histories.watch_duration": 38,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 33,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 107",
+          "chorki_watch_histories.created_at": "2025-09-23T05:07:04+06:00",
+          "chorki_watch_histories.genre": [
+            "Animation"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_2",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T15:31:09+06:00",
+          "chorki_watch_histories.watch_duration": 33,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 56.557377049180324,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 264",
+          "chorki_watch_histories.created_at": "2025-09-24T00:01:36+06:00",
+          "chorki_watch_histories.genre": [
+            "Romance",
+            "Sci-Fi",
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_3",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-23T21:17:26+06:00",
+          "chorki_watch_histories.watch_duration": 69,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 4.040404040404041,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 53",
+          "chorki_watch_histories.created_at": "2025-09-23T10:51:27+06:00",
+          "chorki_watch_histories.genre": [
+            "Drama",
+            "Sci-Fi",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_4",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T19:29:43+06:00",
+          "chorki_watch_histories.watch_duration": 4,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 99.17355371900827,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 288",
+          "chorki_watch_histories.created_at": "2025-09-24T01:35:06+06:00",
+          "chorki_watch_histories.genre": [
+            "War",
+            "Fantasy"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_5",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-24T01:04:05+06:00",
+          "chorki_watch_histories.watch_duration": 120,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 18.248175182481752,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 24",
+          "chorki_watch_histories.created_at": "2025-09-23T17:41:02+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical",
+            "Fantasy",
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_6",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-23T11:56:27+06:00",
+          "chorki_watch_histories.watch_duration": 25,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 29.268292682926827,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 473",
+          "chorki_watch_histories.created_at": "2025-09-24T00:59:52+06:00",
+          "chorki_watch_histories.genre": [
+            "Comedy",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_7",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T22:08:48+06:00",
+          "chorki_watch_histories.watch_duration": 48,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 68.05555555555556,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 489",
+          "chorki_watch_histories.created_at": "2025-09-23T23:05:42+06:00",
+          "chorki_watch_histories.genre": [
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_8",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T03:11:55+06:00",
+          "chorki_watch_histories.watch_duration": 49,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 81.3953488372093,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 425",
+          "chorki_watch_histories.created_at": "2025-09-23T03:13:41+06:00",
+          "chorki_watch_histories.genre": [
+            "Thriller",
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_9",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T16:11:47+06:00",
+          "chorki_watch_histories.watch_duration": 140,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 48.113207547169814,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 173",
+          "chorki_watch_histories.created_at": "2025-09-23T22:54:28+06:00",
+          "chorki_watch_histories.genre": [
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_10",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T13:43:54+06:00",
+          "chorki_watch_histories.watch_duration": 51,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 84.91620111731844,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 426",
+          "chorki_watch_histories.created_at": "2025-09-23T22:32:19+06:00",
+          "chorki_watch_histories.genre": [
+            "Animation",
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_11",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T02:56:55+06:00",
+          "chorki_watch_histories.watch_duration": 152,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 27.11864406779661,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 250",
+          "chorki_watch_histories.created_at": "2025-09-23T04:39:12+06:00",
+          "chorki_watch_histories.genre": [
+            "Mystery",
+            "Thriller"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_12",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T23:46:17+06:00",
+          "chorki_watch_histories.watch_duration": 32,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 72.09302325581395,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 370",
+          "chorki_watch_histories.created_at": "2025-09-23T01:49:14+06:00",
+          "chorki_watch_histories.genre": [
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_13",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-24T01:30:00+06:00",
+          "chorki_watch_histories.watch_duration": 31,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 4.326923076923077,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 296",
+          "chorki_watch_histories.created_at": "2025-09-23T07:13:10+06:00",
+          "chorki_watch_histories.genre": [
+            "Comedy",
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00015_14",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-24T00:02:32+06:00",
+          "chorki_watch_histories.watch_duration": 9,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 58,
+      "chorki_customers.app_version": "6.0.0",
+      "chorki_customers.country": "UK",
+      "chorki_customers.created_at": "2025-09-23T03:13:59+06:00",
+      "chorki_customers.device": "AppleTV",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "5.4.0",
+          "chorki_devices.created_at": "2025-09-23T11:36:08+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "AppleTV",
+          "chorki_devices.id": "DEV00016_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T11:53:24+06:00",
+          "chorki_devices.os_version": "11.3.0",
+          "chorki_devices.updated_at": "2025-09-23T17:34:12+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.4.0",
+          "chorki_devices.created_at": "2025-09-22T05:13:47+06:00",
+          "chorki_devices.device_model": "Samsung Galaxy Tab",
+          "chorki_devices.device_type": "Android",
+          "chorki_devices.id": "DEV00016_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T13:42:20+06:00",
+          "chorki_devices.os_version": "10.6.3",
+          "chorki_devices.updated_at": "2025-09-24T01:04:10+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.1.0",
+          "chorki_devices.created_at": "2025-09-22T06:36:29+06:00",
+          "chorki_devices.device_model": "Hisense Smart TV",
+          "chorki_devices.device_type": "SmartTV",
+          "chorki_devices.id": "DEV00016_3",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T12:18:08+06:00",
+          "chorki_devices.os_version": "12.9.6",
+          "chorki_devices.updated_at": "2025-09-23T11:39:38+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Rahul.Islam19@example.com",
+      "chorki_customers.id": "CUST00016",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 9,
+      "chorki_customers.name": "Rahul Islam",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T10:03:18+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T23:54:53+06:00",
+          "chorki_subscriptions.id": "SUB00016_1",
+          "chorki_subscriptions.package": "Basic",
+          "chorki_subscriptions.payment_method": "mobile_payment",
+          "chorki_subscriptions.price": 9.488462329714011,
+          "chorki_subscriptions.start_date": "2025-09-23T03:35:31+06:00",
+          "chorki_subscriptions.status": "inactive",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T08:08:37+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T12:32:34+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T19:43:27+06:00",
+          "chorki_subscriptions.id": "SUB00016_2",
+          "chorki_subscriptions.package": "Premium",
+          "chorki_subscriptions.payment_method": "apple_pay",
+          "chorki_subscriptions.price": 11.14036893653654,
+          "chorki_subscriptions.start_date": "2025-09-22T05:30:03+06:00",
+          "chorki_subscriptions.status": "pending",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T18:20:48+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-22T12:11:40+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T20:02:43+06:00",
+          "chorki_subscriptions.id": "SUB00016_3",
+          "chorki_subscriptions.package": "Yearly",
+          "chorki_subscriptions.payment_method": "bank_transfer",
+          "chorki_subscriptions.price": 7.187316933825429,
+          "chorki_subscriptions.start_date": "2025-09-22T15:03:14+06:00",
+          "chorki_subscriptions.status": "pending",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T13:27:45+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T13:58:28+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 50.90909090909091,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 246",
+          "chorki_watch_histories.created_at": "2025-09-24T00:04:54+06:00",
+          "chorki_watch_histories.genre": [
+            "Fantasy",
+            "Comedy"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_1",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T17:35:56+06:00",
+          "chorki_watch_histories.watch_duration": 28,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 24.519230769230766,
+          "chorki_watch_histories.content_id": "CONTENT7",
+          "chorki_watch_histories.content_title": "Content Title 380",
+          "chorki_watch_histories.created_at": "2025-09-23T09:52:30+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Adventure",
+            "Animation"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_2",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-24T00:29:47+06:00",
+          "chorki_watch_histories.watch_duration": 51,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 70.65217391304348,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 266",
+          "chorki_watch_histories.created_at": "2025-09-23T17:57:40+06:00",
+          "chorki_watch_histories.genre": [
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_3",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T12:39:14+06:00",
+          "chorki_watch_histories.watch_duration": 65,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 30.434782608695656,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 497",
+          "chorki_watch_histories.created_at": "2025-09-23T16:11:18+06:00",
+          "chorki_watch_histories.genre": [
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_4",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-24T00:41:14+06:00",
+          "chorki_watch_histories.watch_duration": 14,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 44.785276073619634,
+          "chorki_watch_histories.content_id": "CONTENT1",
+          "chorki_watch_histories.content_title": "Content Title 53",
+          "chorki_watch_histories.created_at": "2025-09-23T07:52:52+06:00",
+          "chorki_watch_histories.genre": [
+            "Animation"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_5",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T14:51:08+06:00",
+          "chorki_watch_histories.watch_duration": 73,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 91.54929577464789,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 108",
+          "chorki_watch_histories.created_at": "2025-09-23T05:12:52+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical",
+            "Sci-Fi"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_6",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T03:26:00+06:00",
+          "chorki_watch_histories.watch_duration": 65,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 3.3333333333333335,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 214",
+          "chorki_watch_histories.created_at": "2025-09-23T13:52:25+06:00",
+          "chorki_watch_histories.genre": [
+            "Romance",
+            "Family"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_7",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T16:10:56+06:00",
+          "chorki_watch_histories.watch_duration": 2,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 37.93103448275862,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 171",
+          "chorki_watch_histories.created_at": "2025-09-23T23:39:49+06:00",
+          "chorki_watch_histories.genre": [
+            "Biography",
+            "Romance"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_8",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-23T12:29:54+06:00",
+          "chorki_watch_histories.watch_duration": 22,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 42.77777777777778,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 243",
+          "chorki_watch_histories.created_at": "2025-09-23T08:27:38+06:00",
+          "chorki_watch_histories.genre": [
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_9",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T16:37:03+06:00",
+          "chorki_watch_histories.watch_duration": 77,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 65.68047337278107,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 450",
+          "chorki_watch_histories.created_at": "2025-09-23T02:40:51+06:00",
+          "chorki_watch_histories.genre": [
+            "Crime",
+            "Romance",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00016_10",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T06:29:36+06:00",
+          "chorki_watch_histories.watch_duration": 111,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 39,
+      "chorki_customers.app_version": "5.4.0",
+      "chorki_customers.country": "France",
+      "chorki_customers.created_at": "2025-09-23T04:56:12+06:00",
+      "chorki_customers.device": "Xbox",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "5.1.0",
+          "chorki_devices.created_at": "2025-09-23T02:17:34+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "Xbox",
+          "chorki_devices.id": "DEV00017_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T04:06:35+06:00",
+          "chorki_devices.os_version": "12.9.2",
+          "chorki_devices.updated_at": "2025-09-23T10:21:34+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.1.0",
+          "chorki_devices.created_at": "2025-09-22T22:14:37+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "PlayStation",
+          "chorki_devices.id": "DEV00017_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T19:09:03+06:00",
+          "chorki_devices.os_version": "13.9.5",
+          "chorki_devices.updated_at": "2025-09-23T02:44:06+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.4.0",
+          "chorki_devices.created_at": "2025-09-23T08:20:31+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "Roku",
+          "chorki_devices.id": "DEV00017_3",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T15:12:55+06:00",
+          "chorki_devices.os_version": "13.7.8",
+          "chorki_devices.updated_at": "2025-09-23T12:52:35+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "6.1.0",
+          "chorki_devices.created_at": "2025-09-23T08:39:23+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "FireStick",
+          "chorki_devices.id": "DEV00017_4",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T16:56:28+06:00",
+          "chorki_devices.os_version": "11.0.4",
+          "chorki_devices.updated_at": "2025-09-23T22:41:00+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Steven.Uddin390@example.com",
+      "chorki_customers.id": "CUST00017",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 37,
+      "chorki_customers.name": "Steven Uddin",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T05:22:12+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T23:37:49+06:00",
+          "chorki_subscriptions.id": "SUB00017_1",
+          "chorki_subscriptions.package": "VIP",
+          "chorki_subscriptions.payment_method": "debit_card",
+          "chorki_subscriptions.price": 9.66616703485785,
+          "chorki_subscriptions.start_date": "2025-09-23T22:55:48+06:00",
+          "chorki_subscriptions.status": "expired",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T20:03:56+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T08:59:00+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T05:50:14+06:00",
+          "chorki_subscriptions.id": "SUB00017_2",
+          "chorki_subscriptions.package": "Student",
+          "chorki_subscriptions.payment_method": "google_pay",
+          "chorki_subscriptions.price": 6.694346927847244,
+          "chorki_subscriptions.start_date": "2025-09-23T05:33:31+06:00",
+          "chorki_subscriptions.status": "inactive",
+          "chorki_subscriptions.trial_period": true,
+          "chorki_subscriptions.updated_at": "2025-09-23T14:41:20+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-23T02:28:19+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T09:08:24+06:00",
+          "chorki_subscriptions.id": "SUB00017_3",
+          "chorki_subscriptions.package": "Yearly",
+          "chorki_subscriptions.payment_method": "mobile_payment",
+          "chorki_subscriptions.price": 26.78415039503912,
+          "chorki_subscriptions.start_date": "2025-09-23T16:51:18+06:00",
+          "chorki_subscriptions.status": "expired",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T23:56:10+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T06:29:13+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 89.50617283950618,
+          "chorki_watch_histories.content_id": "CONTENT1",
+          "chorki_watch_histories.content_title": "Content Title 275",
+          "chorki_watch_histories.created_at": "2025-09-23T06:51:08+06:00",
+          "chorki_watch_histories.genre": [
+            "Mystery",
+            "Western",
+            "Biography"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_1",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T07:12:20+06:00",
+          "chorki_watch_histories.watch_duration": 145,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 96.15384615384616,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 366",
+          "chorki_watch_histories.created_at": "2025-09-23T05:18:30+06:00",
+          "chorki_watch_histories.genre": [
+            "Sci-Fi"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_2",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T11:33:10+06:00",
+          "chorki_watch_histories.watch_duration": 150,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 50.86705202312138,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 337",
+          "chorki_watch_histories.created_at": "2025-09-23T14:30:17+06:00",
+          "chorki_watch_histories.genre": [
+            "Romance"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_3",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T05:02:58+06:00",
+          "chorki_watch_histories.watch_duration": 88,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 52.52525252525253,
+          "chorki_watch_histories.content_id": "CONTENT7",
+          "chorki_watch_histories.content_title": "Content Title 16",
+          "chorki_watch_histories.created_at": "2025-09-23T01:54:29+06:00",
+          "chorki_watch_histories.genre": [
+            "Adventure"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_4",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-24T00:00:41+06:00",
+          "chorki_watch_histories.watch_duration": 104,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 89.20863309352518,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 246",
+          "chorki_watch_histories.created_at": "2025-09-24T01:40:25+06:00",
+          "chorki_watch_histories.genre": [
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_5",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T09:20:29+06:00",
+          "chorki_watch_histories.watch_duration": 124,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 41.87192118226601,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 148",
+          "chorki_watch_histories.created_at": "2025-09-23T09:49:27+06:00",
+          "chorki_watch_histories.genre": [
+            "Adventure",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_6",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T16:48:09+06:00",
+          "chorki_watch_histories.watch_duration": 85,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 63.26530612244898,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 138",
+          "chorki_watch_histories.created_at": "2025-09-23T12:19:08+06:00",
+          "chorki_watch_histories.genre": [
+            "Sci-Fi"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_7",
+          "chorki_watch_histories.type": "anime",
+          "chorki_watch_histories.watch_date": "2025-09-23T13:06:06+06:00",
+          "chorki_watch_histories.watch_duration": 124,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 60.74074074074074,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 31",
+          "chorki_watch_histories.created_at": "2025-09-23T04:36:20+06:00",
+          "chorki_watch_histories.genre": [
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_8",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T08:10:32+06:00",
+          "chorki_watch_histories.watch_duration": 82,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 15.384615384615385,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 18",
+          "chorki_watch_histories.created_at": "2025-09-23T13:40:00+06:00",
+          "chorki_watch_histories.genre": [
+            "War",
+            "Documentary",
+            "Comedy"
+          ],
+          "chorki_watch_histories.id": "WATCH00017_9",
+          "chorki_watch_histories.type": "web_series",
+          "chorki_watch_histories.watch_date": "2025-09-23T18:39:14+06:00",
+          "chorki_watch_histories.watch_duration": 28,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 58,
+      "chorki_customers.app_version": "5.4.0",
+      "chorki_customers.country": "India",
+      "chorki_customers.created_at": "2025-09-23T08:44:58+06:00",
+      "chorki_customers.device": "Roku",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "6.0.0",
+          "chorki_devices.created_at": "2025-09-23T05:39:09+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "PlayStation",
+          "chorki_devices.id": "DEV00018_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-24T01:00:44+06:00",
+          "chorki_devices.os_version": "10.0.1",
+          "chorki_devices.updated_at": "2025-09-23T17:43:54+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "7.0.0",
+          "chorki_devices.created_at": "2025-09-22T20:33:12+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "Xbox",
+          "chorki_devices.id": "DEV00018_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T09:17:52+06:00",
+          "chorki_devices.os_version": "14.5.9",
+          "chorki_devices.updated_at": "2025-09-23T14:33:16+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "John.Chowdhury984@example.com",
+      "chorki_customers.id": "CUST00018",
+      "chorki_customers.is_active": false,
+      "chorki_customers.last_login_days": 9,
+      "chorki_customers.name": "John Chowdhury",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T04:50:28+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T11:32:29+06:00",
+          "chorki_subscriptions.id": "SUB00018_1",
+          "chorki_subscriptions.package": "VIP",
+          "chorki_subscriptions.payment_method": "debit_card",
+          "chorki_subscriptions.price": 13.819378286484152,
+          "chorki_subscriptions.start_date": "2025-09-22T07:36:50+06:00",
+          "chorki_subscriptions.status": "cancelled",
+          "chorki_subscriptions.trial_period": true,
+          "chorki_subscriptions.updated_at": "2025-09-23T23:22:10+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T07:10:53+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T12:40:09+06:00",
+          "chorki_subscriptions.id": "SUB00018_2",
+          "chorki_subscriptions.package": "Premium",
+          "chorki_subscriptions.payment_method": "debit_card",
+          "chorki_subscriptions.price": 21.01174746580994,
+          "chorki_subscriptions.start_date": "2025-09-23T21:53:45+06:00",
+          "chorki_subscriptions.status": "active",
+          "chorki_subscriptions.trial_period": true,
+          "chorki_subscriptions.updated_at": "2025-09-23T19:39:24+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-23T22:49:48+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 81.48148148148148,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 500",
+          "chorki_watch_histories.created_at": "2025-09-23T21:21:06+06:00",
+          "chorki_watch_histories.genre": [
+            "Biography",
+            "Horror",
+            "Sci-Fi"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_1",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T21:28:31+06:00",
+          "chorki_watch_histories.watch_duration": 44,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 85.41666666666666,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 444",
+          "chorki_watch_histories.created_at": "2025-09-23T16:54:41+06:00",
+          "chorki_watch_histories.genre": [
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_2",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-24T01:07:03+06:00",
+          "chorki_watch_histories.watch_duration": 41,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 82.35294117647058,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 91",
+          "chorki_watch_histories.created_at": "2025-09-24T00:11:01+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Drama",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_3",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T09:12:11+06:00",
+          "chorki_watch_histories.watch_duration": 168,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 18.867924528301888,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 217",
+          "chorki_watch_histories.created_at": "2025-09-23T19:51:01+06:00",
+          "chorki_watch_histories.genre": [
+            "Musical",
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_4",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-23T20:07:24+06:00",
+          "chorki_watch_histories.watch_duration": 30,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 1.639344262295082,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 166",
+          "chorki_watch_histories.created_at": "2025-09-23T18:56:52+06:00",
+          "chorki_watch_histories.genre": [
+            "Western",
+            "Adventure"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_5",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T06:16:56+06:00",
+          "chorki_watch_histories.watch_duration": 1,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 79.8507462686567,
+          "chorki_watch_histories.content_id": "CONTENT2",
+          "chorki_watch_histories.content_title": "Content Title 161",
+          "chorki_watch_histories.created_at": "2025-09-23T17:17:39+06:00",
+          "chorki_watch_histories.genre": [
+            "Adventure",
+            "Mystery",
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_6",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T19:50:43+06:00",
+          "chorki_watch_histories.watch_duration": 107,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 44.680851063829785,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 317",
+          "chorki_watch_histories.created_at": "2025-09-23T19:38:29+06:00",
+          "chorki_watch_histories.genre": [
+            "Biography"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_7",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T21:18:38+06:00",
+          "chorki_watch_histories.watch_duration": 42,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 3.3816425120772946,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 476",
+          "chorki_watch_histories.created_at": "2025-09-23T07:47:37+06:00",
+          "chorki_watch_histories.genre": [
+            "Documentary",
+            "Musical",
+            "Crime"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_8",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T08:40:06+06:00",
+          "chorki_watch_histories.watch_duration": 7,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 29.03225806451613,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 213",
+          "chorki_watch_histories.created_at": "2025-09-23T12:29:53+06:00",
+          "chorki_watch_histories.genre": [
+            "War",
+            "Thriller",
+            "Documentary"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_9",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T17:41:30+06:00",
+          "chorki_watch_histories.watch_duration": 36,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 70.27027027027027,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 440",
+          "chorki_watch_histories.created_at": "2025-09-23T05:09:08+06:00",
+          "chorki_watch_histories.genre": [
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_10",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-23T20:20:26+06:00",
+          "chorki_watch_histories.watch_duration": 104,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 12.727272727272727,
+          "chorki_watch_histories.content_id": "CONTENT3",
+          "chorki_watch_histories.content_title": "Content Title 452",
+          "chorki_watch_histories.created_at": "2025-09-23T05:45:19+06:00",
+          "chorki_watch_histories.genre": [
+            "Action"
+          ],
+          "chorki_watch_histories.id": "WATCH00018_11",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-23T14:40:29+06:00",
+          "chorki_watch_histories.watch_duration": 21,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 29,
+      "chorki_customers.app_version": "5.1.0",
+      "chorki_customers.country": "Netherlands",
+      "chorki_customers.created_at": "2025-09-22T09:59:42+06:00",
+      "chorki_customers.device": "Web",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "6.2.0",
+          "chorki_devices.created_at": "2025-09-23T07:02:44+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "Xbox",
+          "chorki_devices.id": "DEV00019_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T08:40:08+06:00",
+          "chorki_devices.os_version": "13.2.6",
+          "chorki_devices.updated_at": "2025-09-23T03:57:54+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Mark.Martinez997@example.com",
+      "chorki_customers.id": "CUST00019",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 34,
+      "chorki_customers.name": "Mark Martinez",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-23T12:47:58+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T06:59:11+06:00",
+          "chorki_subscriptions.id": "SUB00019_1",
+          "chorki_subscriptions.package": "Student",
+          "chorki_subscriptions.payment_method": "bank_transfer",
+          "chorki_subscriptions.price": 6.136029259424715,
+          "chorki_subscriptions.start_date": "2025-09-23T06:02:00+06:00",
+          "chorki_subscriptions.status": "expired",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T21:03:35+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-22T23:26:39+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T14:14:23+06:00",
+          "chorki_subscriptions.id": "SUB00019_2",
+          "chorki_subscriptions.package": "Premium",
+          "chorki_subscriptions.payment_method": "apple_pay",
+          "chorki_subscriptions.price": 49.62475993917366,
+          "chorki_subscriptions.start_date": "2025-09-23T09:22:22+06:00",
+          "chorki_subscriptions.status": "expired",
+          "chorki_subscriptions.trial_period": true,
+          "chorki_subscriptions.updated_at": "2025-09-23T11:23:36+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-22T10:22:18+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T20:14:17+06:00",
+          "chorki_subscriptions.id": "SUB00019_3",
+          "chorki_subscriptions.package": "Yearly",
+          "chorki_subscriptions.payment_method": "google_pay",
+          "chorki_subscriptions.price": 8.749710309031668,
+          "chorki_subscriptions.start_date": "2025-09-22T04:33:29+06:00",
+          "chorki_subscriptions.status": "trial",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T16:50:05+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-24T01:34:44+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 20,
+          "chorki_watch_histories.content_id": "CONTENT1",
+          "chorki_watch_histories.content_title": "Content Title 12",
+          "chorki_watch_histories.created_at": "2025-09-23T12:51:49+06:00",
+          "chorki_watch_histories.genre": [
+            "Mystery",
+            "Animation",
+            "War"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_1",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T03:46:51+06:00",
+          "chorki_watch_histories.watch_duration": 25,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 96.92307692307692,
+          "chorki_watch_histories.content_id": "CONTENT4",
+          "chorki_watch_histories.content_title": "Content Title 219",
+          "chorki_watch_histories.created_at": "2025-09-23T04:25:25+06:00",
+          "chorki_watch_histories.genre": [
+            "Family"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_2",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T14:03:10+06:00",
+          "chorki_watch_histories.watch_duration": 63,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 17.391304347826086,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 449",
+          "chorki_watch_histories.created_at": "2025-09-23T18:07:15+06:00",
+          "chorki_watch_histories.genre": [
+            "Fantasy"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_3",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T14:52:58+06:00",
+          "chorki_watch_histories.watch_duration": 12,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 69.94535519125684,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 42",
+          "chorki_watch_histories.created_at": "2025-09-23T13:37:43+06:00",
+          "chorki_watch_histories.genre": [
+            "Horror",
+            "Drama",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_4",
+          "chorki_watch_histories.type": "music_video",
+          "chorki_watch_histories.watch_date": "2025-09-23T18:10:43+06:00",
+          "chorki_watch_histories.watch_duration": 128,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 20.833333333333336,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 258",
+          "chorki_watch_histories.created_at": "2025-09-23T05:18:48+06:00",
+          "chorki_watch_histories.genre": [
+            "Sci-Fi",
+            "Horror"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_5",
+          "chorki_watch_histories.type": "live_stream",
+          "chorki_watch_histories.watch_date": "2025-09-24T00:45:09+06:00",
+          "chorki_watch_histories.watch_duration": 10,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 74.0506329113924,
+          "chorki_watch_histories.content_id": "CONTENT10",
+          "chorki_watch_histories.content_title": "Content Title 349",
+          "chorki_watch_histories.created_at": "2025-09-23T15:25:48+06:00",
+          "chorki_watch_histories.genre": [
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_6",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T08:36:24+06:00",
+          "chorki_watch_histories.watch_duration": 117,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 44,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 84",
+          "chorki_watch_histories.created_at": "2025-09-23T23:14:05+06:00",
+          "chorki_watch_histories.genre": [
+            "Family",
+            "Documentary"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_7",
+          "chorki_watch_histories.type": "documentary",
+          "chorki_watch_histories.watch_date": "2025-09-23T06:35:57+06:00",
+          "chorki_watch_histories.watch_duration": 22,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 25.252525252525253,
+          "chorki_watch_histories.content_id": "CONTENT9",
+          "chorki_watch_histories.content_title": "Content Title 444",
+          "chorki_watch_histories.created_at": "2025-09-23T02:07:28+06:00",
+          "chorki_watch_histories.genre": [
+            "Adventure",
+            "Action",
+            "Mystery"
+          ],
+          "chorki_watch_histories.id": "WATCH00019_8",
+          "chorki_watch_histories.type": "reality_show",
+          "chorki_watch_histories.watch_date": "2025-09-23T06:41:19+06:00",
+          "chorki_watch_histories.watch_duration": 25,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    },
+    {
+      "chorki_customers.age": 66,
+      "chorki_customers.app_version": "5.4.0",
+      "chorki_customers.country": "Germany",
+      "chorki_customers.created_at": "2025-09-22T22:37:04+06:00",
+      "chorki_customers.device": "AppleTV",
+      "chorki_customers.devices": [
+        {
+          "chorki_devices.app_version": "6.2.0",
+          "chorki_devices.created_at": "2025-09-22T13:58:35+06:00",
+          "chorki_devices.device_model": "Samsung Galaxy Tab",
+          "chorki_devices.device_type": "Android",
+          "chorki_devices.id": "DEV00020_1",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T13:55:03+06:00",
+          "chorki_devices.os_version": "10.7.2",
+          "chorki_devices.updated_at": "2025-09-23T01:53:25+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.2.0",
+          "chorki_devices.created_at": "2025-09-22T17:00:04+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "AppleTV",
+          "chorki_devices.id": "DEV00020_2",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-23T03:19:56+06:00",
+          "chorki_devices.os_version": "11.6.4",
+          "chorki_devices.updated_at": "2025-09-23T12:50:31+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "6.1.0",
+          "chorki_devices.created_at": "2025-09-22T16:13:07+06:00",
+          "chorki_devices.device_model": "Chrome",
+          "chorki_devices.device_type": "Web",
+          "chorki_devices.id": "DEV00020_3",
+          "chorki_devices.is_active": true,
+          "chorki_devices.last_seen": "2025-09-24T00:07:51+06:00",
+          "chorki_devices.os_version": "13.8.1",
+          "chorki_devices.updated_at": "2025-09-23T11:02:04+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        },
+        {
+          "chorki_devices.app_version": "5.0.0",
+          "chorki_devices.created_at": "2025-09-23T19:32:17+06:00",
+          "chorki_devices.device_model": "Unknown Model",
+          "chorki_devices.device_type": "Roku",
+          "chorki_devices.id": "DEV00020_4",
+          "chorki_devices.is_active": false,
+          "chorki_devices.last_seen": "2025-09-23T02:17:38+06:00",
+          "chorki_devices.os_version": "11.4.7",
+          "chorki_devices.updated_at": "2025-09-24T00:29:11+06:00",
+          "dgraph.type": [
+            "chorki_devices"
+          ]
+        }
+      ],
+      "chorki_customers.email": "Nancy.Kumar955@example.com",
+      "chorki_customers.id": "CUST00020",
+      "chorki_customers.is_active": true,
+      "chorki_customers.last_login_days": 88,
+      "chorki_customers.name": "Nancy Kumar",
+      "chorki_customers.subscriptions": [
+        {
+          "chorki_subscriptions.auto_renewal": false,
+          "chorki_subscriptions.created_at": "2025-09-22T12:09:06+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T13:57:27+06:00",
+          "chorki_subscriptions.id": "SUB00020_1",
+          "chorki_subscriptions.package": "Free",
+          "chorki_subscriptions.payment_method": "bank_transfer",
+          "chorki_subscriptions.price": 29.69368366229763,
+          "chorki_subscriptions.start_date": "2025-09-22T04:42:13+06:00",
+          "chorki_subscriptions.status": "trial",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T11:20:18+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        },
+        {
+          "chorki_subscriptions.auto_renewal": true,
+          "chorki_subscriptions.created_at": "2025-09-23T18:01:24+06:00",
+          "chorki_subscriptions.currency": "USD",
+          "chorki_subscriptions.end_date": "2025-09-23T19:12:51+06:00",
+          "chorki_subscriptions.id": "SUB00020_2",
+          "chorki_subscriptions.package": "Basic",
+          "chorki_subscriptions.payment_method": "debit_card",
+          "chorki_subscriptions.price": 29.728315145961194,
+          "chorki_subscriptions.start_date": "2025-09-23T06:44:44+06:00",
+          "chorki_subscriptions.status": "active",
+          "chorki_subscriptions.trial_period": false,
+          "chorki_subscriptions.updated_at": "2025-09-23T17:50:56+06:00",
+          "dgraph.type": [
+            "chorki_subscriptions"
+          ]
+        }
+      ],
+      "chorki_customers.updated_at": "2025-09-24T01:28:42+06:00",
+      "chorki_customers.watch_histories": [
+        {
+          "chorki_watch_histories.completion_percentage": 64.53488372093024,
+          "chorki_watch_histories.content_id": "CONTENT7",
+          "chorki_watch_histories.content_title": "Content Title 115",
+          "chorki_watch_histories.created_at": "2025-09-23T02:26:25+06:00",
+          "chorki_watch_histories.genre": [
+            "Drama"
+          ],
+          "chorki_watch_histories.id": "WATCH00020_1",
+          "chorki_watch_histories.type": "movie",
+          "chorki_watch_histories.watch_date": "2025-09-23T02:18:51+06:00",
+          "chorki_watch_histories.watch_duration": 111,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 99.20634920634922,
+          "chorki_watch_histories.content_id": "CONTENT6",
+          "chorki_watch_histories.content_title": "Content Title 401",
+          "chorki_watch_histories.created_at": "2025-09-23T21:37:19+06:00",
+          "chorki_watch_histories.genre": [
+            "Thriller"
+          ],
+          "chorki_watch_histories.id": "WATCH00020_2",
+          "chorki_watch_histories.type": "podcast",
+          "chorki_watch_histories.watch_date": "2025-09-24T00:28:20+06:00",
+          "chorki_watch_histories.watch_duration": 125,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 27.11864406779661,
+          "chorki_watch_histories.content_id": "CONTENT5",
+          "chorki_watch_histories.content_title": "Content Title 281",
+          "chorki_watch_histories.created_at": "2025-09-23T23:02:24+06:00",
+          "chorki_watch_histories.genre": [
+            "Comedy"
+          ],
+          "chorki_watch_histories.id": "WATCH00020_3",
+          "chorki_watch_histories.type": "short_film",
+          "chorki_watch_histories.watch_date": "2025-09-23T02:05:11+06:00",
+          "chorki_watch_histories.watch_duration": 48,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        },
+        {
+          "chorki_watch_histories.completion_percentage": 67.24137931034483,
+          "chorki_watch_histories.content_id": "CONTENT8",
+          "chorki_watch_histories.content_title": "Content Title 166",
+          "chorki_watch_histories.created_at": "2025-09-23T02:48:55+06:00",
+          "chorki_watch_histories.genre": [
+            "Mystery",
+            "Musical",
+            "Western"
+          ],
+          "chorki_watch_histories.id": "WATCH00020_4",
+          "chorki_watch_histories.type": "series",
+          "chorki_watch_histories.watch_date": "2025-09-23T19:49:57+06:00",
+          "chorki_watch_histories.watch_duration": 39,
+          "dgraph.type": [
+            "chorki_watch_histories"
+          ]
+        }
+      ],
+      "dgraph.type": [
+        "chorki_customers"
+      ]
+    }
+  ]
+}

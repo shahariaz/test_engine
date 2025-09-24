@@ -1,0 +1,57 @@
+# Chorki Data Generator - Example Configuration
+# Copy this file to configs/datagen.yaml and modify as needed
+
+# Generation parameters
+customers: 1000              # Number of customers to generate
+contents: 500                # Number of content items to generate
+batch_size: 100              # Process data in batches of this size
+
+# Output configuration
+format: "dgraph"             # Output format: dgraph, json, csv
+output_dir: "./output"       # Directory for generated files
+dgraph_url: "localhost:9080" # Dgraph Alpha server URL
+
+# Processing options
+validate: true               # Enable data validation
+verbose: true                # Enable verbose logging
+dry_run: false              # If true, generate data but don't export
+
+# Data distribution settings
+distribution:
+  # Customer subscriptions
+  min_subscriptions_per_customer: 1    # Minimum subscriptions per customer
+  max_subscriptions_per_customer: 3    # Maximum subscriptions per customer
+  
+  # Watch history
+  min_watch_histories_per_customer: 2  # Minimum watch histories per customer
+  max_watch_histories_per_customer: 15 # Maximum watch histories per customer
+  
+  # Devices
+  min_devices_per_customer: 1          # Minimum devices per customer
+  max_devices_per_customer: 4          # Maximum devices per customer
+  
+  # Ratios (0.0 to 1.0)
+  active_customer_ratio: 0.85          # Percentage of active customers
+  premium_content_ratio: 0.4           # Percentage of premium content
+
+# Example configurations for different scenarios:
+
+# Development/Testing (small dataset)
+# customers: 100
+# contents: 50
+# batch_size: 20
+
+# Production Testing (medium dataset)
+# customers: 10000
+# contents: 2000
+# batch_size: 200
+
+# Load Testing (large dataset)
+# customers: 100000
+# contents: 20000
+# batch_size: 1000
+
+# Performance Testing (very large dataset)
+# customers: 1000000
+# contents: 100000
+# batch_size: 5000

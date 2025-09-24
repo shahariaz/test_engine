@@ -1,0 +1,27 @@
+# Chorki Data Generator Configuration
+
+# Generation parameters
+customers: 20
+contents: 10
+batch_size: 10
+
+# Output configuration
+format: "dgraph"              # Options: dgraph, json, csv
+output_dir: "./output"
+dgraph_url: "localhost:9080"
+
+# Processing options
+validate: true
+verbose: true
+dry_run: true
+
+# Data distribution settings
+distribution:
+  min_subscriptions_per_customer: 1
+  max_subscriptions_per_customer: 3
+  min_watch_histories_per_customer: 2
+  max_watch_histories_per_customer: 15
+  min_devices_per_customer: 1
+  max_devices_per_customer: 4
+  active_customer_ratio: 0.85
+  premium_content_ratio: 0.4
