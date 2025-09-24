@@ -405,6 +405,134 @@ The converter generates:
 }
 ```
 
+---
+
+## 🚀 Data Generator
+
+The project includes a production-ready data generator located in `tools/datagen/` that creates realistic sample data for testing and development.
+
+### Quick Start
+
+```bash
+# Navigate to the data generator
+cd tools/datagen
+
+# Quick test generation (dry run)
+go run cmd/main.go -customers=10 -contents=5 -dry-run -verbose
+
+# Generate and upload to Dgraph
+go run cmd/main.go -customers=100 -contents=50
+```
+
+### Command Line Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `-config` | string | `configs/datagen.yaml` | Configuration file path |
+| `-customers` | int | 1000 | Number of customers to generate |
+| `-contents` | int | 500 | Number of contents to generate |
+| `-batch` | int | 100 | Batch size for processing |
+| `-dgraph` | string | `localhost:9080` | Dgraph Alpha URL |
+| `-output` | string | `./output` | Output directory |
+| `-format` | string | `dgraph` | Output format (dgraph, json, csv) |
+| `-validate` | bool | true | Validate generated data |
+| `-verbose` | bool | false | Enable verbose logging |
+| `-dry-run` | bool | false | Generate without uploading to Dgraph |
+
+### Usage Examples
+
+#### Development/Testing
+```bash
+# Small test with detailed output
+go run cmd/main.go -customers=5 -contents=3 -dry-run -verbose
+
+# Medium scale test
+go run cmd/main.go -customers=50 -contents=25 -batch=10 -dry-run
+```
+
+#### Production Data Generation
+```bash
+# Small production dataset
+go run cmd/main.go -customers=100 -contents=50 -batch=20
+
+# Large scale generation
+go run cmd/main.go -customers=5000 -contents=1000 -batch=500 -verbose
+
+# Custom configuration
+go run cmd/main.go -config=configs/production.yaml
+```
+
+#### Export Options
+```bash
+# JSON export only
+go run cmd/main.go -customers=50 -contents=25 -format=json -dry-run
+
+# Custom output directory
+go run cmd/main.go -customers=200 -contents=100 -output=./custom_output -dry-run
+
+# CSV export
+go run cmd/main.go -customers=100 -contents=50 -format=csv -dry-run
+```
+
+### Generated Data Structure
+
+The generator creates realistic relationships between entities:
+- **Customers**: Base user profiles with demographics
+- **Subscriptions**: 1-3 subscriptions per customer with realistic statuses
+- **Devices**: 1-4 devices per customer (mobile, smart TV, etc.)
+- **Watch Histories**: 2-15 viewing records per customer
+- **Contents**: Movies, series, and documentaries with metadata
+
+### Configuration
+
+Edit `tools/datagen/configs/datagen.yaml` to customize:
+```yaml
+# Generation parameters
+customers: 100
+contents: 50
+batch_size: 20
+
+# Output configuration
+format: "dgraph"              # Options: dgraph, json, csv
+output_dir: "./output"
+dgraph_url: "localhost:9080"
+
+# Processing options
+validate: true
+verbose: true
+dry_run: true
+
+# Data distribution settings
+distribution:
+  min_subscriptions_per_customer: 1
+  max_subscriptions_per_customer: 3
+  min_watch_histories_per_customer: 2
+  max_watch_histories_per_customer: 15
+  min_devices_per_customer: 1
+  max_devices_per_customer: 4
+  active_customer_ratio: 0.85
+  premium_content_ratio: 0.4
+```
+
+### Output Files
+
+After generation, check the `tools/datagen/output/` directory for:
+- `generation_report.txt`: Summary of generated data
+- `customers_batch_*.json`: Generated customer data with relationships
+- `contents_batch_*.json`: Generated content metadata
+- `dgraph_mutations.txt`: DQL mutations (if format=dgraph)
+
+### Features
+
+- **Batch Processing**: Handles large datasets efficiently
+- **Relationship Generation**: Creates realistic connections between entities
+- **Multiple Formats**: Supports JSON, CSV, and Dgraph DQL output
+- **Validation**: Built-in data validation and integrity checks
+- **Configurable**: YAML-based configuration with CLI overrides
+- **Production Ready**: Error handling, logging, and progress tracking
+
+---
+
 ## Contributing
 
 1. Fork the repository
