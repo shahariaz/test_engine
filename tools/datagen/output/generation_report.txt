@@ -1,23 +1,24 @@
 === DATA GENERATION REPORT ===
 
-Generated at: 2025-09-24T01:45:40+06:00
+Generated at: 2025-09-24T08:40:42+06:00
 Duration: 0s
-Batches processed: 3
+Batches processed: 8
 
 === ENTITY COUNTS ===
-Customers: 20
-Contents: 10
-Subscriptions: 0
-Devices: 0
-Watch histories: 0
-Total records: 30
+Customers: 100
+Contents: 50
+Subscriptions: 186
+Devices: 256
+Watch histories: 819
+Total records: 150
 
-Countries (12): India, Germany, Bangladesh, Australia, Brazil, Mexico, France, Netherlands, USA, Denmark, Spain, UK
-Device types (8): Roku, iOS, Android, Web, Xbox, AppleTV, PlayStation, SmartTV
+Countries (18): Japan, Germany, Bangladesh, Denmark, India, Spain, Sweden, Italy, Brazil, Canada, Mexico, Netherlands, France, USA, Finland, Norway, UK, Australia
+Device types (9): iOS, Web, AppleTV, SmartTV, Xbox, Roku, Android, FireStick, PlayStation
+Packages (8): Free, Premium, Family, Yearly, Basic, Student, VIP, Monthly
 
 === CONFIGURATION ===
 Output format: dgraph
 Output directory: ./output
-Batch size: 10
+Batch size: 20
 Validation enabled: true
 Dry run: true

@@ -1,0 +1,222 @@
+{
+  "set": [
+    {
+      "chorki_contents.created_at": "2024-06-02T13:52:47+06:00",
+      "chorki_contents.description": "Description for web_series content 41",
+      "chorki_contents.duration": 174,
+      "chorki_contents.genre": [
+        "Documentary",
+        "Western",
+        "Drama"
+      ],
+      "chorki_contents.id": "CONTENT41",
+      "chorki_contents.is_premium": true,
+      "chorki_contents.language": "Hindi",
+      "chorki_contents.rating": 8.9,
+      "chorki_contents.release_date": "2021-04-12T08:51:25+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/41.jpg",
+      "chorki_contents.title": "web_series Title 41",
+      "chorki_contents.type": "web_series",
+      "chorki_contents.updated_at": "2025-04-27T11:02:54+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/41.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2023-01-05T21:09:42+06:00",
+      "chorki_contents.description": "Description for podcast content 42",
+      "chorki_contents.duration": 154,
+      "chorki_contents.genre": [
+        "Drama",
+        "Thriller",
+        "Fantasy"
+      ],
+      "chorki_contents.id": "CONTENT42",
+      "chorki_contents.is_premium": true,
+      "chorki_contents.language": "German",
+      "chorki_contents.rating": 6.2,
+      "chorki_contents.release_date": "2025-06-08T19:09:39+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/42.jpg",
+      "chorki_contents.title": "podcast Title 42",
+      "chorki_contents.type": "podcast",
+      "chorki_contents.updated_at": "2025-01-11T13:09:05+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/42.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2025-06-22T19:10:00+06:00",
+      "chorki_contents.description": "Description for movie content 43",
+      "chorki_contents.duration": 103,
+      "chorki_contents.genre": [
+        "Romance"
+      ],
+      "chorki_contents.id": "CONTENT43",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "Italian",
+      "chorki_contents.rating": 9.2,
+      "chorki_contents.release_date": "2022-03-12T04:25:02+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/43.jpg",
+      "chorki_contents.title": "movie Title 43",
+      "chorki_contents.type": "movie",
+      "chorki_contents.updated_at": "2025-03-27T09:25:09+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/43.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2024-12-03T06:53:30+06:00",
+      "chorki_contents.description": "Description for music_video content 44",
+      "chorki_contents.duration": 38,
+      "chorki_contents.genre": [
+        "Biography",
+        "Fantasy",
+        "Horror"
+      ],
+      "chorki_contents.id": "CONTENT44",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "German",
+      "chorki_contents.rating": 7.9,
+      "chorki_contents.release_date": "2023-10-23T16:04:45+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/44.jpg",
+      "chorki_contents.title": "music_video Title 44",
+      "chorki_contents.type": "music_video",
+      "chorki_contents.updated_at": "2025-05-02T11:53:57+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/44.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2023-08-02T16:59:46+06:00",
+      "chorki_contents.description": "Description for short_film content 45",
+      "chorki_contents.duration": 142,
+      "chorki_contents.genre": [
+        "Documentary"
+      ],
+      "chorki_contents.id": "CONTENT45",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "Korean",
+      "chorki_contents.rating": 9.6,
+      "chorki_contents.release_date": "2023-03-30T05:55:34+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/45.jpg",
+      "chorki_contents.title": "short_film Title 45",
+      "chorki_contents.type": "short_film",
+      "chorki_contents.updated_at": "2024-12-22T03:47:50+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/45.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2024-02-11T14:37:46+06:00",
+      "chorki_contents.description": "Description for reality_show content 46",
+      "chorki_contents.duration": 52,
+      "chorki_contents.genre": [
+        "Biography",
+        "War"
+      ],
+      "chorki_contents.id": "CONTENT46",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "Spanish",
+      "chorki_contents.rating": 7.1,
+      "chorki_contents.release_date": "2021-03-13T10:48:39+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/46.jpg",
+      "chorki_contents.title": "reality_show Title 46",
+      "chorki_contents.type": "reality_show",
+      "chorki_contents.updated_at": "2025-09-10T02:27:39+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/46.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2025-09-12T08:40:17+06:00",
+      "chorki_contents.description": "Description for short_film content 47",
+      "chorki_contents.duration": 100,
+      "chorki_contents.genre": [
+        "Western"
+      ],
+      "chorki_contents.id": "CONTENT47",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "French",
+      "chorki_contents.rating": 5,
+      "chorki_contents.release_date": "2022-08-09T12:57:24+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/47.jpg",
+      "chorki_contents.title": "short_film Title 47",
+      "chorki_contents.type": "short_film",
+      "chorki_contents.updated_at": "2024-11-30T05:54:42+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/47.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2025-09-16T09:51:15+06:00",
+      "chorki_contents.description": "Description for movie content 48",
+      "chorki_contents.duration": 124,
+      "chorki_contents.genre": [
+        "Crime"
+      ],
+      "chorki_contents.id": "CONTENT48",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "Portuguese",
+      "chorki_contents.rating": 7.1,
+      "chorki_contents.release_date": "2023-07-25T09:06:01+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/48.jpg",
+      "chorki_contents.title": "movie Title 48",
+      "chorki_contents.type": "movie",
+      "chorki_contents.updated_at": "2024-10-26T15:42:05+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/48.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2022-11-12T12:43:17+06:00",
+      "chorki_contents.description": "Description for reality_show content 49",
+      "chorki_contents.duration": 123,
+      "chorki_contents.genre": [
+        "Family"
+      ],
+      "chorki_contents.id": "CONTENT49",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "Portuguese",
+      "chorki_contents.rating": 6.4,
+      "chorki_contents.release_date": "2024-11-02T20:07:47+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/49.jpg",
+      "chorki_contents.title": "reality_show Title 49",
+      "chorki_contents.type": "reality_show",
+      "chorki_contents.updated_at": "2025-06-03T06:32:35+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/49.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    },
+    {
+      "chorki_contents.created_at": "2022-10-07T06:23:49+06:00",
+      "chorki_contents.description": "Description for short_film content 50",
+      "chorki_contents.duration": 141,
+      "chorki_contents.genre": [
+        "Family",
+        "Comedy"
+      ],
+      "chorki_contents.id": "CONTENT50",
+      "chorki_contents.is_premium": false,
+      "chorki_contents.language": "Italian",
+      "chorki_contents.rating": 6.8,
+      "chorki_contents.release_date": "2025-09-13T10:37:57+06:00",
+      "chorki_contents.thumbnail_url": "https://example.com/thumbnails/50.jpg",
+      "chorki_contents.title": "short_film Title 50",
+      "chorki_contents.type": "short_film",
+      "chorki_contents.updated_at": "2024-12-17T23:33:30+06:00",
+      "chorki_contents.video_url": "https://example.com/videos/50.mp4",
+      "dgraph.type": [
+        "chorki_contents"
+      ]
+    }
+  ]
+}

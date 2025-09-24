@@ -21,15 +21,15 @@ func NewValidator(logger *log.Logger) *Validator {
 
 // ValidationResult holds validation results
 type ValidationResult struct {
-	Valid   bool     `json:"valid"`
-	Errors  []string `json:"errors"`
+	Valid    bool     `json:"valid"`
+	Errors   []string `json:"errors"`
 	Warnings []string `json:"warnings"`
 }
 
 // ValidateBatch validates a batch of data
 func (v *Validator) ValidateBatch(data []map[string]interface{}) error {
 	var allErrors []string
-	
+
 	for i, item := range data {
 		result := v.ValidateItem(item)
 		if !result.Valid {
@@ -37,17 +37,17 @@ func (v *Validator) ValidateBatch(data []map[string]interface{}) error {
 				allErrors = append(allErrors, fmt.Sprintf("Item %d: %s", i+1, err))
 			}
 		}
-		
+
 		// Log warnings
 		for _, warning := range result.Warnings {
 			v.logger.Printf("Warning for item %d: %s", i+1, warning)
 		}
 	}
-	
+
 	if len(allErrors) > 0 {
 		return fmt.Errorf("validation failed: %s", strings.Join(allErrors, "; "))
 	}
-	
+
 	v.logger.Printf("Successfully validated batch of %d items", len(data))
 	return nil
 }
@@ -59,7 +59,7 @@ func (v *Validator) ValidateItem(item map[string]interface{}) ValidationResult {
 		Errors:   []string{},
 		Warnings: []string{},
 	}
-	
+
 	// Check for required dgraph.type
 	if dgraphType, exists := item["dgraph.type"]; !exists {
 		result.Valid = false
@@ -78,7 +78,7 @@ func (v *Validator) ValidateItem(item map[string]interface{}) ValidationResult {
 			result.Errors = append(result.Errors, "dgraph.type must be a non-empty array")
 		}
 	}
-	
+
 	return result
 }
 
@@ -98,7 +98,7 @@ func (v *Validator) validateByType(item map[string]interface{}, entityType strin
 	default:
 		result.Warnings = append(result.Warnings, fmt.Sprintf("unknown entity type: %s", entityType))
 	}
-	
+
 	return result
 }
 
@@ -107,18 +107,18 @@ func (v *Validator) validateCustomer(item map[string]interface{}, result Validat
 	// Check required fields
 	requiredFields := []string{
 		"chorki_customers.id",
-		"chorki_customers.name", 
+		"chorki_customers.name",
 		"chorki_customers.email",
 		"chorki_customers.age",
 	}
-	
+
 	for _, field := range requiredFields {
 		if _, exists := item[field]; !exists {
 			result.Valid = false
 			result.Errors = append(result.Errors, fmt.Sprintf("missing required field: %s", field))
 		}
 	}
-	
+
 	// Validate email format
 	if email, exists := item["chorki_customers.email"]; exists {
 		if emailStr, ok := email.(string); ok {
@@ -128,7 +128,7 @@ func (v *Validator) validateCustomer(item map[string]interface{}, result Validat
 			}
 		}
 	}
-	
+
 	// Validate age range
 	if age, exists := item["chorki_customers.age"]; exists {
 		if ageVal, ok := age.(float64); ok {
@@ -143,7 +143,7 @@ func (v *Validator) validateCustomer(item map[string]interface{}, result Validat
 			}
 		}
 	}
-	
+
 	return result
 }
 
@@ -154,14 +154,14 @@ func (v *Validator) validateSubscription(item map[string]interface{}, result Val
 		"chorki_subscriptions.package",
 		"chorki_subscriptions.status",
 	}
-	
+
 	for _, field := range requiredFields {
 		if _, exists := item[field]; !exists {
 			result.Valid = false
 			result.Errors = append(result.Errors, fmt.Sprintf("missing required field: %s", field))
 		}
 	}
-	
+
 	// Validate status
 	if status, exists := item["chorki_subscriptions.status"]; exists {
 		if statusStr, ok := status.(string); ok {
@@ -179,7 +179,7 @@ func (v *Validator) validateSubscription(item map[string]interface{}, result Val
 			}
 		}
 	}
-	
+
 	return result
 }
 
@@ -189,14 +189,14 @@ func (v *Validator) validateDevice(item map[string]interface{}, result Validatio
 		"chorki_devices.id",
 		"chorki_devices.device_type",
 	}
-	
+
 	for _, field := range requiredFields {
 		if _, exists := item[field]; !exists {
 			result.Valid = false
 			result.Errors = append(result.Errors, fmt.Sprintf("missing required field: %s", field))
 		}
 	}
-	
+
 	return result
 }
 
@@ -206,14 +206,14 @@ func (v *Validator) validateWatchHistory(item map[string]interface{}, result Val
 		"chorki_watch_histories.id",
 		"chorki_watch_histories.content_id",
 	}
-	
+
 	for _, field := range requiredFields {
 		if _, exists := item[field]; !exists {
 			result.Valid = false
 			result.Errors = append(result.Errors, fmt.Sprintf("missing required field: %s", field))
 		}
 	}
-	
+
 	return result
 }
 
@@ -224,14 +224,14 @@ func (v *Validator) validateContent(item map[string]interface{}, result Validati
 		"chorki_contents.title",
 		"chorki_contents.type",
 	}
-	
+
 	for _, field := range requiredFields {
 		if _, exists := item[field]; !exists {
 			result.Valid = false
 			result.Errors = append(result.Errors, fmt.Sprintf("missing required field: %s", field))
 		}
 	}
-	
+
 	return result
 }
 
@@ -241,7 +241,7 @@ func (v *Validator) ValidateType(value interface{}, expectedType string) bool {
 	if valueType == nil {
 		return expectedType == "nil"
 	}
-	
+
 	switch expectedType {
 	case "string":
 		_, ok := value.(string)

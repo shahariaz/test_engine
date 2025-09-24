@@ -1,9 +1,9 @@
 # Chorki Data Generator Configuration
 
 # Generation parameters
-customers: 20
-contents: 10
-batch_size: 10
+customers: 100
+contents: 50
+batch_size: 20
 
 # Output configuration
 format: "dgraph"              # Options: dgraph, json, csv

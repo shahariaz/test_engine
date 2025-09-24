@@ -41,16 +41,16 @@ func main() {
 
 	// Initialize configuration
 	config := &pkg.Config{
-		Customers:  *customers,
-		Contents:   *contents,
-		BatchSize:  *batchSize,
-		DgraphURL:  *dgraphURL,
-		OutputDir:  *outputDir,
-		Format:     *format,
+		Customers:    *customers,
+		Contents:     *contents,
+		BatchSize:    *batchSize,
+		DgraphURL:    *dgraphURL,
+		OutputDir:    *outputDir,
+		Format:       *format,
 		ValidateData: *validate,
-		Verbose:    *verbose,
-		DryRun:     *dryRun,
-		ConfigFile: *configFile,
+		Verbose:      *verbose,
+		DryRun:       *dryRun,
+		ConfigFile:   *configFile,
 	}
 
 	// Load configuration file if exists
@@ -69,7 +69,7 @@ func main() {
 			}
 		}
 	}
-	
+
 	config.ConfigFile = configPath
 	if err := config.LoadFromFile(); err != nil {
 		log.Printf("Warning: Could not load config file %s: %v", configPath, err)

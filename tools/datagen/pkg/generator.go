@@ -192,12 +192,12 @@ func NewGenerator(config *Config) (*Generator, error) {
 // Generate orchestrates the data generation process
 func (g *Generator) Generate() error {
 	ctx := context.Background()
-	
+
 	// Initialize random seed
 	rand.Seed(time.Now().UnixNano())
-	
+
 	g.logger.Printf("Starting data generation with config: %+v", g.config)
-	
+
 	totalItems := g.config.Customers + g.config.Contents
 	g.progress.Start(totalItems)
 	defer g.progress.Finish()
@@ -225,7 +225,7 @@ func (g *Generator) generateCustomers(ctx context.Context) error {
 	g.logger.Printf("Generating %d customers in batches of %d", g.config.Customers, g.config.BatchSize)
 
 	batches := (g.config.Customers + g.config.BatchSize - 1) / g.config.BatchSize
-	
+
 	for batch := 0; batch < batches; batch++ {
 		start := batch * g.config.BatchSize
 		end := start + g.config.BatchSize
@@ -234,7 +234,7 @@ func (g *Generator) generateCustomers(ctx context.Context) error {
 		}
 
 		batchData := g.generateCustomerBatch(start, end)
-		
+
 		// Validate batch
 		if g.config.ValidateData {
 			if err := g.validator.ValidateBatch(batchData); err != nil {
@@ -259,7 +259,7 @@ func (g *Generator) generateContents(ctx context.Context) error {
 	g.logger.Printf("Generating %d contents in batches of %d", g.config.Contents, g.config.BatchSize)
 
 	batches := (g.config.Contents + g.config.BatchSize - 1) / g.config.BatchSize
-	
+
 	for batch := 0; batch < batches; batch++ {
 		start := batch * g.config.BatchSize
 		end := start + g.config.BatchSize
@@ -268,7 +268,7 @@ func (g *Generator) generateContents(ctx context.Context) error {
 		}
 
 		batchData := g.generateContentBatch(start, end)
-		
+
 		// Validate batch
 		if g.config.ValidateData {
 			if err := g.validator.ValidateBatch(batchData); err != nil {
@@ -291,24 +291,24 @@ func (g *Generator) generateContents(ctx context.Context) error {
 // generateCustomerBatch generates a batch of customers with all relationships
 func (g *Generator) generateCustomerBatch(start, end int) []map[string]interface{} {
 	var batch []map[string]interface{}
-	
+
 	for i := start; i < end; i++ {
 		customer := g.generateSingleCustomer(i + 1)
 		batch = append(batch, customer)
 	}
-	
+
 	return batch
 }
 
 // generateContentBatch generates a batch of contents
 func (g *Generator) generateContentBatch(start, end int) []map[string]interface{} {
 	var batch []map[string]interface{}
-	
+
 	for i := start; i < end; i++ {
 		content := g.generateSingleContent(i + 1)
 		batch = append(batch, content)
 	}
-	
+
 	return batch
 }
 
