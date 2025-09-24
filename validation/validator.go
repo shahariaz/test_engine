@@ -414,6 +414,17 @@ func (v *QueryValidator) initDataTypeValidators() {
 		}
 		return false
 	}
+
+	// Array type validator - accepts slice/array types
+	v.dataTypeValidators["array"] = func(value interface{}) bool {
+		return reflect.TypeOf(value).Kind() == reflect.Slice
+	}
+
+	// Complex type validator - accepts map/object structures
+	v.dataTypeValidators["complex"] = func(value interface{}) bool {
+		_, ok := value.(map[string]interface{})
+		return ok
+	}
 }
 
 // =============================================================================
@@ -429,6 +440,35 @@ func (v *QueryValidator) isValueCompatibleWithDataType(value interface{}, dataTy
 	case "IS_NULL", "IS_NOT_NULL":
 		return true // These operators check field presence, not value content
 	case "IN", "NOT_IN":
+		// Special handling for complex data types with IN/NOT_IN operators
+		if dataType == "complex" {
+			// For complex fields, IN operator accepts the complex object directly
+			return true
+		}
+
+		// Special handling for array data types with IN/NOT_IN operators
+		if dataType == "array" {
+			// For array fields, IN operator searches for values within the array
+			// The provided value should be an array of items to search for
+			if arr, ok := value.([]interface{}); ok {
+				// Each item in the search array should be a simple type (string, int, etc.)
+				for _, item := range arr {
+					// Array elements are typically strings for genres, tags, etc.
+					if _, ok := item.(string); !ok {
+						// Allow other simple types too
+						switch item.(type) {
+						case int, int64, float64, bool:
+							// These are acceptable array element types
+						default:
+							return false
+						}
+					}
+				}
+				return true
+			}
+			return false
+		}
+
 		// IN/NOT_IN operations require array values with compatible element types
 		if arr, ok := value.([]interface{}); ok {
 			// Validate each array element against the field's data type
@@ -486,7 +526,17 @@ func (v *QueryValidator) isValueCompatibleWithDataType(value interface{}, dataTy
 func (v *QueryValidator) validateOperatorRequirements(filter models.Filter) error {
 	switch filter.Op {
 	case "IN", "NOT_IN":
-		// IN/NOT_IN operations must receive array values
+		// Check if this is a complex field
+		if mappings, exists := v.schema.FieldMappings[filter.Field]; exists {
+			for _, mapping := range mappings {
+				if mapping.DataType == "complex" {
+					// For complex fields, IN/NOT_IN accepts complex objects directly
+					return nil
+				}
+			}
+		}
+
+		// IN/NOT_IN operations must receive array values for non-complex fields
 		if reflect.TypeOf(filter.Value).Kind() != reflect.Slice {
 			return fmt.Errorf("IN/NOT_IN operators require array value")
 		}

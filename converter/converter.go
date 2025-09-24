@@ -74,8 +74,8 @@ func NewConverter() *Converter {
 // This is the primary entry point that orchestrates the entire conversion process:
 // 1. Analyzes query complexity to prevent performance issues
 // 2. Identifies all entity types involved in the query
-// 3. Builds appropriate filters for each entity type
-// 4. Constructs the complete DQL query structure
+// 3. Determines if unified query with relationship traversal is needed
+// 4. Constructs the appropriate DQL query structure
 //
 // Returns a structured DQL query object that can be converted to a string
 // or executed directly against Dgraph.
@@ -89,7 +89,14 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 	// Step 2: Entity Discovery - Determine which Dgraph entities this query touches
 	involvedEntities := c.getInvolvedEntityTypes(jsonQuery)
 
-	// Step 3: Query Construction - Build DQL queries for each involved entity
+	// Step 3: Determine Query Strategy
+	// For user segmentation, if we have cross-entity filters with top-level AND, create unified query
+	// This ensures customers who meet ALL conditions across different entities
+	if len(involvedEntities) > 1 && strings.ToUpper(jsonQuery.CombineWith) == "AND" {
+		return c.buildUnifiedCrossEntityQuery(jsonQuery, involvedEntities)
+	}
+
+	// Step 4: Standard Query Construction - Build DQL queries for each involved entity
 	var queries []models.EntityQuery
 	for _, entityType := range involvedEntities {
 		filter, err := c.buildFilterForEntity(jsonQuery, entityType)
@@ -116,6 +123,384 @@ func (c *Converter) ConvertToDQL(jsonQuery *models.JSONQuery) (*models.DQLQuery,
 // =============================================================================
 // ENTITY ANALYSIS AND DISCOVERY
 // =============================================================================
+
+// requiresCrossEntityLogic determines if the query needs unified cross-entity handling.
+// This happens when we have filters from different entities that need to be combined
+// with AND logic at the top level, requiring relationship traversal.
+func (c *Converter) requiresCrossEntityLogic(jsonQuery *models.JSONQuery) bool {
+	if strings.ToUpper(jsonQuery.CombineWith) != "AND" {
+		return false
+	}
+
+	// Check if different groups target different entities
+	entityGroups := make(map[string]bool)
+	for _, group := range jsonQuery.Groups {
+		groupEntities := c.getGroupEntityTypes(group)
+		for entity := range groupEntities {
+			entityGroups[entity] = true
+		}
+	}
+
+	// If we have more than one entity type across groups with AND logic,
+	// we need cross-entity handling
+	return len(entityGroups) > 1
+}
+
+// getGroupEntityTypes gets all entity types referenced in a single group
+func (c *Converter) getGroupEntityTypes(group models.Group) map[string]bool {
+	entities := make(map[string]bool)
+
+	// Check filters in this group
+	for _, filter := range group.Filters {
+		if mappings, exists := c.schema.FieldMappings[filter.Field]; exists {
+			for _, mapping := range mappings {
+				entities[mapping.EntityType] = true
+			}
+		}
+	}
+
+	// Check nested groups recursively
+	for _, nestedGroup := range group.Groups {
+		nestedEntities := c.getGroupEntityTypes(nestedGroup)
+		for entity := range nestedEntities {
+			entities[entity] = true
+		}
+	}
+
+	return entities
+}
+
+// buildUnifiedCrossEntityQuery builds a single query with relationship traversal
+// for cases where we need to combine filters from multiple entities with AND logic
+func (c *Converter) buildUnifiedCrossEntityQuery(jsonQuery *models.JSONQuery, involvedEntities []string) (*models.DQLQuery, error) {
+	// Determine primary entity (default to customers for business logic)
+	primaryEntity := c.getPrimaryEntity(jsonQuery)
+
+	// Separate filters by entity type
+	primaryFilters, relationshipFilters := c.separateFiltersByEntity(jsonQuery, primaryEntity)
+
+	// Build primary entity filter
+	primaryFilter := ""
+	if primaryFilters != nil {
+		filter := c.buildGroupsFilter(primaryFilters.Groups, primaryFilters.CombineWith, primaryEntity)
+		if filter != "" {
+			primaryFilter = fmt.Sprintf("@filter(%s)", filter)
+		}
+	}
+
+	// Build fields selection with relationship filters
+	fieldsWithFilters := c.buildFieldsSelectionWithRelationshipFilters(primaryEntity, relationshipFilters)
+
+	// Create single unified query with @cascade for strict relationship filtering
+	query := models.EntityQuery{
+		Name:     c.getQueryName(primaryEntity),
+		Type:     primaryEntity,
+		Function: fmt.Sprintf("type(%s)", primaryEntity),
+		Filter:   primaryFilter + " @cascade",
+		Fields:   fieldsWithFilters,
+	}
+
+	return &models.DQLQuery{Queries: []models.EntityQuery{query}}, nil
+}
+
+// separateFiltersByEntity separates filters into primary entity filters and relationship filters
+func (c *Converter) separateFiltersByEntity(jsonQuery *models.JSONQuery, primaryEntity string) (*models.JSONQuery, map[string]*models.JSONQuery) {
+	primaryQuery := &models.JSONQuery{
+		CombineWith: jsonQuery.CombineWith,
+		Groups:      []models.Group{},
+	}
+
+	relationshipQueries := make(map[string]*models.JSONQuery)
+
+	for _, group := range jsonQuery.Groups {
+		primaryGroup := models.Group{
+			CombineWith: group.CombineWith,
+			Filters:     []models.Filter{},
+		}
+
+		relationshipGroups := make(map[string]models.Group)
+
+		for _, filter := range group.Filters {
+			if mappings, exists := c.schema.FieldMappings[filter.Field]; exists {
+				belongsToPrimary := false
+				for _, mapping := range mappings {
+					if mapping.EntityType == primaryEntity {
+						primaryGroup.Filters = append(primaryGroup.Filters, filter)
+						belongsToPrimary = true
+						break
+					}
+				}
+
+				if !belongsToPrimary {
+					// This is a relationship filter
+					for _, mapping := range mappings {
+						if c.hasRelationshipTo(primaryEntity, mapping.EntityType) {
+							entityType := mapping.EntityType
+							if _, exists := relationshipGroups[entityType]; !exists {
+								relationshipGroups[entityType] = models.Group{
+									CombineWith: group.CombineWith, // Preserve original group logic!
+									Filters:     []models.Filter{},
+								}
+							}
+							relGroup := relationshipGroups[entityType]
+							relGroup.Filters = append(relGroup.Filters, filter)
+							relationshipGroups[entityType] = relGroup
+							break
+						}
+					}
+				}
+			}
+		}
+
+		// Add primary group if it has filters
+		if len(primaryGroup.Filters) > 0 {
+			primaryQuery.Groups = append(primaryQuery.Groups, primaryGroup)
+		}
+
+		// Add relationship groups
+		for entityType, relGroup := range relationshipGroups {
+			if _, exists := relationshipQueries[entityType]; !exists {
+				relationshipQueries[entityType] = &models.JSONQuery{
+					CombineWith: "AND",
+					Groups:      []models.Group{},
+				}
+			}
+			relationshipQueries[entityType].Groups = append(relationshipQueries[entityType].Groups, relGroup)
+		}
+	}
+
+	// If no primary filters, return nil for primary
+	if len(primaryQuery.Groups) == 0 {
+		primaryQuery = nil
+	}
+
+	return primaryQuery, relationshipQueries
+}
+
+// buildFieldsSelectionWithRelationshipFilters builds field selection with relationship filters applied
+func (c *Converter) buildFieldsSelectionWithRelationshipFilters(primaryEntity string, relationshipFilters map[string]*models.JSONQuery) string {
+	fields := c.schema.DefaultFields[primaryEntity]
+	if len(fields) == 0 {
+		return "uid\nexpand(_all_)"
+	}
+
+	var fieldLines []string
+	// Add main entity fields with proper indentation
+	for _, field := range fields {
+		fieldLines = append(fieldLines, "    "+field)
+	}
+
+	// Add related entity fields with filters applied
+	if relationships, exists := c.schema.Relationships[primaryEntity]; exists {
+		for _, relatedEntity := range relationships {
+			relatedFields := c.schema.DefaultFields[relatedEntity]
+			if len(relatedFields) > 0 {
+				// Get the relationship predicate name
+				relationName := c.getRelationshipName(primaryEntity, relatedEntity)
+
+				// Check if we have filters for this relationship
+				relationshipFilter := ""
+				if relQuery, hasFilters := relationshipFilters[relatedEntity]; hasFilters {
+					filter := c.buildGroupsFilter(relQuery.Groups, relQuery.CombineWith, relatedEntity)
+					if filter != "" {
+						relationshipFilter = fmt.Sprintf(" @filter(%s)", filter)
+					}
+				}
+
+				// Add related entity block with nested fields and optional filters
+				fieldLines = append(fieldLines, "")
+				fieldLines = append(fieldLines, fmt.Sprintf("    %s%s {", relationName, relationshipFilter))
+				for _, relatedField := range relatedFields {
+					fieldLines = append(fieldLines, "      "+relatedField)
+				}
+				fieldLines = append(fieldLines, "    }")
+			}
+		}
+	}
+
+	return strings.Join(fieldLines, "\n")
+}
+
+// buildUnifiedFilter builds a filter that can traverse relationships between entities
+func (c *Converter) buildUnifiedFilter(jsonQuery *models.JSONQuery, primaryEntity string) (string, error) {
+	var groupFilters []string
+
+	for _, group := range jsonQuery.Groups {
+		groupFilter := c.buildUnifiedGroupFilter(group, primaryEntity)
+		if groupFilter != "" {
+			groupFilters = append(groupFilters, groupFilter)
+		}
+	}
+
+	if len(groupFilters) == 0 {
+		return "", nil
+	}
+
+	if len(groupFilters) == 1 {
+		return fmt.Sprintf("@filter(%s)", groupFilters[0]), nil
+	}
+
+	// Combine group filters with top-level logic
+	operator := " AND "
+	if strings.ToUpper(jsonQuery.CombineWith) == "OR" {
+		operator = " OR "
+	}
+
+	combinedFilter := "(" + strings.Join(groupFilters, operator) + ")"
+	return fmt.Sprintf("@filter(%s)", combinedFilter), nil
+}
+
+// buildUnifiedGroupFilter builds filter for a group that may span multiple entities
+func (c *Converter) buildUnifiedGroupFilter(group models.Group, primaryEntity string) string {
+	var conditions []string
+	relationshipConditions := make(map[string][]string) // Group conditions by relationship
+
+	// Build conditions from filters, handling cross-entity relationships
+	for _, filter := range group.Filters {
+		condition := c.buildUnifiedFilterCondition(filter, primaryEntity)
+		if condition != "" {
+			// Check if this is a relationship condition
+			if strings.Contains(condition, " @filter(") {
+				// Extract relationship name to group conditions
+				relationshipName := c.extractRelationshipName(condition)
+				if relationshipName != "" {
+					relationshipConditions[relationshipName] = append(relationshipConditions[relationshipName], c.extractFilterCondition(condition))
+				} else {
+					conditions = append(conditions, condition)
+				}
+			} else {
+				conditions = append(conditions, condition)
+			}
+		}
+	}
+
+	// Combine relationship conditions for the same relationship
+	for relationshipName, filterConditions := range relationshipConditions {
+		if len(filterConditions) > 0 {
+			operator := " AND "
+			if strings.ToUpper(group.CombineWith) == "OR" {
+				operator = " OR "
+			}
+			combinedFilter := strings.Join(filterConditions, operator)
+			relationshipCondition := fmt.Sprintf("has(%s) AND %s @filter(%s)", relationshipName, relationshipName, combinedFilter)
+			conditions = append(conditions, relationshipCondition)
+		}
+	}
+
+	// Handle nested groups recursively
+	for _, nestedGroup := range group.Groups {
+		nestedCondition := c.buildUnifiedGroupFilter(nestedGroup, primaryEntity)
+		if nestedCondition != "" {
+			conditions = append(conditions, nestedCondition)
+		}
+	}
+
+	if len(conditions) == 0 {
+		return ""
+	}
+
+	if len(conditions) == 1 {
+		return conditions[0]
+	}
+
+	// Combine with group logic
+	operator := " AND "
+	if strings.ToUpper(group.CombineWith) == "OR" {
+		operator = " OR "
+	}
+
+	return "(" + strings.Join(conditions, operator) + ")"
+}
+
+// extractRelationshipName extracts relationship name from a relationship condition
+func (c *Converter) extractRelationshipName(condition string) string {
+	// Look for pattern: "has(relationship) AND relationship @filter(...)"
+	if strings.Contains(condition, "has(") && strings.Contains(condition, ") AND ") {
+		start := strings.Index(condition, "has(") + 4
+		end := strings.Index(condition[start:], ")")
+		if end > 0 {
+			return condition[start : start+end]
+		}
+	}
+	return ""
+}
+
+// extractFilterCondition extracts just the filter part from a relationship condition
+func (c *Converter) extractFilterCondition(condition string) string {
+	// Extract content between @filter( and the last )
+	filterStart := strings.Index(condition, "@filter(")
+	if filterStart >= 0 {
+		filterStart += 8 // length of "@filter("
+		// Find matching closing parenthesis
+		parenCount := 1
+		for i := filterStart; i < len(condition); i++ {
+			if condition[i] == '(' {
+				parenCount++
+			} else if condition[i] == ')' {
+				parenCount--
+				if parenCount == 0 {
+					return condition[filterStart:i]
+				}
+			}
+		}
+	}
+	return ""
+}
+
+// buildUnifiedFilterCondition builds a condition that may require relationship traversal
+func (c *Converter) buildUnifiedFilterCondition(filter models.Filter, primaryEntity string) string {
+	mappings, exists := c.schema.FieldMappings[filter.Field]
+	if !exists {
+		return ""
+	}
+
+	// Check if this field belongs to the primary entity
+	for _, mapping := range mappings {
+		if mapping.EntityType == primaryEntity {
+			// Direct field on primary entity
+			return c.buildDQLCondition(&mapping, filter)
+		}
+	}
+
+	// Field belongs to related entity - need relationship traversal
+	for _, mapping := range mappings {
+		if c.hasRelationshipTo(primaryEntity, mapping.EntityType) {
+			return c.buildRelationshipCondition(&mapping, filter, primaryEntity)
+		}
+	}
+
+	return ""
+}
+
+// hasRelationshipTo checks if primaryEntity has a relationship to targetEntity
+func (c *Converter) hasRelationshipTo(primaryEntity, targetEntity string) bool {
+	if relationships, exists := c.schema.Relationships[primaryEntity]; exists {
+		for _, relatedEntity := range relationships {
+			if relatedEntity == targetEntity {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+// buildRelationshipCondition builds a condition that traverses entity relationships
+// This creates a valid DQL condition using proper Dgraph relationship filtering syntax
+func (c *Converter) buildRelationshipCondition(mapping *models.FieldMapping, filter models.Filter, primaryEntity string) string {
+	// Get relationship predicate name
+	relationshipName := c.getRelationshipName(primaryEntity, mapping.EntityType)
+
+	// Build the condition for the related entity
+	relatedCondition := c.buildDQLCondition(mapping, filter)
+	if relatedCondition == "" {
+		return ""
+	}
+
+	// For Dgraph, we need to use has() function to check for relationship existence
+	// The actual filtering on the related entity will be done in the query body with @cascade
+	// For now, we just ensure the relationship exists
+	return fmt.Sprintf("has(%s)", relationshipName)
+}
 
 // getInvolvedEntityTypes determines which entity types are referenced in the query.
 // This method analyzes the JSON query structure to identify all Dgraph entity types
@@ -484,18 +869,35 @@ func (c *Converter) buildComplexObjectCondition(mapping *models.FieldMapping, ob
 						}
 					}
 
-					// Build conditions for content IDs using uid_in for efficient batch matching
+					// Build conditions for content IDs - use proper method based on field type
 					var idConditions []string
 					for _, id := range idArray {
-						idValue := c.formatValue(id, "int")
+						// Convert numeric IDs to string since content_id is a string field in Dgraph
+						var idValue string
+						switch v := id.(type) {
+						case int:
+							idValue = fmt.Sprintf(`"%d"`, v)
+						case int64:
+							idValue = fmt.Sprintf(`"%d"`, v)
+						case float64:
+							idValue = fmt.Sprintf(`"%.0f"`, v)
+						case string:
+							idValue = fmt.Sprintf(`"%s"`, v)
+						default:
+							idValue = c.formatValue(id, "string")
+						}
+
 						if idValue != "" {
-							idConditions = append(idConditions, idValue)
+							// Use eq() for scalar fields, not uid_in()
+							idConditions = append(idConditions, fmt.Sprintf("eq(%s, %s)", mapping.DgraphField, idValue))
 						}
 					}
 
-					// Generate uid_in condition for batch ID matching (more efficient than multiple eq)
-					if len(idConditions) > 0 {
-						conditions = append(conditions, fmt.Sprintf("uid_in(%s, %s)", mapping.DgraphField, strings.Join(idConditions, ", ")))
+					// Generate OR condition for multiple content IDs (since they're scalar fields)
+					if len(idConditions) > 1 {
+						conditions = append(conditions, "("+strings.Join(idConditions, " OR ")+")")
+					} else if len(idConditions) == 1 {
+						conditions = append(conditions, idConditions[0])
 					}
 
 					// Combine content type and ID conditions with AND logic
