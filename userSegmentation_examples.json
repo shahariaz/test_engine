@@ -1,0 +1,120 @@
+{
+  "name": "User Segmentation Example",
+  "description": "Example showing how the /userSegmentation endpoint works",
+  "endpoint": "/api/v1/userSegmentation",
+  "method": "POST",
+  "explanation": "The userSegmentation endpoint ensures ALL conditions match by forcing 'combine_with' to 'AND'",
+  
+  "examples": [
+    {
+      "name": "Premium Active Users Segmentation",
+      "description": "Find users who are premium subscribers AND have been active recently",
+      "request": {
+        "combine_with": "OR",
+        "groups": [
+          {
+            "combine_with": "AND", 
+            "filters": [
+              {"field": "subscription_status", "op": "=", "value": "active"},
+              {"field": "subscribed_package", "op": "=", "value": "Premium"},
+              {"field": "last_login_days", "op": "<=", "value": 7}
+            ]
+          }
+        ]
+      },
+      "note": "Even though request says 'OR', the endpoint will force 'AND' for segmentation"
+    },
+    
+    {
+      "name": "High-Value Customer Segmentation", 
+      "description": "Find customers from specific countries with recent app versions",
+      "request": {
+        "combine_with": "AND",
+        "groups": [
+          {
+            "combine_with": "AND",
+            "filters": [
+              {"field": "country", "op": "IN", "value": ["USA", "UK", "Canada"]},
+              {"field": "age", "op": ">=", "value": 25},
+              {"field": "app_version", "op": ">=", "value": "2.0.0"}
+            ]
+          }
+        ]
+      }
+    },
+    
+    {
+      "name": "Trial Users Ready for Conversion",
+      "description": "Find trial users who are engaged and might convert to paid",
+      "request": {
+        "combine_with": "AND", 
+        "groups": [
+          {
+            "combine_with": "AND",
+            "filters": [
+              {"field": "subscription_status", "op": "=", "value": "trial"},
+              {"field": "last_login_days", "op": "<=", "value": 3},
+              {"field": "device", "op": "IN", "value": ["iOS", "Android"]}
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  
+  "response_format": {
+    "success": true,
+    "users": [
+      {
+        "uid": "0x1",
+        "chorki_customers.id": "CUST001",
+        "chorki_customers.name": "Alice Johnson",
+        "chorki_customers.email": "alice@email.com",
+        "chorki_customers.age": 25,
+        "chorki_customers.country": "USA",
+        "chorki_customers.device": "iOS",
+        "chorki_customers.app_version": "2.1.0",
+        "chorki_customers.last_login_days": 2,
+        "chorki_customers.is_active": true,
+        "chorki_customers.city": "New York"
+      }
+    ],
+    "segment_info": {
+      "total_users": "Count of users in segment",
+      "query_type": "user_segmentation", 
+      "data_scope": "user_details_only",
+      "forced_combine_with": "AND",
+      "original_combine_with": "What was originally requested"
+    },
+    "query_info": {
+      "dql": "Generated DQL query (user fields only)",
+      "query_time": "Execution time",
+      "stats": "Query execution statistics"
+    },
+    "validation": "Query validation results"
+  },
+  
+  "key_differences_from_execute": [
+    "Forces 'combine_with' to 'AND' to ensure ALL conditions match",
+    "Returns ONLY user node data (no subscriptions, watch history, devices)",
+    "Filters response to include only chorki_customers fields",
+    "Simplified response structure with users array at top level",
+    "Includes segment_info with user count and metadata",
+    "Custom DQL generation that selects only user fields",
+    "Perfect for user segmentation and targeting use cases"
+  ],
+  
+  "user_fields_returned": [
+    "uid",
+    "chorki_customers.id",
+    "chorki_customers.name",
+    "chorki_customers.email", 
+    "chorki_customers.age",
+    "chorki_customers.country",
+    "chorki_customers.device",
+    "chorki_customers.app_version",
+    "chorki_customers.last_login_days",
+    "chorki_customers.is_active",
+    "chorki_customers.city"
+  ]
+}

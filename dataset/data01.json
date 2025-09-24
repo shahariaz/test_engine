@@ -1,0 +1,325 @@
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST001",
+      "chorki_customers.name": "Alice Johnson",
+      "chorki_customers.email": "alice@email.com",
+      "chorki_customers.age": 25,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.1.0",
+      "chorki_customers.last_login_days": 2,
+      "chorki_customers.subscriptions": [
+        { "uid": "_:sub001" },
+        { "uid": "_:sub013" }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST002",
+      "chorki_customers.name": "Bob Smith",
+      "chorki_customers.email": "bob@email.com",
+      "chorki_customers.age": 32,
+      "chorki_customers.country": "UK",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "2.0.5",
+      "chorki_customers.last_login_days": 4,
+      "chorki_customers.subscriptions": [
+        { "uid": "_:sub002" },
+        { "uid": "_:sub014" }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST003",
+      "chorki_customers.name": "Carol Davis",
+      "chorki_customers.email": "carol@email.com",
+      "chorki_customers.age": 28,
+      "chorki_customers.country": "Canada",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.2.0",
+      "chorki_customers.last_login_days": 1,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub003" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST004",
+      "chorki_customers.name": "David Wilson",
+      "chorki_customers.email": "david@email.com",
+      "chorki_customers.age": 35,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.1.8",
+      "chorki_customers.last_login_days": 3,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub004" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST005",
+      "chorki_customers.name": "Emma Brown",
+      "chorki_customers.email": "emma@email.com",
+      "chorki_customers.age": 19,
+      "chorki_customers.country": "UK",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.1.5",
+      "chorki_customers.last_login_days": 7,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub005" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST006",
+      "chorki_customers.name": "Frank Miller",
+      "chorki_customers.email": "frank@email.com",
+      "chorki_customers.age": 22,
+      "chorki_customers.country": "Australia",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "1.9.0",
+      "chorki_customers.last_login_days": 12,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub006" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST007",
+      "chorki_customers.name": "Grace Lee",
+      "chorki_customers.email": "grace@email.com",
+      "chorki_customers.age": 29,
+      "chorki_customers.country": "Canada",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.2.1",
+      "chorki_customers.last_login_days": 2,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub007" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST008",
+      "chorki_customers.name": "Henry Zhang",
+      "chorki_customers.email": "henry@email.com",
+      "chorki_customers.age": 26,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.0.0",
+      "chorki_customers.last_login_days": 15,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub008" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST009",
+      "chorki_customers.name": "Ivy Chen",
+      "chorki_customers.email": "ivy@email.com",
+      "chorki_customers.age": 31,
+      "chorki_customers.country": "UK",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "2.1.2",
+      "chorki_customers.last_login_days": 8,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub009" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST010",
+      "chorki_customers.name": "Jack Thompson",
+      "chorki_customers.email": "jack@email.com",
+      "chorki_customers.age": 24,
+      "chorki_customers.country": "Germany",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.1.9",
+      "chorki_customers.last_login_days": 20,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub010" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST011",
+      "chorki_customers.name": "Kelly Martinez",
+      "chorki_customers.email": "kelly@email.com",
+      "chorki_customers.age": 27,
+      "chorki_customers.country": "Spain",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "1.8.5",
+      "chorki_customers.last_login_days": 45,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub011" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST012",
+      "chorki_customers.name": "Liam O'Connor",
+      "chorki_customers.email": "liam@email.com",
+      "chorki_customers.age": 33,
+      "chorki_customers.country": "Ireland",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.0.3",
+      "chorki_customers.last_login_days": 35,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub012" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST013",
+      "chorki_customers.name": "Maya Patel",
+      "chorki_customers.email": "maya@email.com",
+      "chorki_customers.age": 30,
+      "chorki_customers.country": "India",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.1.1",
+      "chorki_customers.last_login_days": 6,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub013" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST014",
+      "chorki_customers.name": "Noah Williams",
+      "chorki_customers.email": "noah@email.com",
+      "chorki_customers.age": 23,
+      "chorki_customers.country": "New Zealand",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "2.0.8",
+      "chorki_customers.last_login_days": 11,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub014" }]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST015",
+      "chorki_customers.name": "Olivia Rodriguez",
+      "chorki_customers.email": "olivia@email.com",
+      "chorki_customers.age": 21,
+      "chorki_customers.country": "Mexico",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.2.0",
+      "chorki_customers.last_login_days": 4,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub015" }]
+    },
+    {
+      "uid": "_:sub001",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB001",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-01-15T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-01-15T00:00:00Z"
+    },
+    {
+      "uid": "_:sub002",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB002",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-02-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-02-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub003",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB003",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-03-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-03-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub004",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB004",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-04-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-04-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub005",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB005",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-05-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-05-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub006",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB006",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2024-09-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-10-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub007",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB007",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2024-09-10T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-10-10T00:00:00Z"
+    },
+    {
+      "uid": "_:sub008",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB008",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-06-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-06-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub009",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB009",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-07-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-07-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub010",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB010",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "expired",
+      "chorki_subscriptions.start_date": "2023-08-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-08-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub011",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB011",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "expired",
+      "chorki_subscriptions.start_date": "2023-09-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-09-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub012",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB012",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "expired",
+      "chorki_subscriptions.start_date": "2023-10-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-10-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub013",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB013",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2024-08-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-08-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub014",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB014",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2024-09-15T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-10-15T00:00:00Z"
+    },
+    {
+      "uid": "_:sub015",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB015",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2024-09-20T00:00:00Z",
+      "chorki_subscriptions.end_date": "2024-10-20T00:00:00Z"
+    }
+  ]
+}

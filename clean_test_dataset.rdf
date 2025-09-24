@@ -1,0 +1,273 @@
+_:cust001 <dgraph.type> "chorki_customers" .
+_:cust001 <chorki_customers.id> "CUST001" .
+_:cust001 <chorki_customers.name> "Alice Johnson" .
+_:cust001 <chorki_customers.email> "alice@email.com" .
+_:cust001 <chorki_customers.age> "25" .
+_:cust001 <chorki_customers.country> "USA" .
+_:cust001 <chorki_customers.device> "iOS" .
+_:cust001 <chorki_customers.app_version> "2.1.0" .
+_:cust001 <chorki_customers.last_login_days> "2" .
+
+_:cust002 <dgraph.type> "chorki_customers" .
+_:cust002 <chorki_customers.id> "CUST002" .
+_:cust002 <chorki_customers.name> "Bob Smith" .
+_:cust002 <chorki_customers.email> "bob@email.com" .
+_:cust002 <chorki_customers.age> "32" .
+_:cust002 <chorki_customers.country> "UK" .
+_:cust002 <chorki_customers.device> "Android" .
+_:cust002 <chorki_customers.app_version> "2.0.5" .
+_:cust002 <chorki_customers.last_login_days> "4" .
+
+_:cust003 <dgraph.type> "chorki_customers" .
+_:cust003 <chorki_customers.id> "CUST003" .
+_:cust003 <chorki_customers.name> "Carol Davis" .
+_:cust003 <chorki_customers.email> "carol@email.com" .
+_:cust003 <chorki_customers.age> "28" .
+_:cust003 <chorki_customers.country> "Canada" .
+_:cust003 <chorki_customers.device> "iOS" .
+_:cust003 <chorki_customers.app_version> "2.2.0" .
+_:cust003 <chorki_customers.last_login_days> "1" .
+
+_:cust004 <dgraph.type> "chorki_customers" .
+_:cust004 <chorki_customers.id> "CUST004" .
+_:cust004 <chorki_customers.name> "David Wilson" .
+_:cust004 <chorki_customers.email> "david@email.com" .
+_:cust004 <chorki_customers.age> "35" .
+_:cust004 <chorki_customers.country> "USA" .
+_:cust004 <chorki_customers.device> "Web" .
+_:cust004 <chorki_customers.app_version> "2.1.8" .
+_:cust004 <chorki_customers.last_login_days> "3" .
+
+_:cust005 <dgraph.type> "chorki_customers" .
+_:cust005 <chorki_customers.id> "CUST005" .
+_:cust005 <chorki_customers.name> "Emma Brown" .
+_:cust005 <chorki_customers.email> "emma@email.com" .
+_:cust005 <chorki_customers.age> "19" .
+_:cust005 <chorki_customers.country> "UK" .
+_:cust005 <chorki_customers.device> "iOS" .
+_:cust005 <chorki_customers.app_version> "2.1.5" .
+_:cust005 <chorki_customers.last_login_days> "7" .
+
+_:cust006 <dgraph.type> "chorki_customers" .
+_:cust006 <chorki_customers.id> "CUST006" .
+_:cust006 <chorki_customers.name> "Frank Miller" .
+_:cust006 <chorki_customers.email> "frank@email.com" .
+_:cust006 <chorki_customers.age> "22" .
+_:cust006 <chorki_customers.country> "Australia" .
+_:cust006 <chorki_customers.device> "Android" .
+_:cust006 <chorki_customers.app_version> "1.9.0" .
+_:cust006 <chorki_customers.last_login_days> "12" .
+
+_:cust007 <dgraph.type> "chorki_customers" .
+_:cust007 <chorki_customers.id> "CUST007" .
+_:cust007 <chorki_customers.name> "Grace Lee" .
+_:cust007 <chorki_customers.email> "grace@email.com" .
+_:cust007 <chorki_customers.age> "29" .
+_:cust007 <chorki_customers.country> "Canada" .
+_:cust007 <chorki_customers.device> "iOS" .
+_:cust007 <chorki_customers.app_version> "2.2.1" .
+_:cust007 <chorki_customers.last_login_days> "2" .
+
+_:cust008 <dgraph.type> "chorki_customers" .
+_:cust008 <chorki_customers.id> "CUST008" .
+_:cust008 <chorki_customers.name> "Henry Zhang" .
+_:cust008 <chorki_customers.email> "henry@email.com" .
+_:cust008 <chorki_customers.age> "26" .
+_:cust008 <chorki_customers.country> "USA" .
+_:cust008 <chorki_customers.device> "Web" .
+_:cust008 <chorki_customers.app_version> "2.0.0" .
+_:cust008 <chorki_customers.last_login_days> "15" .
+
+_:cust009 <dgraph.type> "chorki_customers" .
+_:cust009 <chorki_customers.id> "CUST009" .
+_:cust009 <chorki_customers.name> "Ivy Chen" .
+_:cust009 <chorki_customers.email> "ivy@email.com" .
+_:cust009 <chorki_customers.age> "31" .
+_:cust009 <chorki_customers.country> "UK" .
+_:cust009 <chorki_customers.device> "Android" .
+_:cust009 <chorki_customers.app_version> "2.1.2" .
+_:cust009 <chorki_customers.last_login_days> "8" .
+
+_:cust010 <dgraph.type> "chorki_customers" .
+_:cust010 <chorki_customers.id> "CUST010" .
+_:cust010 <chorki_customers.name> "Jack Thompson" .
+_:cust010 <chorki_customers.email> "jack@email.com" .
+_:cust010 <chorki_customers.age> "24" .
+_:cust010 <chorki_customers.country> "Germany" .
+_:cust010 <chorki_customers.device> "iOS" .
+_:cust010 <chorki_customers.app_version> "2.1.9" .
+_:cust010 <chorki_customers.last_login_days> "20" .
+
+_:cust011 <dgraph.type> "chorki_customers" .
+_:cust011 <chorki_customers.id> "CUST011" .
+_:cust011 <chorki_customers.name> "Kelly Martinez" .
+_:cust011 <chorki_customers.email> "kelly@email.com" .
+_:cust011 <chorki_customers.age> "27" .
+_:cust011 <chorki_customers.country> "Spain" .
+_:cust011 <chorki_customers.device> "Android" .
+_:cust011 <chorki_customers.app_version> "1.8.5" .
+_:cust011 <chorki_customers.last_login_days> "45" .
+
+_:cust012 <dgraph.type> "chorki_customers" .
+_:cust012 <chorki_customers.id> "CUST012" .
+_:cust012 <chorki_customers.name> "Liam O'Connor" .
+_:cust012 <chorki_customers.email> "liam@email.com" .
+_:cust012 <chorki_customers.age> "33" .
+_:cust012 <chorki_customers.country> "Ireland" .
+_:cust012 <chorki_customers.device> "Web" .
+_:cust012 <chorki_customers.app_version> "2.0.3" .
+_:cust012 <chorki_customers.last_login_days> "35" .
+
+_:cust013 <dgraph.type> "chorki_customers" .
+_:cust013 <chorki_customers.id> "CUST013" .
+_:cust013 <chorki_customers.name> "Maya Patel" .
+_:cust013 <chorki_customers.email> "maya@email.com" .
+_:cust013 <chorki_customers.age> "30" .
+_:cust013 <chorki_customers.country> "India" .
+_:cust013 <chorki_customers.device> "iOS" .
+_:cust013 <chorki_customers.app_version> "2.1.1" .
+_:cust013 <chorki_customers.last_login_days> "6" .
+
+_:cust014 <dgraph.type> "chorki_customers" .
+_:cust014 <chorki_customers.id> "CUST014" .
+_:cust014 <chorki_customers.name> "Noah Williams" .
+_:cust014 <chorki_customers.email> "noah@email.com" .
+_:cust014 <chorki_customers.age> "23" .
+_:cust014 <chorki_customers.country> "New Zealand" .
+_:cust014 <chorki_customers.device> "Android" .
+_:cust014 <chorki_customers.app_version> "2.0.8" .
+_:cust014 <chorki_customers.last_login_days> "11" .
+
+_:cust015 <dgraph.type> "chorki_customers" .
+_:cust015 <chorki_customers.id> "CUST015" .
+_:cust015 <chorki_customers.name> "Olivia Rodriguez" .
+_:cust015 <chorki_customers.email> "olivia@email.com" .
+_:cust015 <chorki_customers.age> "21" .
+_:cust015 <chorki_customers.country> "Mexico" .
+_:cust015 <chorki_customers.device> "iOS" .
+_:cust015 <chorki_customers.app_version> "2.2.0" .
+_:cust015 <chorki_customers.last_login_days> "4" .
+
+_:sub001 <dgraph.type> "chorki_subscriptions" .
+_:sub001 <chorki_subscriptions.id> "SUB001" .
+_:sub001 <chorki_subscriptions.package> "Premium" .
+_:sub001 <chorki_subscriptions.status> "active" .
+_:sub001 <chorki_subscriptions.start_date> "2024-01-15T00:00:00Z" .
+_:sub001 <chorki_subscriptions.end_date> "2025-01-15T00:00:00Z" .
+
+_:sub002 <dgraph.type> "chorki_subscriptions" .
+_:sub002 <chorki_subscriptions.id> "SUB002" .
+_:sub002 <chorki_subscriptions.package> "Premium" .
+_:sub002 <chorki_subscriptions.status> "active" .
+_:sub002 <chorki_subscriptions.start_date> "2024-02-01T00:00:00Z" .
+_:sub002 <chorki_subscriptions.end_date> "2025-02-01T00:00:00Z" .
+
+_:sub003 <dgraph.type> "chorki_subscriptions" .
+_:sub003 <chorki_subscriptions.id> "SUB003" .
+_:sub003 <chorki_subscriptions.package> "Premium" .
+_:sub003 <chorki_subscriptions.status> "active" .
+_:sub003 <chorki_subscriptions.start_date> "2024-03-01T00:00:00Z" .
+_:sub003 <chorki_subscriptions.end_date> "2025-03-01T00:00:00Z" .
+
+_:sub004 <dgraph.type> "chorki_subscriptions" .
+_:sub004 <chorki_subscriptions.id> "SUB004" .
+_:sub004 <chorki_subscriptions.package> "Premium" .
+_:sub004 <chorki_subscriptions.status> "active" .
+_:sub004 <chorki_subscriptions.start_date> "2024-04-01T00:00:00Z" .
+_:sub004 <chorki_subscriptions.end_date> "2025-04-01T00:00:00Z" .
+
+_:sub005 <dgraph.type> "chorki_subscriptions" .
+_:sub005 <chorki_subscriptions.id> "SUB005" .
+_:sub005 <chorki_subscriptions.package> "Basic" .
+_:sub005 <chorki_subscriptions.status> "active" .
+_:sub005 <chorki_subscriptions.start_date> "2024-05-01T00:00:00Z" .
+_:sub005 <chorki_subscriptions.end_date> "2025-05-01T00:00:00Z" .
+
+_:sub006 <dgraph.type> "chorki_subscriptions" .
+_:sub006 <chorki_subscriptions.id> "SUB006" .
+_:sub006 <chorki_subscriptions.package> "Basic" .
+_:sub006 <chorki_subscriptions.status> "trial" .
+_:sub006 <chorki_subscriptions.start_date> "2024-09-01T00:00:00Z" .
+_:sub006 <chorki_subscriptions.end_date> "2024-10-01T00:00:00Z" .
+
+_:sub007 <dgraph.type> "chorki_subscriptions" .
+_:sub007 <chorki_subscriptions.id> "SUB007" .
+_:sub007 <chorki_subscriptions.package> "Premium" .
+_:sub007 <chorki_subscriptions.status> "trial" .
+_:sub007 <chorki_subscriptions.start_date> "2024-09-10T00:00:00Z" .
+_:sub007 <chorki_subscriptions.end_date> "2024-10-10T00:00:00Z" .
+
+_:sub008 <dgraph.type> "chorki_subscriptions" .
+_:sub008 <chorki_subscriptions.id> "SUB008" .
+_:sub008 <chorki_subscriptions.package> "Basic" .
+_:sub008 <chorki_subscriptions.status> "active" .
+_:sub008 <chorki_subscriptions.start_date> "2024-06-01T00:00:00Z" .
+_:sub008 <chorki_subscriptions.end_date> "2025-06-01T00:00:00Z" .
+
+_:sub009 <dgraph.type> "chorki_subscriptions" .
+_:sub009 <chorki_subscriptions.id> "SUB009" .
+_:sub009 <chorki_subscriptions.package> "Premium" .
+_:sub009 <chorki_subscriptions.status> "active" .
+_:sub009 <chorki_subscriptions.start_date> "2024-07-01T00:00:00Z" .
+_:sub009 <chorki_subscriptions.end_date> "2025-07-01T00:00:00Z" .
+
+_:sub010 <dgraph.type> "chorki_subscriptions" .
+_:sub010 <chorki_subscriptions.id> "SUB010" .
+_:sub010 <chorki_subscriptions.package> "Basic" .
+_:sub010 <chorki_subscriptions.status> "expired" .
+_:sub010 <chorki_subscriptions.start_date> "2023-08-01T00:00:00Z" .
+_:sub010 <chorki_subscriptions.end_date> "2024-08-01T00:00:00Z" .
+
+_:sub011 <dgraph.type> "chorki_subscriptions" .
+_:sub011 <chorki_subscriptions.id> "SUB011" .
+_:sub011 <chorki_subscriptions.package> "Premium" .
+_:sub011 <chorki_subscriptions.status> "expired" .
+_:sub011 <chorki_subscriptions.start_date> "2023-09-01T00:00:00Z" .
+_:sub011 <chorki_subscriptions.end_date> "2024-09-01T00:00:00Z" .
+
+_:sub012 <dgraph.type> "chorki_subscriptions" .
+_:sub012 <chorki_subscriptions.id> "SUB012" .
+_:sub012 <chorki_subscriptions.package> "Basic" .
+_:sub012 <chorki_subscriptions.status> "expired" .
+_:sub012 <chorki_subscriptions.start_date> "2023-10-01T00:00:00Z" .
+_:sub012 <chorki_subscriptions.end_date> "2024-10-01T00:00:00Z" .
+
+_:sub013 <dgraph.type> "chorki_subscriptions" .
+_:sub013 <chorki_subscriptions.id> "SUB013" .
+_:sub013 <chorki_subscriptions.package> "Premium" .
+_:sub013 <chorki_subscriptions.status> "active" .
+_:sub013 <chorki_subscriptions.start_date> "2024-08-01T00:00:00Z" .
+_:sub013 <chorki_subscriptions.end_date> "2025-08-01T00:00:00Z" .
+
+_:sub014 <dgraph.type> "chorki_subscriptions" .
+_:sub014 <chorki_subscriptions.id> "SUB014" .
+_:sub014 <chorki_subscriptions.package> "Basic" .
+_:sub014 <chorki_subscriptions.status> "trial" .
+_:sub014 <chorki_subscriptions.start_date> "2024-09-15T00:00:00Z" .
+_:sub014 <chorki_subscriptions.end_date> "2024-10-15T00:00:00Z" .
+
+_:sub015 <dgraph.type> "chorki_subscriptions" .
+_:sub015 <chorki_subscriptions.id> "SUB015" .
+_:sub015 <chorki_subscriptions.package> "Premium" .
+_:sub015 <chorki_subscriptions.status> "trial" .
+_:sub015 <chorki_subscriptions.start_date> "2024-09-20T00:00:00Z" .
+_:sub015 <chorki_subscriptions.end_date> "2024-10-20T00:00:00Z" .
+
+_:cust001 <chorki_customers.subscriptions> _:sub001 .
+_:cust002 <chorki_customers.subscriptions> _:sub002 .
+_:cust003 <chorki_customers.subscriptions> _:sub003 .
+_:cust004 <chorki_customers.subscriptions> _:sub004 .
+_:cust005 <chorki_customers.subscriptions> _:sub005 .
+_:cust006 <chorki_customers.subscriptions> _:sub006 .
+_:cust007 <chorki_customers.subscriptions> _:sub007 .
+_:cust008 <chorki_customers.subscriptions> _:sub008 .
+_:cust009 <chorki_customers.subscriptions> _:sub009 .
+_:cust010 <chorki_customers.subscriptions> _:sub010 .
+_:cust011 <chorki_customers.subscriptions> _:sub011 .
+_:cust012 <chorki_customers.subscriptions> _:sub012 .
+_:cust013 <chorki_customers.subscriptions> _:sub013 .
+_:cust014 <chorki_customers.subscriptions> _:sub014 .
+_:cust015 <chorki_customers.subscriptions> _:sub015 .
+
+_:cust001 <chorki_customers.subscriptions> _:sub013 .
+_:cust002 <chorki_customers.subscriptions> _:sub014 .

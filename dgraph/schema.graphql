@@ -78,7 +78,7 @@ type chorki_contents {
   chorki_contents.thumbnail_url: string .
   chorki_contents.video_url: string .
   chorki_contents.is_premium: bool @index(bool) .
-  chorki_contents.created_at: datetime @index(datetime) .
+  chorki_contents.created_at: datetime @index(day) .
   chorki_contents.updated_at: datetime .
 }
 

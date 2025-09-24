@@ -21,6 +21,7 @@ func main() {
 		api.GET("/schema", queryHandler.GetSchema)
 		api.POST("/convert", queryHandler.ConvertQuery)
 		api.POST("/execute", queryHandler.ExecuteQuery)
+		api.POST("/query", queryHandler.UserSegmentation)
 		api.POST("/validate", queryHandler.ValidateQuery)
 		api.POST("/analyze", queryHandler.AnalyzeComplexity)
 	}

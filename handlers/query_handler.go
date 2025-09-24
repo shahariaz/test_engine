@@ -9,6 +9,7 @@ import (
 	"jsonTodql/models"
 	"jsonTodql/validation"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -62,6 +63,8 @@ func (h *QueryHandler) ConvertQuery(c *gin.Context) {
 		})
 		return
 	}
+
+	// fmt.Println("query", jsonQuery)
 
 	// Convert to DQL
 	dqlQuery, err := h.converter.ConvertToDQL(&jsonQuery)
@@ -350,4 +353,205 @@ func (h *QueryHandler) ExecuteQuery(c *gin.Context) {
 		},
 		"validation": validationResult,
 	})
+}
+
+// UserSegmentation handles POST /userSegmentation endpoint - executes user segmentation queries
+// Returns only users that match ALL specified conditions with only user node data
+func (h *QueryHandler) UserSegmentation(c *gin.Context) {
+	var jsonQuery models.JSONQuery
+
+	// Bind JSON request to struct
+	if err := c.ShouldBindJSON(&jsonQuery); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Invalid JSON format",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	// Check if Dgraph client is available
+	if h.dgraphClient == nil {
+		c.JSON(http.StatusServiceUnavailable, gin.H{
+			"error":   "Dgraph connection not available",
+			"message": "Please start Dgraph using: docker-compose up -d",
+			"tip":     "Use /convert endpoint to generate DQL without executing",
+		})
+		return
+	}
+
+	// Check Dgraph connection
+	if !h.dgraphClient.IsConnected() {
+		c.JSON(http.StatusServiceUnavailable, gin.H{
+			"error":   "Dgraph connection lost",
+			"message": "Please check Dgraph server status",
+		})
+		return
+	}
+
+	// Enhanced validation
+	validationResult := h.validator.Validate(&jsonQuery)
+	if !validationResult.IsValid {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":      "Query validation failed",
+			"validation": validationResult,
+		})
+		return
+	}
+
+	// Force combine_with to "AND" for user segmentation to ensure ALL conditions match
+	originalCombineWith := jsonQuery.CombineWith
+	jsonQuery.CombineWith = "AND"
+
+	// Convert JSON to DQL
+	dqlQuery, err := h.converter.ConvertToDQL(&jsonQuery)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "DQL conversion failed",
+			"details": err.Error(),
+		})
+		return
+	}
+
+	// Generate user-only DQL string (only user fields, no related entities)
+	dqlString := h.generateUserOnlyDQL(dqlQuery)
+
+	// Execute DQL query against Dgraph
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	response, err := h.dgraphClient.ExecuteDQL(ctx, dqlString)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":     "User segmentation query execution failed",
+			"details":   err.Error(),
+			"dql_query": dqlString,
+		})
+		return
+	}
+
+	// Get execution statistics
+	stats := h.dgraphClient.GetExecutionStats(response)
+
+	// Extract and filter user data only
+	userData := h.extractUserDataOnly(response.Data)
+	userCount := h.countUsers(userData)
+
+	// Return successful response with user-only segmentation data
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"users":   userData,
+		"segment_info": gin.H{
+			"total_users":           userCount,
+			"query_type":            "user_segmentation",
+			"data_scope":            "user_details_only",
+			"forced_combine_with":   "AND",
+			"original_combine_with": originalCombineWith,
+		},
+		"query_info": gin.H{
+			"dql":        dqlString,
+			"query_time": response.QueryTime,
+			"stats":      stats,
+		},
+		"validation": validationResult,
+	})
+}
+
+// generateUserOnlyDQL creates a DQL query that returns only user node data
+func (h *QueryHandler) generateUserOnlyDQL(dqlQuery *models.DQLQuery) string {
+	if dqlQuery == nil || len(dqlQuery.Queries) == 0 {
+		return ""
+	}
+
+	// Take the first query and modify it to select only user fields
+	baseQuery := dqlQuery.Queries[0]
+
+	// Define user-only fields
+	userFields := []string{
+		"uid",
+		"chorki_customers.id",
+		"chorki_customers.name",
+		"chorki_customers.email",
+		"chorki_customers.age",
+		"chorki_customers.country",
+		"chorki_customers.device",
+		"chorki_customers.app_version",
+		"chorki_customers.last_login_days",
+		"chorki_customers.is_active",
+		"chorki_customers.city",
+	}
+
+	// Build the user-only DQL query
+	dqlString := fmt.Sprintf("{\n  %s(func: type(chorki_customers))", baseQuery.Name)
+
+	// Add filter conditions if they exist, but remove @cascade for user segmentation
+	if baseQuery.Filter != "" {
+		// Remove @cascade from the filter as it's too restrictive for user segmentation
+		cleanFilter := strings.Replace(baseQuery.Filter, " @cascade", "", -1)
+		dqlString += " " + cleanFilter
+	}
+
+	dqlString += " {\n"
+
+	// Add only user fields
+	for _, field := range userFields {
+		dqlString += "    " + field + "\n"
+	}
+
+	dqlString += "  }\n}"
+
+	return dqlString
+}
+
+// extractUserDataOnly filters response to return only user node data
+func (h *QueryHandler) extractUserDataOnly(data interface{}) interface{} {
+	if dataMap, ok := data.(map[string]interface{}); ok {
+		// Look for user data in the response
+		for _, value := range dataMap {
+			if userList, ok := value.([]interface{}); ok {
+				// Filter each user object to contain only user fields
+				filteredUsers := make([]interface{}, 0)
+				for _, user := range userList {
+					if userObj, ok := user.(map[string]interface{}); ok {
+						filteredUser := h.filterUserFields(userObj)
+						filteredUsers = append(filteredUsers, filteredUser)
+					}
+				}
+				return filteredUsers
+			}
+		}
+	}
+	return []interface{}{} // Return empty array if no users found
+}
+
+// filterUserFields keeps only user-specific fields in the response
+func (h *QueryHandler) filterUserFields(userObj map[string]interface{}) map[string]interface{} {
+	allowedFields := map[string]bool{
+		"uid":                              true,
+		"chorki_customers.id":              true,
+		"chorki_customers.name":            true,
+		"chorki_customers.email":           true,
+		"chorki_customers.age":             true,
+		"chorki_customers.country":         true,
+		"chorki_customers.device":          true,
+		"chorki_customers.app_version":     true,
+		"chorki_customers.last_login_days": true,
+		"chorki_customers.is_active":       true,
+		"chorki_customers.city":            true,
+	}
+
+	filtered := make(map[string]interface{})
+	for key, value := range userObj {
+		if allowedFields[key] {
+			filtered[key] = value
+		}
+	}
+	return filtered
+}
+
+// countUsers counts the number of users in the response
+func (h *QueryHandler) countUsers(userData interface{}) int {
+	if userList, ok := userData.([]interface{}); ok {
+		return len(userList)
+	}
+	return 0
 }

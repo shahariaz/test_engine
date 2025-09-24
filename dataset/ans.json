@@ -1,0 +1,43 @@
+{
+                "chorki_customers.age": 27,
+                "chorki_customers.app_version": "2.3.0",
+                "chorki_customers.country": "USA",
+                "chorki_customers.device": "iOS",
+                "chorki_customers.devices": [
+                    {
+                        "chorki_devices.app_version": "2.3.0",
+                        "chorki_devices.device_model": "iPhone 13",
+                        "chorki_devices.device_type": "Mobile",
+                        "chorki_devices.id": "DEV101",
+                        "chorki_devices.is_active": true,
+                        "uid": "0x52"
+                    }
+                ],
+                "chorki_customers.email": "sarah@email.com",
+                "chorki_customers.id": "CUST101",
+                "chorki_customers.name": "Sarah Adams",
+                "chorki_customers.subscriptions": [
+                    {
+                        "chorki_subscriptions.end_date": "2026-01-10T00:00:00Z",
+                        "chorki_subscriptions.id": "SUB101",
+                        "chorki_subscriptions.package": "Premium",
+                        "chorki_subscriptions.start_date": "2025-01-10T00:00:00Z",
+                        "chorki_subscriptions.status": "active",
+                        "uid": "0x53"
+                    }
+                ],
+                "chorki_customers.watch_histories": [
+                    {
+                        "chorki_watch_histories.content_id": "MOV001",
+                        "chorki_watch_histories.content_title": "The Adventure Begins",
+                        "chorki_watch_histories.genre": [
+                            "Adventure"
+                        ],
+                        "chorki_watch_histories.id": "WH101",
+                        "chorki_watch_histories.type": "Movie",
+                        "chorki_watch_histories.watch_date": "2025-09-20T10:00:00Z",
+                        "uid": "0x59"
+                    }
+                ],
+                "uid": "0x58"
+            }

@@ -1,0 +1,528 @@
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST101",
+      "chorki_customers.name": "Sarah Adams",
+      "chorki_customers.email": "sarah@email.com",
+      "chorki_customers.age": 27,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.3.0",
+      "chorki_customers.last_login_days": 3,
+      "chorki_customers.subscriptions": [
+        { "uid": "_:sub101" },
+        { "uid": "_:sub102" }
+      ],
+      "chorki_customers.watch_histories": [
+        {
+          "uid": "_:wh101",
+          "dgraph.type": "chorki_watch_histories",
+          "chorki_watch_histories.id": "WH101",
+          "chorki_watch_histories.content_id": "MOV001",
+          "chorki_watch_histories.content_title": "The Adventure Begins",
+          "chorki_watch_histories.type": "Movie",
+          "chorki_watch_histories.genre": "Adventure",
+          "chorki_watch_histories.watch_date": "2025-09-20T10:00:00Z"
+        }
+      ],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev101",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV101",
+          "chorki_devices.device_type": "Mobile",
+          "chorki_devices.device_model": "iPhone 13",
+          "chorki_devices.app_version": "2.3.0",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST102",
+      "chorki_customers.name": "James Brown",
+      "chorki_customers.email": "james@email.com",
+      "chorki_customers.age": 34,
+      "chorki_customers.country": "UK",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "2.2.5",
+      "chorki_customers.last_login_days": 6,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub103" }],
+      "chorki_customers.watch_histories": [],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev102",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV102",
+          "chorki_devices.device_type": "Mobile",
+          "chorki_devices.device_model": "Samsung Galaxy S21",
+          "chorki_devices.app_version": "2.2.5",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "uid": "_:sub101",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB101",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-01-10T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-01-10T00:00:00Z"
+    },
+    {
+      "uid": "_:sub102",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB102",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2025-09-15T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-10-15T00:00:00Z"
+    },
+    {
+      "uid": "_:sub103",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB103",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-02-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-02-01T00:00:00Z"
+    }
+  ]
+}
+
+
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST201",
+      "chorki_customers.name": "Emily Clark",
+      "chorki_customers.email": "emily@email.com",
+      "chorki_customers.age": 29,
+      "chorki_customers.country": "Canada",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.4.0",
+      "chorki_customers.last_login_days": 2,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub201" }],
+      "chorki_customers.watch_histories": [
+        {
+          "uid": "_:wh201",
+          "dgraph.type": "chorki_watch_histories",
+          "chorki_watch_histories.id": "WH201",
+          "chorki_watch_histories.content_id": "SER001",
+          "chorki_watch_histories.content_title": "Mystery Series",
+          "chorki_watch_histories.type": "Series",
+          "chorki_watch_histories.genre": "Thriller",
+          "chorki_watch_histories.watch_date": "2025-09-22T14:00:00Z"
+        }
+      ],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev201",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV201",
+          "chorki_devices.device_type": "Tablet",
+          "chorki_devices.device_model": "iPad Pro",
+          "chorki_devices.app_version": "2.4.0",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST202",
+      "chorki_customers.name": "Michael Lee",
+      "chorki_customers.email": "michael@email.com",
+      "chorki_customers.age": 31,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.3.5",
+      "chorki_customers.last_login_days": 4,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub202" }],
+      "chorki_customers.watch_histories": [],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev202",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV202",
+          "chorki_devices.device_type": "Desktop",
+          "chorki_devices.device_model": "Windows PC",
+          "chorki_devices.app_version": "2.3.5",
+          "chorki_devices.is_active": false
+        }
+      ]
+    },
+    {
+      "uid": "_:sub201",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB201",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-03-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-03-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub202",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB202",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-04-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-04-01T00:00:00Z"
+    }
+  ]
+}
+
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST201",
+      "chorki_customers.name": "Emily Clark",
+      "chorki_customers.email": "emily@email.com",
+      "chorki_customers.age": 29,
+      "chorki_customers.country": "Canada",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.4.0",
+      "chorki_customers.last_login_days": 2,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub201" }],
+      "chorki_customers.watch_histories": [
+        {
+          "uid": "_:wh201",
+          "dgraph.type": "chorki_watch_histories",
+          "chorki_watch_histories.id": "WH201",
+          "chorki_watch_histories.content_id": "SER001",
+          "chorki_watch_histories.content_title": "Mystery Series",
+          "chorki_watch_histories.type": "Series",
+          "chorki_watch_histories.genre": "Thriller",
+          "chorki_watch_histories.watch_date": "2025-09-22T14:00:00Z"
+        }
+      ],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev201",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV201",
+          "chorki_devices.device_type": "Tablet",
+          "chorki_devices.device_model": "iPad Pro",
+          "chorki_devices.app_version": "2.4.0",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST202",
+      "chorki_customers.name": "Michael Lee",
+      "chorki_customers.email": "michael@email.com",
+      "chorki_customers.age": 31,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.3.5",
+      "chorki_customers.last_login_days": 4,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub202" }],
+      "chorki_customers.watch_histories": [],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev202",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV202",
+          "chorki_devices.device_type": "Desktop",
+          "chorki_devices.device_model": "Windows PC",
+          "chorki_devices.app_version": "2.3.5",
+          "chorki_devices.is_active": false
+        }
+      ]
+    },
+    {
+      "uid": "_:sub201",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB201",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-03-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-03-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub202",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB202",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-04-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-04-01T00:00:00Z"
+    }
+  ]
+}
+
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST301",
+      "chorki_customers.name": "Laura Wilson",
+      "chorki_customers.email": "laura@email.com",
+      "chorki_customers.age": 25,
+      "chorki_customers.country": "UK",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "2.2.0",
+      "chorki_customers.last_login_days": 1,
+      "chorki_customers.subscriptions": [
+        { "uid": "_:sub301" },
+        { "uid": "_:sub302" }
+      ],
+      "chorki_customers.watch_histories": [
+        {
+          "uid": "_:wh301",
+          "dgraph.type": "chorki_watch_histories",
+          "chorki_watch_histories.id": "WH301",
+          "chorki_watch_histories.content_id": "MOV002",
+          "chorki_watch_histories.content_title": "Romantic Journey",
+          "chorki_watch_histories.type": "Movie",
+          "chorki_watch_histories.genre": "Romance",
+          "chorki_watch_histories.watch_date": "2025-09-23T18:00:00Z"
+        }
+      ],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev301",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV301",
+          "chorki_devices.device_type": "Mobile",
+          "chorki_devices.device_model": "Google Pixel 6",
+          "chorki_devices.app_version": "2.2.0",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST302",
+      "chorki_customers.name": "David Kim",
+      "chorki_customers.email": "davidk@email.com",
+      "chorki_customers.age": 28,
+      "chorki_customers.country": "Canada",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.3.2",
+      "chorki_customers.last_login_days": 7,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub303" }],
+      "chorki_customers.watch_histories": [],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev302",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV302",
+          "chorki_devices.device_type": "Mobile",
+          "chorki_devices.device_model": "iPhone 14",
+          "chorki_devices.app_version": "2.3.2",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "uid": "_:sub301",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB301",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2025-09-10T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-10-10T00:00:00Z"
+    },
+    {
+      "uid": "_:sub302",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB302",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-05-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-05-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub303",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB303",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-06-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-06-01T00:00:00Z"
+    }
+  ]
+}
+
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST401",
+      "chorki_customers.name": "Sophie Turner",
+      "chorki_customers.email": "sophie@email.com",
+      "chorki_customers.age": 26,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.1.9",
+      "chorki_customers.last_login_days": 5,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub401" }],
+      "chorki_customers.watch_histories": [
+        {
+          "uid": "_:wh401",
+          "dgraph.type": "chorki_watch_histories",
+          "chorki_watch_histories.id": "WH401",
+          "chorki_watch_histories.content_id": "SER002",
+          "chorki_watch_histories.content_title": "Crime Chronicles",
+          "chorki_watch_histories.type": "Series",
+          "chorki_watch_histories.genre": "Crime",
+          "chorki_watch_histories.watch_date": "2025-09-21T20:00:00Z"
+        }
+      ],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev401",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV401",
+          "chorki_devices.device_type": "Desktop",
+          "chorki_devices.device_model": "MacBook Pro",
+          "chorki_devices.app_version": "2.1.9",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST402",
+      "chorki_customers.name": "Ryan Patel",
+      "chorki_customers.email": "ryan@email.com",
+      "chorki_customers.age": 30,
+      "chorki_customers.country": "India",
+      "chorki_customers.device": "Android",
+      "chorki_customers.app_version": "2.2.1",
+      "chorki_customers.last_login_days": 3,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub402" }],
+      "chorki_customers.watch_histories": [],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev402",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV402",
+          "chorki_devices.device_type": "Mobile",
+          "chorki_devices.device_model": "OnePlus 9",
+          "chorki_devices.app_version": "2.2.1",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "uid": "_:sub401",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB401",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-07-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-07-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub402",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB402",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2025-09-20T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-10-20T00:00:00Z"
+    }
+  ]
+}
+
+{
+  "set": [
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST501",
+      "chorki_customers.name": "Olivia Green",
+      "chorki_customers.email": "olivia@email.com",
+      "chorki_customers.age": 23,
+      "chorki_customers.country": "Canada",
+      "chorki_customers.device": "iOS",
+      "chorki_customers.app_version": "2.4.1",
+      "chorki_customers.last_login_days": 4,
+      "chorki_customers.subscriptions": [
+        { "uid": "_:sub501" },
+        { "uid": "_:sub502" }
+      ],
+      "chorki_customers.watch_histories": [
+        {
+          "uid": "_:wh501",
+          "dgraph.type": "chorki_watch_histories",
+          "chorki_watch_histories.id": "WH501",
+          "chorki_watch_histories.content_id": "MOV003",
+          "chorki_watch_histories.content_title": "Sci-Fi Odyssey",
+          "chorki_watch_histories.type": "Movie",
+          "chorki_watch_histories.genre": "Sci-Fi",
+          "chorki_watch_histories.watch_date": "2025-09-19T16:00:00Z"
+        }
+      ],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev501",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV501",
+          "chorki_devices.device_type": "Mobile",
+          "chorki_devices.device_model": "iPhone 12",
+          "chorki_devices.app_version": "2.4.1",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "dgraph.type": "chorki_customers",
+      "chorki_customers.id": "CUST502",
+      "chorki_customers.name": "Ethan Wong",
+      "chorki_customers.email": "ethan@email.com",
+      "chorki_customers.age": 32,
+      "chorki_customers.country": "USA",
+      "chorki_customers.device": "Web",
+      "chorki_customers.app_version": "2.3.0",
+      "chorki_customers.last_login_days": 2,
+      "chorki_customers.subscriptions": [{ "uid": "_:sub503" }],
+      "chorki_customers.watch_histories": [],
+      "chorki_customers.devices": [
+        {
+          "uid": "_:dev502",
+          "dgraph.type": "chorki_devices",
+          "chorki_devices.id": "DEV502",
+          "chorki_devices.device_type": "Desktop",
+          "chorki_devices.device_model": "Linux PC",
+          "chorki_devices.app_version": "2.3.0",
+          "chorki_devices.is_active": true
+        }
+      ]
+    },
+    {
+      "uid": "_:sub501",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB501",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-08-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-08-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub502",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB502",
+      "chorki_subscriptions.package": "Basic",
+      "chorki_subscriptions.status": "active",
+      "chorki_subscriptions.start_date": "2025-09-01T00:00:00Z",
+      "chorki_subscriptions.end_date": "2026-09-01T00:00:00Z"
+    },
+    {
+      "uid": "_:sub503",
+      "dgraph.type": "chorki_subscriptions",
+      "chorki_subscriptions.id": "SUB503",
+      "chorki_subscriptions.package": "Premium",
+      "chorki_subscriptions.status": "trial",
+      "chorki_subscriptions.start_date": "2025-09-25T00:00:00Z",
+      "chorki_subscriptions.end_date": "2025-10-25T00:00:00Z"
+    }
+  ]
+}
